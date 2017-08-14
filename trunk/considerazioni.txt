@@ -1,0 +1,300 @@
+Per individuare un'interfaccia e necessario, ad esempio, raggruppare operazioni ripetute in classi diverse!
+Esempio:
+- aggiungi
+- modifica  <---IGestibile
+- elimina
+
+Un'interfaccia per visualizza e trova potrebbe esserci
+IVisualizza
+ITrova
+
+Nell'interfaccia dobbiamo mettere dei metodi che possono essere implementati in tanti modi diversi.
+Ad esempio il trova puo essere implementato in base al tipo di oggetto che intendo trovare.
+Vale lo stesso per le classiche operazioni di aggiungi, modifica ed elimina.
+
+Se dei metodi sono specifici di una classe, ad ex avviaCondivisione(), allora non si rende necessaria un'interfaccia.
+
+Io e Daniele stavamo ragionando ancora su questo diagramma.
+1) Pensavo che si potesse "dettagliare" il componente Utente, mostrando come suo contenuto: Installatore, Cliente e Amministratore.
+La ragione di questa osservazione deriva piu che altro dal fatto che, in base al ruolo, una persona ha accesso a un diverso tipo
+di interfaccia.
+2) aggiungiTerzaParte() appartiene all'interfaccia della Terza Parte, giusto? Ecco...domanda...chi dovrebbe chiamare quel metodo?
+Attualmente esso viene chiamato GestoreImpianto ma non mi convince. Lo so che bisogna selezionare prima l'impianto e poi da li
+associare la terza parte ma l'inserimento dei dati e pur sempre fatto dal cliente. Boh mi lascia non pochi dubbi.
+3) Sono d'accordo sul fatto di togliere quei totali e medie da GestoreImpianto.
+4) Poi (scusate ma ci sto davvero provando e fallendo epicamente hahah) ho provato a raggruppare i metodi piu diffusi per metterli
+in un'interfaccia. Quello che e uscito da questo tentativo (probabilemente fallimentare) e un'interfaccia "IGestibile"
+(con trova, aggiungi, modifica, elimina). Ora...se per l'Utente ci fosse l'"elimina" e per le TerzeParti e le Condivisioni
+ci fosse il "modifica", allora questa interfaccia sarebbe stata implementabile da Utente, Impianto, Terza Perte,
+Condivisione e Notifica. THE END
+
+Si e deciso di scartare l'idea di un sottosistema Utente:
+1. In fase di analisi non si e ritenuto opportuno utilizzare la suddivisione in packages per via delle dimensioni (relativamente piccole)
+del sistema
+2. La soluzione alla quale si e arrivati e rinominare le interfacce inserendo un riferimento a quale utente (installatore, cliente, admin)
+quelle interfacce sono accessibili.
+I moduli individuati nel diagramma dei componenti esporteranno, sensa tener conto di "chi a accedera a cosa", un set di funzioni, procedure e variabili.
+La suddivisione delle interfacce e l'individuazione dei clienti delle suddette verranno fatte al momento della stesura del diagramma delle classi di
+progettazione.
+
+---------------------------
+
+Si ritiene opportuno realizzare i diagrammi di sequenza per le notifiche e per la comunicazione con terzi.
+Il modulo delle norifiche e stato pensato per garantire ai clienti una maggiore liberta nella gestione dei propri impianti. La possibilita di impostare
+dei valori soglia per le rilevazioni, nonche l'avviso garantito in caso di superamento dei suddetti, offrono maggiore sicurezza nell'amministrazione
+degli impianti.
+
+---------------------------
+Non verrano realizzati i diagrammi di sequenza per le funzionalita piu comuni. Per funzionalita comuni intendo le semplici operazioni sulle tabelle del
+database.
+
+aggiornare il report e redmine. Creare issues:
+diagramma delle classi di progettazione x
+diagrammi di sequenza parte 2
+progettazione del database
+aggiornare il diagramma delle classi di analisi! x
+---------------------------
+
+
+Lista CLASSI DI PROGETTAZIONE
+
+Condivisione
+>>> e la classe che contiene sensori + terzeparti + canale
+
+Canale
+>>> questa classe contiene i metodi per la comunicazione con la tp (per ora la mail)
+
+TerzaParte
+>>> contiene le info relative alle tp
+
+Pensare a una classe per la gestione della sicurezza (vd. SecurityGuard in ecp e UserSecurityProfile).
+
+
+---------------------------
+Vale la pena utilizzare l'ereditarieta per gli utenti?
+In ecp dopotutto la classe utente e una sola. L'unica cosa che cambia e il securityrole.
+Inoltre non ci sono metodi ereditati che vengono "riscritti" (override);
+Non ci sono attributi o metodi aggiuntivi.
+L'unico motivo per la divisione degli utenti mediante ereditarieta era la differenza
+nei permessi di accesso. 
+Non sarebbe dunque meglio eliminare quel tipo di ereditarieta e lasciare la classe user, con
+uno usersecurityprofile che contiene il ruolo di sicurezza????
+
+possiamo anche pensare di creare una classe "UserSecurityProfile" con all'interno le informazioni
+legate all'account dell'utente (username, password, securityrole).
+---------------------------
+1. I costruttori sono metodi di classe (vanno sottolineati e resi pubblici);
+2. Dire a Riccardo di cambiare il nome del file dei tdn; x
+3. Dire a Francesco di caricare il suo file dei tdn; x
+4. smtpjs; si puo fare anche con php
+5. asp.net; <---no
+6. capire meglio cosa mettere all'interno di canale;
+---------------------------
+inviaDati e un metodo di istanza poiche possono esistere diversi tipi di canale, la cui unica differenza
+e l'implementazione. Ad esempio: inviare i dati mediante e-mail sara diverso dall'inviare dati attraverso
+sms.
+Canale puo essere reso un abstract class
+---------------------------
+
+-registraUtente(utente: Utente) compone la query per l'inserimento dell'utente nel database
+-getRuolo() in Amministratore, Installatore, Cliente va tolto perche non viene fatto alcun override
+ del metodo getRuolo() della classe Utente x
+-il "valida" per ora non lo mettiamo. Pero e implicito nel registra. Se decidiamo di dividere il metodo
+registra in una parte dedicata alla query e una dedicata alla validazione dei dati sensisibili (email
+e password) allora verra aggiunto in GestoreUtente un altro metodo (validaMailEPassword ad ex.)
+-setID() va tolto perche l'ID di ciascuna delle entita nel diagramma viene assegnato dal database 
+stesso. Se togliamo il set ci tuteliamo da eventuali errori che potrebbero insorgere nella gestione
+del database. x
+
+-ID dell'utente lo tolgiamo e lasciamo il codiceFiscale come chiave per il db. Il CF e gia univoco. x
+
+-Per le condivisioni:
+A seguito di difficolta e complessita riscontrate nella condivisone dei dati con multeplici sensori
+e molteplici terze parti, si sta disuctendo l'eventuale modifica a livello di analisi della condivisione.
+
+-In Rilevazione togliere le abbreviazioni e sostituirle con le forme complete (lat -> latitudine).
+
+-Perche POST e un canale?
+
+------------------------------------------------------------------------------------------------------
+CONSIDERAZIONI SUL DB
+- In Utente:
+1. NumeroTelefono non dovrebbe essere una stringa?
+2. Ruolo potrebbe essere un integer invece?
+
+- In Condivisione
+1. listaTerzeParti e un char(255) (immagino per il json)...perche listaSensori e
+un integer??? Inoltre non abbiamo ancora preso una decisione riguardo alle condivisioni.
+Cioe, se ricordate, stavamo discutendo la modifica delle condivisioni da "molti a molti" a "uno a uno".
+
+2. DUBBIO: in RegolaNotifica che cos'e "Operazione integer(10)"?
+
+3. In Rilevazione (dopo qualche ricerca) ho notato che in SQL sarebbe piu opportuno
+memorizzare latitudine e longitudine nel formato Decimal(9,6).
+
+4. Sempre per quanto riguarda la latitudine e la longitudine sarebbe opportuno
+scriverle per esteso e non lat e lon.
+
+5. Usiamo varchar per le stringhe di lunghezza variabile (come nome, cognome,...) e char(length) per
+le stringhe di lunghezza prestabilita. Migliori prestazioni.
+
+6. Creare la issue sulla progettazione del db. Deve essere sempre una sottoissue di design dell'architettura.
+
+7. Latitudine e Longitudine vanno tolte da rilevazione. E' possibile inserirle in sensore al massimo.
+
+8. In rilevazione abbiamo tolto i setters perche elaboraStringa() chiamera soltanto il costrutture di Rilevazione.
+
+9. Per la funzione cerca:
+Vedendo alcuni esempi online (forum, ecc...) pensavo di mettere una ricerca base (ex. per gli utenti una ricerca
+basata sul nome dell'utente) e una ricerca avanzata (dove possiamo andare a compilare 0 a piu campi). In base
+ai campi compilati nel box di ricerca viene creata la query dal dao e poi eseguita. Secondo questo metodo, non
+viene restituita la lista completa degli utenti e POI filtrata. La selezione viene subito parametrizzata e la
+lista che viene restituita e quella che scaturisce dai parametri di ricerca impostati.
+Per sensore si potrebbe mettere una ricerca base basata sul codice del sensore, cosi come per impianto una
+ricerca basata sul nome e una avanzata con campi come: nazione, citta, cliente...
+
+-----------------------------------------------------------------------------------------------------------------
+DB
+1. Se per ogni utente ci possono essere piu recapiti telefonici, questo vuol dire che nel diagramma delle classi di 
+progettazione va messa una LISTA di numeri di telefono (ex. lista di stringhe??)
+2. Che cos'e Numero in Telefono? Non puo essere il numero di telefono perche non si puo usare un integer in quel
+caso. Ex. 099, se rappresentato come intero, equivale a 99.
+3. In Canale che cos'e Valore (posso capire in Terzapartecanale...dove immagino che valore sia la mail, il telefono...)?
+Perche tipologia e un integer? Per caso l'abbiamo lasciato perche si sta comunque pensando di inserire una tabella con
+la tipologia del canale, per poi creare una chiave esterna che colleghi le due tabelle???
+4. In Condivisione non dovrebbe andarci anche l'id del canale?
+------------------------------------------------------------------------------------------------------------------
+1. aggiungere il nome al sensore. E' un nome personalizzabile. Molto utile per garantire al cliente una comprensione
+maggiore del proprio impianto (soprattutto perche e un po' difficile ricordare che cosa un sensore dovrebbe misurare). xxxxxxxxxxxx
+
+AMBIENTE
+Di che media si tratta?
+- per tipo (delle ultime rilevazioni per ciascun sensore);
+- per sensore (stabilito un certo range); xxxxxxxxxxx
+- per un gruppo ristretto;
+
+2. Per la funzione cerca:
+Vedendo alcuni esempi online (forum, ecc...) pensavo di mettere una ricerca base (ex. per gli utenti una ricerca
+basata sul nome dell'utente) e una ricerca avanzata (dove possiamo andare a compilare 0 a piu campi). In base
+ai campi compilati nel box di ricerca viene creata la query dal dao e poi eseguita. Secondo questo metodo, non
+viene restituita la lista completa degli utenti e POI filtrata. La selezione viene subito parametrizzata e la
+lista che viene restituita e quella che scaturisce dai parametri di ricerca impostati.
+Per sensore si potrebbe mettere una ricerca base basata sul codice del sensore, cosi come per impianto una
+ricerca basata sul nome e una avanzata con campi come: nazione, citta, cliente...
+
+3. Inserire il CU sugli ambienti? xxxxxxxxxx
+no alla fine si e deciso, a seguito anche di studi di mercato e di applicazioni gia sviluppate, di dotare
+i sensori di un campo "nome". Il nome dei sensori sara significativo e aiutera il cliente a capire meglio
+i compiti di ciascun sensore. 
+---------------------------------------------------------------------------------------------------------------------------
+
+per le sintesi in analisi proviamo a essere un po' piu generici????
+
+---------------------------------------------------------------------------------------------------------------------------
+
+SCENARI:
+1. Serra
+2. Casa
+3. Magazzino alimentare
+4. Centrale idro-elettrica 
+
+----------------------------------------------------------------------------------------------------------------------------
+18:02 02/08/2017
+3 H DANIELE/ALE
+MODIFICHE file casi d'uso
+1. E' stato aggiunto il CU RegistraAmbiente (insieme alla sua sequenza dei passi alt).
+Il CU prevede la registrazione degli ambienti (inserendo nome e descrizione).
+
+2. Per registrare un sensore e necessario che l'ambiente nel quale il sensore verra collocato esista gia. Al momento della
+registrazione del sensore sara possibile selezionare la zona (aka ambiente) nella quale il sensore verra collocato.
+
+3. Lasciato il nome ai sensori (per comodita dell'utente).
+
+4. Modificato anche il CU VisualizzaSintesi (con le nuove "sintesi" che vogliamo sulla nostra dash).
+
+5. Aggiungere "bolla" nel diagramma dei casi d'uso (quello generale). Da installatore RegistraAmbiente.
+
+6. Aggiornare la tracciabilita (una volta aggiornata la issue). 
+
+----------------------------------------------------------------------------------------------------------------------------
+
+METTERSI D'ACCORDO SU QUEI CAVOLO DI FILTRI!!!!!!!!!!!!!!!!!!!!!!!!
+
+1. La modifica di RegistraSensori comporta:
+- modifica del diagramma di sequenza
+- aggiunta dell'operazione impostaAmbiente() in Sensore (classi analisi)
+- aggiunta dell'operazione trovaAmbiente() in Ambiente (classi analisi)
+
+A seguito dell'introduzione degli ambienti e delle modifiche apportate ai diagrammi di sequenza, si e reso necessario un
+aggiornamento del diagramma delle classi di analisi. In arancione e stata aggiunta la nuova classe (Ambiente) con le
+relative associazioni.
+
+----------------------------------------------------------------------------------------------------------------------------
+DISCUSSIONE SUI DIAGRAMMI DI SEQUENZA DI PROGETTAZIONE
+
+- RegistraImpianto (forse per il TrovaUtente che e incluso);
+- CreaRilevazione: perche questo diagramma dovrebbe chiarire tutti i dubbi riguardanti la comunicazione tra i sensori e il
+sistema. Sviluppare oltre questo diagramma consentirebbe di capire quali entita (e in quale ordine) sono coinvolte nella 
+suddetta trasmissione dati.
+- VisualizzaSintesi: perche il suo diagramma di sequenza consentirebbe di individuare un certo set di funzioni (come la media,
+il minimo e il massimo - anche se queste saranno effettivamente query - quindi magari all'interno del dao possiamo avere delle
+variabili che contengono le stringhe con le query).
+- ConfiguraNotifiche: perche, soprattutto in questo caso, ci sono stati molti dubbi e quindi realizzare un diagramma di sequenza
+dettagliato potrebbe rivelarsi utile.
+- SelezionaDatiCondivisione???
+- InviaDatiSelezionati: forse possiamo possiamo creare piu di diagramma (uno per ciascun canale). Ricordiamo che per ora abbiamo
+solo la mail. 
+----------------------------------------------------------------------------------------------------------------------------
+- Tempo fisso per l'invio dei dati alle terze parti?
+- Per le notifiche consideriamo la mail?
+- Per le condivisioni togliamo il canale mail e prevediamo la realizzazione di un canale di comunicazione con dispositivi
+intelligenti?
+-----------------------------------------------------------------------------------------------------------------------------
+DIAGRAMMI DI SEQUENZA:
+e possibile rappresentare il passaggio di informazioni (tipo la compilazione dei campi) tramite frecce (messaggi) e il nome
+dell'informazione che si sta passando (ma solo quando e coinvolto un attore umano). Nell'esempio del RegistraImpianto
+si potrebbe adottare questa notazione tra Installatore e UI e poi far chiamare registraImpianto alla UI.
+
+- la mail per la condivisione con le terze parti, per essere utile, come deve essere strutturata?
+Penso che sia inutile inviare una singola rilevazione tramite mail. Non me ne faccio niente e riempio solo la mailbox. Se invece,
+come sostiene Daniele, inviassimo un csv con le rilevazione della giornata...magari...avrebbe piu senso. Boh? Non lo so. Fa caldo. 
+
+- avvia/arrestaCondivisione() ha come parametro ID condivisione ma noi non ce l'abbiamo id condivisione! Ah a parte questo
+NON c'e il trovaCondivisione() che invece e presente nel diagramma di sequenza di InviaDatiSelezionati.
+
+- aggiunto ID condivisione.
+-----------------------------------------------------------------------------------------------------------------------------
+- i trovaXXX vanno un po' rivisti. I parametri in ingresso mi hanno messo addosso qualche dubbio. In primis c'e un intero
+che dovrebbe indicare cosa? Il tipo di ricerca? Dove sono memorizzati i tipi di ricerca e i loro rispettivi ID (int)? La
+stringa poi...sarebbe la query? Ma la query non si dovrebbe formare NEL trova? 
+**18:56 08/08/2017 diagramma inviaDatiSelezionati
+**Daniele/Ale 1:30
+------------------------------------------------------------------------------------------------------------------------------
+RegistraImpianto
+registraImpianto() si occupa di memorizzare all'interno del database il nuovo impianto.
+si e deciso di utilizzare come messaggio $_POST per indicare che, alla fine della compilazione del form, i dati (relativi all'impianto)
+vengono inviati al gestore che si occupa della creazione dell'oggetto e, successivamente, della memorizzazione delle informazioni nel
+DB.
+
+Ogni volta che usiamo $_POST vogliamo indicare un trasporto di informazioni verso un gestore.
+------------------------------------------------------------------------------------------------------------------------------
+VisualizzaSintesi
+Qui la $_GET corrisponde alla richiesta della pagina UIDashboard (cioe la dashboard relativa all'impianto del cliente, o meglio 
+all'impianto che il cliente sceglie monitorare in quel momento).
+getMinMaxAvgCur() compone una query al database che restituisce un oggetto json contenente tutti gli ambienti, tutti i sensori per quegli ambienti
+e tutti i valori di minimo, massimo, media e corrente per ciascuno dei suddetti sensori.
+getRilevazioni() si comporta come getMinMaxAvgCur() con l'unica differenza che la query formata andra a richiedere le rilevazioni (nelle ultime 24 ore)
+al fine di creare un grafico per ciascun sensore (grafici di tipo boundaries sarebbero gli ideali).
+getUltimeEccezioni() si comporta come le due finzioni precedenti, essa si occupa di richiedere le ultime eccezioni (opportunamente notificate) relative
+alle rilevazioni.
+-------------------------------------------------------------------------------------------------------------------------------
+ConfiguraNotifica
+Il cliente, dopo aver selezionato il sensore, ha la possibilita di stabilire un valore soglia per quel sensore. Il superamente del suddetto
+valore innesca una notifica. Qualora si esprima la volonta di stabilire una nuova regola di notifica per quel sensore, al cliente verra mostrata
+una pagina in cui egli potra scegliere un operatore (<,>,=) e un valore soglia.
+
+Per il resto si comporta come RegistraImpianto.
+-------------------------------------------------------------------------------------------------------------------------------
+E' stato modificato il caso d'uso SelezionaDatiCondivisione. All'inizio si era pensato di scegliere quali dati di un sensore
+condividere ma poi ci si e messi d'accordo sull'invio delle rilevazioni nelle ultime 24 ore. SelezionaDatiCondivisione e
+diventato CreaCondivisione (perche il nuovo nome meglio rappresenta la funzionalita di questo caso d'uso).
