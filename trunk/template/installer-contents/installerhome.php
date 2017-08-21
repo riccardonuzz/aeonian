@@ -1,3 +1,0 @@
-<?
-
-echo "installer home";
