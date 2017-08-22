@@ -101,12 +101,27 @@ class UsersManager {
             );
         }
 
+
         if(empty($post['password'])){
             //Inserto into MySql
             $this->database->query("UPDATE utente SET Email=:email, Nome=:nome, Cognome=:cognome WHERE CodiceFiscale=:codicefiscale");
         }
 
         else{
+            if(!preg_match('#(?=.*[\d\W])(?=.*[a-z])(?=.*[A-Z]).{8,100}#', $post['password'])){
+                return Array(
+                    "error" => 2,
+                    "values" => Array (
+                        "nome" => $post['nome'],
+                        "cognome" => $post['cognome'],
+                        "email" => $post['email'],
+                        "ruolo" => $post['ruolo'],
+                        "numerotelefono" => $post['numerotelefono'],
+                        "codicefiscale" => $post['codicefiscale']
+                    )
+                );
+            }
+
             $password = md5($post['password']);
             //Inserto into MySql
             $this->database->query("UPDATE utente SET Email=:email, Nome=:nome, Cognome=:cognome, Password=:password WHERE CodiceFiscale=:codicefiscale");

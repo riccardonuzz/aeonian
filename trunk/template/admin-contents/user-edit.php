@@ -28,14 +28,29 @@ if(isset($_POST['submit'])){
   $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
   $checkValue=$usersManager->modificaUtente($post);
 
-  if(isset($checkValue['error'])){
+  if($checkValue['error']==1){
     $_SESSION['message'] = 'Ci sono dei campi che non sono stati compilati.';
     header('Location: user-edit.php?id='.$checkValue['codicefiscale']);
     exit;
   }
+
+  if($checkValue['error']==2){
+    $_SESSION['message'] = 'Le regole per la creazione della password sono le seguenti:<br>
+    <ul>
+      <li>Deve avere almeno una lettera MAIUSCOLA;</li>
+      <li>Deve avere ameno una lettere MINUSCOLA;</li>
+      <li>Deve avere almeno 1 NUMERO o un CARATTERE SPECIALE;</li>
+      <li>Deve avere dagli 8 ai 100 CARATTERI.</li>
+    </ul>';
+    $_SESSION['values'] = $checkValue['values'];
+    header('Location: user-edit.php?id='.$checkValue['values']['codicefiscale']);
+    exit;
+  }
+
   else{
     header('Location: user-details.php?id='.$checkValue);
   }
+
 }
 
 ?>
@@ -148,15 +163,17 @@ if(isset($_POST['submit'])){
                           
                             
                           <div class="row">
-                            <?php
-                              if (isset($_SESSION['message']))
-                              {
-                                  echo "<p class='red-text text-darken-2'>".$_SESSION['message']."</p>";
-                                  unset($_SESSION['message']);
-                              }
-                            ?>
-      
-                              <div class="input-field col s12">
+                            <div class="input-field col s4">
+                              <?php
+                                if (isset($_SESSION['message']))
+                                {
+                                    echo "<p class='red-text text-darken-2'>".$_SESSION['message']."</p>";
+                                    unset($_SESSION['message']);
+                                    unset($_SESSION['values']);
+                                }
+                              ?>
+                            </div>
+                              <div class="input-field col s8">
                                 <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Modifica
                                   <i class="mdi-content-send right"></i>
                                 </button>
