@@ -22,8 +22,37 @@ class UsersManager {
        * @return void
        */
     public function registraUtente($post){
+        if(empty($post['nome']) || empty($post['cognome']) || empty($post['email']) || empty($post['password']) || empty($post['numerotelefono']) || $post['ruolo']==0 || empty($post['codicefiscale'])) {
+
+            return Array(
+                "error" => 1,
+                "values" => Array (
+                    "nome" => $post['nome'],
+                    "cognome" => $post['cognome'],
+                    "email" => $post['email'],
+                    "ruolo" => $post['ruolo'],
+                    "numerotelefono" => $post['numerotelefono'],
+                    "codicefiscale" => $post['codicefiscale']
+                )
+            );
+        }
+
+        if(!preg_match('#(?=.*[\d\W])(?=.*[a-z])(?=.*[A-Z]).{8,100}#', $post['password'])){
+            return Array(
+                "error" => 2,
+                "values" => Array (
+                    "nome" => $post['nome'],
+                    "cognome" => $post['cognome'],
+                    "email" => $post['email'],
+                    "ruolo" => $post['ruolo'],
+                    "numerotelefono" => $post['numerotelefono'],
+                    "codicefiscale" => $post['codicefiscale']
+                )
+            );
+        }
 
        $password = md5($post['password']);
+
        //Inserto into MySql
        $this->database->query("INSERT INTO utente VALUES (:codicefiscale, :email, :password, :nome, :cognome, :ruolo)");
        $this->database->bind(":codicefiscale", $post['codicefiscale']);
@@ -34,8 +63,13 @@ class UsersManager {
        $this->database->bind(":ruolo", $post['ruolo']);
        $this->database->execute();
 
+       $this->database->query("INSERT INTO telefono VALUES (:numerotelefono, :utente)");
+       $this->database->bind(":numerotelefono", $post['numerotelefono']);
+       $this->database->bind(":utente", $post['codicefiscale']);
+       $this->database->execute();
+
        for($i=0; $i<20; $i++){
-           if(isset($post['numerotelefono'.$i])){
+           if(isset($post['numerotelefono'.$i]) && !empty($post['numerotelefono'.$i])){
             $this->database->query("INSERT INTO telefono VALUES (:numerotelefono, :utente)");
             $this->database->bind(":numerotelefono", $post['numerotelefono'.$i]);
             $this->database->bind(":utente", $post['codicefiscale']);
@@ -43,8 +77,12 @@ class UsersManager {
            }
        }
 
-
+       return Array(
+        "error" => 0
+        );
     }
+
+    
     
 
     /**
