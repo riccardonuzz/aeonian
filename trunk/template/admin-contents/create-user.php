@@ -21,10 +21,35 @@ $roles_options = $usersManager->getRuoli();
 
 
 //quando ricevo un POST sulla pagina
-if(isset($_POST['submit'])){
+if(isset($_POST['submit'])) {
   $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-  $usersManager->registraUtente($post);
-  header('Location: users-management.php');
+  $checkValue = $usersManager->registraUtente($post);
+
+  if($checkValue['error']==1){
+    $_SESSION['message'] = 'Ci sono dei campi che non sono stati compilati.';
+    $_SESSION['values'] = $checkValue['values'];
+    header('Location: create-user.php');
+    exit;
+  }
+
+  if($checkValue['error']==2){
+    $_SESSION['message'] = 'Le regole per la creazione della password sono le seguenti:<br>
+    <ul>
+      <li>Deve avere almeno una lettera MAIUSCOLA;</li>
+      <li>Deve avere ameno una lettere MINUSCOLA;</li>
+      <li>Deve avere almeno 1 NUMERO o un CARATTERE SPECIALE;</li>
+      <li>Deve avere dagli 8 ai 100 CARATTERI.</li>
+    </ul>';
+    $_SESSION['values'] = $checkValue['values'];
+    header('Location: create-user.php');
+    exit;
+  }
+
+
+  else {
+    header('Location: users-management.php');
+  }
+  
 }
 
 ?>
@@ -82,18 +107,21 @@ if(isset($_POST['submit'])){
                         <form class="col s12" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
                           <div class="row">
                             <div class="input-field col s6">
-                              <input id="first_name" type="text" name="nome">
+                              <input id="first_name" type="text" name="nome" 
+                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['nome']; ?><?php endif; ?>">
                               <label for="first_name">Nome</label>
                             </div>
                           
                             <div class="input-field col s6">
-                              <input id="last_name" type="text" name="cognome">
+                              <input id="last_name" type="text" name="cognome" 
+                                value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['cognome']; ?><?php endif; ?>">
                               <label for="last_name">Cognome</label>
                             </div>
                           </div>
                           <div class="row">
                             <div class="input-field col s12">
-                              <input id="email5" type="email" name="email">
+                              <input id="email5" type="email" name="email" 
+                                value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['email']; ?><?php endif; ?>">
                               <label for="email">Email</label>
                             </div>
                           </div>
@@ -108,7 +136,7 @@ if(isset($_POST['submit'])){
                           
                               <div class="input-field col s6">
                                   <select id="ruolo" name="ruolo">
-                                      <option value="" disabled selected>Seleziona ruolo</option>
+                                      <option value="0" selected>Seleziona ruolo</option>
                                       <?php foreach($roles_options as $role): ?>
                                         <option value="<?php echo $role['IDRuolo'] ?>"><?php echo $role['Nome'] ?></option>
                                       <?php endforeach;?>
@@ -116,7 +144,8 @@ if(isset($_POST['submit'])){
                               </div>
                                         
                             <div class="input-field col s6">
-                              <input id="codicefiscale" type="text" name="codicefiscale">
+                              <input id="codicefiscale" type="text" name="codicefiscale"
+                                value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['codicefiscale']; ?><?php endif; ?>">
                               <label for="codicefiscale">Codice fiscale</label>
                             </div>
                             
@@ -124,12 +153,13 @@ if(isset($_POST['submit'])){
 
                           <div class="row phonenumber">
                             <div class="input-field col s8">
-                              <input id="numerotelefono" type="text" name="numerotelefono">
+                              <input id="numerotelefono" type="number" name="numerotelefono"
+                                value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['numerotelefono']; ?><?php endif; ?>">
                               <label for="numerotelefono">Numero di telefono</label>
                             </div>
 
                             <div class="input-field col s4">
-                              <a onClick="parent.addNumber();" class="btn waves-effect pink white-text admin-add-number"><i class="mdi-content-add right"></i>Aggiungi numero</a>
+                              <a onClick="addNumber();" class="btn waves-effect pink white-text admin-add-number"><i class="mdi-content-add right"></i>Aggiungi numero</a>
                             </div>
                             
                           </div>
@@ -137,7 +167,17 @@ if(isset($_POST['submit'])){
       
                             
                             <div class="row">
-                              <div class="input-field col s12">
+                              <div class="input-field col s4">
+                                <?php
+                                  if (isset($_SESSION['message']))
+                                  {
+                                      echo "<p class='red-text text-darken-2'>".$_SESSION['message']."</p>";
+                                      unset($_SESSION['message']);
+                                      unset($_SESSION['values']);
+                                  }
+                                ?>
+                              </div>
+                              <div class="input-field col s8">
                                 <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea utente
                                   <i class="mdi-content-send right"></i>
                                 </button>

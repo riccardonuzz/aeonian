@@ -133,7 +133,7 @@ if(isset($_POST['submit'])){
                           $i=100;
                           foreach ($userPhoneNumbers as $number): ?>
                             <div class="input-field col s8">
-                              <input id="numerotelefono" type="text" name="numerotelefono<?php echo $i;?>" value="<?php echo $number['Numero']; ?>">
+                              <input id="numerotelefono" type="number" name="numerotelefono<?php echo $i;?>" value="<?php echo $number['Numero']; ?>">
                               <label for="numerotelefono">Numero di telefono</label>
                             </div>
                             <?php $i++;?>
