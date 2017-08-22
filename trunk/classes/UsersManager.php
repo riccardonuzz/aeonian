@@ -34,11 +34,6 @@ class UsersManager {
        $this->database->bind(":ruolo", $post['ruolo']);
        $this->database->execute();
 
-       $this->database->query("INSERT INTO telefono VALUES (:numerotelefono, :utente)");
-       $this->database->bind(":numerotelefono", $post['numerotelefono']);
-       $this->database->bind(":utente", $post['codicefiscale']);
-       $this->database->execute();
-
        for($i=0; $i<20; $i++){
            if(isset($post['numerotelefono'.$i])){
             $this->database->query("INSERT INTO telefono VALUES (:numerotelefono, :utente)");
@@ -51,8 +46,6 @@ class UsersManager {
 
     }
     
-
-
 
     /**
        * 
