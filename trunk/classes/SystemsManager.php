@@ -68,7 +68,7 @@ class SystemsManager {
        */
     public function getImpianti(){
         //Prendo le info dell'utente
-        $this->database->query("SELECT Nome, Indirizzo, Citta FROM impianto");
+        $this->database->query("SELECT * FROM impianto");
         $row = $this->database->resultSet();
         return $row;
     }
@@ -88,4 +88,13 @@ class SystemsManager {
         return $row;
     }
 
+
+
+   public function trovaImpianto($idimpianto){
+        $this->database->query("SELECT * from impianto WHERE IDImpianto = :id");
+        $this->database->bind(":id", $idimpianto);
+        $row = $this->database->singleResultSet();
+        return $row;
+
+   }
 }

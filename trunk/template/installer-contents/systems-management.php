@@ -88,7 +88,7 @@ $impianti = $systemsManager->getImpianti();
                     <tbody>
                         <?php foreach ($impianti as $impianto) :?>
                         <tr>
-                            <td><a href="#"><?php echo $impianto['Nome'] ?></a></td>
+                            <td><a href="system-details.php?id=<?php echo $impianto['IDImpianto']; ?>""><?php echo $impianto['Nome'] ?></a></td>
                             <td><?php echo $impianto['Indirizzo'] ?></td>
                             <td><?php echo $impianto['Citta'] ?></td>
 
