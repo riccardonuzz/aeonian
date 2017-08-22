@@ -221,15 +221,6 @@ $(function() {
     });
   }
 
-
-  // $( ".admin-homepage" ).click(function() {
-  //   $( "#content" ).load("../template/includes/admin-contents/homepage.php");
-  // });
-
-  // $( ".admin-users-management" ).click(function() {
-  //   $( "#content" ).load("../template/includes/admin-contents/users_management.php");
-  // });
-
   //permette al menu dropdown di funzionare
   $('select').material_select();
 
@@ -237,6 +228,6 @@ $(function() {
 
 var counter=0;
 function addNumber(){
-  $( ".phonenumber" ).append('<div class="input-field col s8"><input id="numerotelefono'+counter+'" type="text" name="numerotelefono'+counter+'"><label for="numerotelefono'+counter+'">Numero di telefono</label></div>');
+  $( ".phonenumber" ).append('<div class="input-field col s8"><input id="numerotelefono'+counter+'" type="number" name="numerotelefono'+counter+'"><label for="numerotelefono'+counter+'">Numero di telefono</label></div>');
   counter++;
 }
