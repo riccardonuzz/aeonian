@@ -2,17 +2,20 @@
 require_once("../../config.php"); 
 require("../../classes/UsersManager.php");
 
+//inizio la sessione (se non lo faccio non posso leggere le variabili da $_SESSION)
 session_start();
 
+//se non è stato effettuato il login, reindirizza alla pagina di login
 if(!isset($_SESSION['is_logged_in'])) {
   header('Location: '.ROOT_URL.'/template/login.php');
 }
 
+//se il ruolo è != da 1 allora vuol dire che non si è autorizzati e reindirizza alla pagina corretta
 if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=1) {
   header('Location: '.ROOT_URL.'/index.php');
 }
 
-//Gestore Utenti
+//Istanza del gestore Utenti
 $usersManager = new UsersManager();
 $users = $usersManager->getUtenti();
 

@@ -22,6 +22,7 @@ class UsersManager {
        * @return void
        */
     public function registraUtente($post){
+        
         if(empty($post['nome']) || empty($post['cognome']) || empty($post['email']) || empty($post['password']) || empty($post['numerotelefono']) || $post['ruolo']==0 || empty($post['codicefiscale'])) {
 
             return Array(
@@ -91,13 +92,15 @@ class UsersManager {
        *
        * @param Array $post  Contiene le informazioni dell'utente che si andranno a modificare (escluso il CodiceFiscale che è una primary key, ed il ruolo)
        * @return Array ("codicefiscale" => $post['codicefiscale'], "error" => 1); se ci sono campi vuoti
+       * @return Array ("codicefiscale" => $post['codicefiscale'], "error" => 2); se la password non rispetta l'espressione regolare
        * @return string $post['codicefiscale'] se l'operazione va a buon fine (Utilizzato per reindirizzare alla pagina dei dettagli)
        */
     public function modificaUtente($post){
+
         if(empty($post['nome']) || empty($post['cognome']) || empty($post['email']) || empty($post['numerotelefono100'])) {
             return array (
-                "codicefiscale" => $post['codicefiscale'],
-                "error" => 1
+                "error" => 1,
+                "codicefiscale" => $post['codicefiscale']
             );
         }
 
@@ -111,14 +114,7 @@ class UsersManager {
             if(!preg_match('#(?=.*[\d\W])(?=.*[a-z])(?=.*[A-Z]).{8,100}#', $post['password'])){
                 return Array(
                     "error" => 2,
-                    "values" => Array (
-                        "nome" => $post['nome'],
-                        "cognome" => $post['cognome'],
-                        "email" => $post['email'],
-                        "ruolo" => $post['ruolo'],
-                        "numerotelefono" => $post['numerotelefono'],
-                        "codicefiscale" => $post['codicefiscale']
-                    )
+                    "codicefiscale" => $post['codicefiscale']
                 );
             }
 
@@ -175,6 +171,7 @@ class UsersManager {
 
 
 
+
     /**
        * 
        * Restituisce lista di utenti
@@ -189,6 +186,8 @@ class UsersManager {
     }
 
     
+
+
     /**
        * 
        * Restituisce lista di utenti

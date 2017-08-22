@@ -13,10 +13,10 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=1) {
   header('Location: '.ROOT_URL.'/index.php');
 }
 
-//Gestore Utenti
+//Instanza del gestore Utenti
 $usersManager = new UsersManager();
 
-
+//Se ho ricevuto una richiesta GET allora prendo l'id come parametro ed effetturo la ricerca per ritrovare le info sull'utente
 if(isset($_GET['id'])){
   $userDetails = $usersManager->trovaUtente($_GET['id']);
   $userPhoneNumbers = $usersManager->getNumeriTelefono($_GET['id']);
@@ -28,12 +28,14 @@ if(isset($_POST['submit'])){
   $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
   $checkValue=$usersManager->modificaUtente($post);
 
+  //se errore=1 allora vuol dire che i campi non sono stai compilati tutti e visualizzo un messaggio di errore
   if($checkValue['error']==1){
     $_SESSION['message'] = 'Ci sono dei campi che non sono stati compilati.';
     header('Location: user-edit.php?id='.$checkValue['codicefiscale']);
     exit;
   }
 
+  //se errore=2 allora vuol dire che l'utente ha inserito una password non valida e visualizzo info su creazione password
   if($checkValue['error']==2){
     $_SESSION['message'] = 'Le regole per la creazione della password sono le seguenti:<br>
     <ul>
@@ -42,11 +44,11 @@ if(isset($_POST['submit'])){
       <li>Deve avere almeno 1 NUMERO o un CARATTERE SPECIALE;</li>
       <li>Deve avere dagli 8 ai 100 CARATTERI.</li>
     </ul>';
-    $_SESSION['values'] = $checkValue['values'];
-    header('Location: user-edit.php?id='.$checkValue['values']['codicefiscale']);
+    header('Location: user-edit.php?id='.$checkValue['codicefiscale']);
     exit;
   }
 
+  //altrimenti se è tutto ok, reindirizzo alle info dell'utente, così da poter vedere quanto modificato
   else{
     header('Location: user-details.php?id='.$checkValue);
   }
@@ -169,7 +171,6 @@ if(isset($_POST['submit'])){
                                 {
                                     echo "<p class='red-text text-darken-2'>".$_SESSION['message']."</p>";
                                     unset($_SESSION['message']);
-                                    unset($_SESSION['values']);
                                 }
                               ?>
                             </div>
