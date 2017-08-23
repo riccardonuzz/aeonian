@@ -1,4 +1,4 @@
-.ps-container.ps-active-x > .ps-scrollbar-x-rail, .ps-container.ps-active-y > .ps-scrollbar-y-rail {
+﻿.ps-container.ps-active-x > .ps-scrollbar-x-rail, .ps-container.ps-active-y > .ps-scrollbar-y-rail {
   display: block; }
 .ps-container.ps-in-scrolling {
   pointer-events: none; }

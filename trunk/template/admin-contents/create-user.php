@@ -45,6 +45,20 @@ if(isset($_POST['submit'])) {
     exit;
   }
 
+  if($checkValue['error']==3){
+    $_SESSION['message'] = 'Utente non registrato. Codice fiscale o email già presenti nel sistema.';
+    $_SESSION['values'] = $checkValue['values'];
+    header('Location: create-user.php');
+    exit;
+  }
+
+  if($checkValue['error']==4){
+    $_SESSION['message'] = 'Utente non registrato. Uno o più numeri di telefono sono già presenti nel sistema.';
+    $_SESSION['values'] = $checkValue['values'];
+    header('Location: create-user.php');
+    exit;
+  }
+
 
   else {
     header('Location: users-management.php');
@@ -81,7 +95,7 @@ if(isset($_POST['submit'])) {
           <div class="row">
             <div class="col s12 m12 l12">
               <h5 class="breadcrumbs-title">Crea utente</h5>
-              <ol class="breadcrumb">
+              <ol class="breadcrumbs">
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>admin-contents/adminhome.php">Dashboard</a></li>
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>admin-contents/users-management.php">Gestione utenti</a></li>
                   <li><a href="#">Crea utente</a></li>
@@ -136,9 +150,18 @@ if(isset($_POST['submit'])) {
                           
                               <div class="input-field col s6">
                                   <select id="ruolo" name="ruolo">
-                                      <option value="0" selected>Seleziona ruolo</option>
+                                      <?php if (isset($_SESSION['values']) && strcmp($_SESSION['values']['ruolo'], $role['IDRuolo'])): ?>
+                                        <option value="0">Seleziona ruolo</option>
+                                      <?php else: ?>
+                                        <option value="0" selected>Seleziona ruolo</option>
+                                      <?php endif; ?>
+                                      
                                       <?php foreach($roles_options as $role): ?>
-                                        <option value="<?php echo $role['IDRuolo'] ?>"><?php echo $role['Nome'] ?></option>
+                                        <?php if (isset($_SESSION['values']) && ($_SESSION['values']['ruolo']==$role['IDRuolo'])): ?>
+                                          <option value="<?php echo $role['IDRuolo'] ?>" selected><?php echo $role['Nome'] ?></option>
+                                        <?php else: ?>
+                                          <option value="<?php echo $role['IDRuolo'] ?>"><?php echo $role['Nome'] ?></option>
+                                        <?php endif; ?>
                                       <?php endforeach;?>
                                   </select>
                               </div>

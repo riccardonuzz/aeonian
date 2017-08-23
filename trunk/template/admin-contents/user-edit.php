@@ -83,7 +83,7 @@ if(isset($_POST['submit'])){
           <div class="row">
             <div class="col s12 m12 l12">
               <h5 class="breadcrumbs-title">Modifica utente</h5>
-              <ol class="breadcrumb">
+              <ol class="breadcrumbs">
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>admin-contents/adminhome.php">Dashboard</a></li>
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>admin-contents/users-management.php">Gestione utenti</a></li>
               </ol>

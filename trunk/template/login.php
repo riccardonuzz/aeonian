@@ -73,10 +73,11 @@
   
   <link href="<?php echo ROOT_URL.STYLE_PATH; ?>materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
   <link href="<?php echo ROOT_URL.STYLE_PATH; ?>style.css" type="text/css" rel="stylesheet" media="screen,projection">
-  <link href="<?php echo ROOT_URL.STYLE_PATH; ?>page-center.css" type="text/css" rel="stylesheet" media="screen,projection">
+  <link href="<?php echo ROOT_URL.STYLE_PATH; ?>layouts/page-center.css" type="text/css" rel="stylesheet" media="screen,projection">
+  <link href="<?php echo ROOT_URL.STYLE_PATH; ?>custom/custom.min.css" type="text/css" rel="stylesheet" media="screen,projection">
 
   <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
-  <link href="<?php echo ROOT_URL.STYLE_PATH; ?>prism.css" type="text/css" rel="stylesheet" media="screen,projection">  
+  <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection">  
 </head>
 
 <body class="blue">
@@ -122,7 +123,9 @@
         
         </div>
         <div class="row">
-          <button class="btn waves-effect waves-light login-button" type="submit" name="submit">Login</button>
+          <div class="input-field col s12">
+            <button class="btn waves-effect waves-light login-button col s12" type="submit" name="submit">Login</button>
+          </div>
         </div>
         <div class="row">
           <div class="input-field col s12 m12 l12">
@@ -139,18 +142,20 @@
     ================================================ -->
 
   <!-- jQuery Library -->
-  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/jquery-1.11.2.min.js"></script>
   <!--materialize js-->
-  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>materialize.js"></script>
+  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>materialize.min.js"></script>
   <!--prism-->
-  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>prism.js"></script>
+  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/prism/prism.js"></script>
   <!--scrollbar-->
   <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
   <!-- chartist -->
   <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/chartist-js/chartist.min.js"></script>   
 
   <!--plugins.js - Some Specific JS codes for Plugin Settings-->
-  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins.js"></script>
+  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins.min.js"></script>
+
+  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>custom-script.js"></script>
 
 </body>
 

@@ -48,7 +48,7 @@ $users = $usersManager->getUtenti();
             <div class="row">
               <div class="col s12 m12 l12">
                 <h5 class="breadcrumbs-title">Gestione utenti</h5>
-                <ol class="breadcrumb">
+                <ol class="breadcrumbs">
                     <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>admin-contents/adminhome.php">Dashboard</a></li>
                     <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>admin-contents/users-management.php">Gestione utenti</a></li>
                 </ol>
@@ -74,7 +74,7 @@ $users = $usersManager->getUtenti();
             <!--DataTables example-->
             <div id="table-datatables">
 
-                <div class="col s12 m8 l12">
+                <div class="col s12 m8 l9">
                   <table id="data-table-simple" class="responsive-table display" cellspacing="0">
                     <thead>
                         <tr>
@@ -130,5 +130,4 @@ $users = $usersManager->getUtenti();
 
   <!-- START FOOTER -->
   <?php require("./includes/footer.php"); ?>
-      
       

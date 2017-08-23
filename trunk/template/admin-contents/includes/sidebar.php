@@ -18,7 +18,7 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=1) {
           <ul id="slide-out" class="side-nav fixed leftside-navigation">
               <li class="user-details cyan darken-2">
                   <div class="row">
-                      <div class="col col s8 m8 l8">
+                      <div class="col col s8 m8 l12">
                           <ul id="profile-dropdown" class="dropdown-content">
                               <li><a href="user-details.php?id=<?php echo $_SESSION['user_data']['codicefiscale']; ?>"><i class="mdi-action-face-unlock"></i> Profilo</a>
                               </li>

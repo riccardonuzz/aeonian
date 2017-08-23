@@ -54,6 +54,34 @@ class UsersManager {
 
        $password = md5($post['password']);
 
+       if($this->userAlreadyExists($post['email'], $post['codicefiscale'])){
+            return Array(
+                "error" => 3,
+                "values" => Array (
+                    "nome" => $post['nome'],
+                    "cognome" => $post['cognome'],
+                    "email" => $post['email'],
+                    "ruolo" => $post['ruolo'],
+                    "numerotelefono" => $post['numerotelefono'],
+                    "codicefiscale" => $post['codicefiscale']
+                )
+            );
+       }
+
+       if($this->phoneNumberAlreadyExists($post)){
+            return Array(
+                "error" => 4,
+                "values" => Array (
+                    "nome" => $post['nome'],
+                    "cognome" => $post['cognome'],
+                    "email" => $post['email'],
+                    "ruolo" => $post['ruolo'],
+                    "numerotelefono" => $post['numerotelefono'],
+                    "codicefiscale" => $post['codicefiscale']
+                )
+            );
+       }
+
        //Inserto into MySql
        $this->database->query("INSERT INTO utente VALUES (:codicefiscale, :email, :password, :nome, :cognome, :ruolo)");
        $this->database->bind(":codicefiscale", $post['codicefiscale']);
@@ -217,4 +245,51 @@ class UsersManager {
         $row = $this->database->resultSet();
         return $row;
     }
+
+
+
+    public function userAlreadyExists($email, $codicefiscale){
+        $this->database->query("SELECT * FROM utente WHERE CodiceFiscale = :codicefiscale OR Email = :email");
+        $this->database->bind(":codicefiscale", $codicefiscale);
+        $this->database->bind(":email", $email);
+        $row = $this->database->resultSet();
+
+        if($row){
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    }
+
+
+
+    public function phoneNumberAlreadyExists($post) {
+        $found=0;
+
+        $this->database->query("SELECT * FROM telefono WHERE Numero = :numerotelefono");
+        $this->database->bind(":numerotelefono", $post['numerotelefono']);
+        $row = $this->database->resultSet();
+        if($row){
+            return 1;
+        }
+
+
+        for($i=0; $i<20; $i++){
+            if(isset($post['numerotelefono'.$i]) && !empty($post['numerotelefono'.$i])){
+                $this->database->query("SELECT * FROM telefono WHERE Numero = :numerotelefono");
+                $this->database->bind(":numerotelefono", $post['numerotelefono'.$i]);
+                $row = $this->database->resultSet();
+                if($row){
+                    $found = 1;
+                }
+            }
+        }
+
+        return $found;
+    }
+
+
+
+
 }

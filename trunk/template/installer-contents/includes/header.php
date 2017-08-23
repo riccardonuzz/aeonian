@@ -29,18 +29,17 @@ if (!isset($_SESSION)) {
   <!-- For Windows Phone -->
 
 
-  <!-- CORE CSS-->
-  
-  <link href="<?php echo ROOT_URL.STYLE_PATH; ?>materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
-  <link href="<?php echo ROOT_URL.STYLE_PATH; ?>style.css" type="text/css" rel="stylesheet" media="screen,projection">
-  <link href="http://cdn.datatables.net/1.10.6/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" media="screen,projection">
-  
-  <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
-  <link href="<?php echo ROOT_URL.STYLE_PATH; ?>prism.css" type="text/css" rel="stylesheet" media="screen,projection">
-  <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
-  <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/chartist-js/chartist.min.css" type="text/css" rel="stylesheet" media="screen,projection">
-  <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/data-tables/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" media="screen,projection">
-
+   <!-- CORE CSS-->
+   <link href="<?php echo ROOT_URL.STYLE_PATH; ?>materialize.css" type="text/css" rel="stylesheet" media="screen,projection">
+   <link href="<?php echo ROOT_URL.STYLE_PATH; ?>style.css" type="text/css" rel="stylesheet" media="screen,projection">
+   <link href="<?php echo ROOT_URL.STYLE_PATH; ?>custom/custom.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+ 
+   <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
+   <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection">  
+   <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
+   <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/data-tables/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+ 
+ 
 
     
 
