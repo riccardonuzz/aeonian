@@ -12,8 +12,6 @@ class UsersManager {
     }
 
 
-
-
     /**
        * 
        * registra un utente
@@ -209,6 +207,22 @@ class UsersManager {
     public function getUtenti(){
         //Prendo le info dell'utente
         $this->database->query("SELECT CodiceFiscale, Cognome, Nome FROM utente");
+        $row = $this->database->resultSet();
+        return $row;
+    }
+
+
+
+
+    /**
+       * 
+       * Restituisce lista dei clienti
+       *
+       * @return Array $row  lista di tutti i clienti
+       */
+    public function getClienti(){
+        //Prendo le info dell'utente
+        $this->database->query("SELECT CodiceFiscale, Cognome, Nome FROM utente WHERE Ruolo = 2");
         $row = $this->database->resultSet();
         return $row;
     }

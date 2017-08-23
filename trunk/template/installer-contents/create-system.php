@@ -13,7 +13,7 @@ if(!isset($_SESSION['is_logged_in'])) {
 $systemsManager = new SystemsManager();
 //Istanza del gestore Utenti
 $usersManager = new UsersManager();
-$users = $usersManager->getUtenti();
+$clients = $usersManager->getClienti();
 
 //quando ricevo un POST sulla pagina
 if(isset($_POST['submit'])){
@@ -149,26 +149,24 @@ if(isset($_POST['submit'])){
                                   </tfoot>
                                
                                   <tbody>
-                                     <?php $index = 0; ?>
-                                      <?php foreach ($users as $user) :?>
-                                        <?php if($user['Ruolo'] == 2) :?>
+                                  <?php $index = 0; ?>
+                                  <?php foreach ($clients as $client) :?>
                                       <tr>
                                           <td>
                                           <?php
 
-                                            echo '<input type="radio" id="radio_btn'.$index.'" value="'.$user['CodiceFiscale'].'" name = "responsabile">';
-                                            echo '<label style="color:black" for="radio_btn'.$index.'">'.$user['CodiceFiscale'].'</label>';
+                                            echo '<input type="radio" id="radio_btn'.$index.'" value="'.$client['CodiceFiscale'].'" name = "responsabile">';
+                                            echo '<label style="color:black" for="radio_btn'.$index.'">'.$client['CodiceFiscale'].'</label>';
                                           ?>
                                           
 
 
                                           </td>
-                                          <td><?php echo $user['Nome'] ?></td>
-                                          <td><?php echo $user['Cognome'] ?></td>
+                                          <td><?php echo $client['Nome'] ?></td>
+                                          <td><?php echo $client['Cognome'] ?></td>
 
                                       </tr>
-                                      <?php $index++; ?>
-                                      <?php endif?>
+                                    <?php $index++; ?>
                                     <?php endforeach;?>
                                   </tbody>
                                 </table>
@@ -190,6 +188,7 @@ if(isset($_POST['submit'])){
                                   }
                                 ?>
                               </div>
+                          </div>
 
                           <div class="row">
                             <div class="input-field col s12">
