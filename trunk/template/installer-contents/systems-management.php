@@ -41,7 +41,7 @@ $impianti = $systemsManager->getImpianti();
             <div class="row">
               <div class="col s12 m12 l12">
                 <h5 class="breadcrumbs-title">Gestione impianti</h5>
-                <ol class="breadcrumb">
+                <ol class="breadcrumbs">
                     <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
                     <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/systems-management.php">Gestione impianti</a></li>
                 </ol>

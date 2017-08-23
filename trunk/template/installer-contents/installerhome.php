@@ -35,7 +35,7 @@ if(!isset($_SESSION['is_logged_in'])) {
                 <div class="row">
                 <div class="col s12 m12 l12">
                     <h5 class="breadcrumbs-title">Homepage</h5>
-                    <ol class="breadcrumb">
+                    <ol class="breadcrumbs">
                         <li><a href="#">Dashboard</a></li>
                         <li><a href="#">Homepage</a></li>
                     </ol>
