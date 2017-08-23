@@ -18,8 +18,17 @@ $users = $usersManager->getUtenti();
 //quando ricevo un POST sulla pagina
 if(isset($_POST['submit'])){
   $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-  $systemsManager->registraImpianto($post);
-  header('Location: systems-management.php');
+  $checkValue = $systemsManager->registraImpianto($post);
+
+  if($checkValue['error']==1){
+    $_SESSION['message'] = 'Ci sono dei campi che non sono stati compilati.';
+    $_SESSION['values'] = $checkValue['values'];
+    header('Location: create-system.php');
+    exit;
+  }
+  else{
+    header('Location: systems-management.php');
+  }
 }
 
 ?>
@@ -51,7 +60,7 @@ if(isset($_POST['submit'])){
           <div class="row">
             <div class="col s12 m12 l12">
               <h5 class="breadcrumbs-title">Crea impianto</h5>
-              <ol class="breadcrumbs">
+              <ol class="breadcrumb">
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/systems-management.php">Gestione impianti</a></li>
                   <li><a href="#">Crea impianto</a></li>
@@ -77,36 +86,42 @@ if(isset($_POST['submit'])){
   
                           <div class="row">
                             <div class="input-field col s12">
-                              <input id="system_name" type="text" name="nomeimpianto" required>
+                              <input id="system_name" type="text" name="nomeimpianto"
+                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['nomeimpianto']; ?><?php endif; ?>" >
                               <label for="system_name">Nome Impianto</label>
                             </div>
                           </div>
                           
                           <div class="row">
                             <div class="input-field col s6">
-                              <input id="country" type="text" name="nazione" required>
+                              <input id="country" type="text" name="nazione"
+                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['nazione']; ?><?php endif; ?>" >
                               <label for="country">Nazione</label>
                             </div>
                             <div class="input-field col s6">
-                              <input id="province" type="text" name="provincia">
+                              <input id="province" type="text" name="provincia"
+                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['provincia']; ?><?php endif; ?>">
                               <label for="province">Provincia</label>
                             </div>
                           </div>
 
                           <div class="row">
                             <div class="input-field col s12">
-                              <input id="address" type="text" name="indirizzo">
+                              <input id="address" type="text" name="indirizzo"
+                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['indirizzo']; ?><?php endif; ?>">
                               <label for="address">Indirizzo</label>
                             </div>
                           </div>
 
                            <div class="row">
                             <div class="input-field col s6">
-                              <input id="cap" type="text" name="cap">
+                              <input id="cap" type="text" name="cap"
+                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['cap']; ?><?php endif; ?>">
                               <label for="cap">CAP</label>
                             </div>
                             <div class="input-field col s6">
-                              <input id="city" type="text" name="citta">
+                              <input id="city" type="text" name="citta"
+                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['citta']; ?><?php endif; ?>">
                               <label for="city">Città</label>
                             </div>
                           </div>
@@ -136,11 +151,13 @@ if(isset($_POST['submit'])){
                                   <tbody>
                                      <?php $index = 0; ?>
                                       <?php foreach ($users as $user) :?>
+                                        <?php if($user['Ruolo'] == 2) :?>
                                       <tr>
                                           <td>
                                           <?php
+
                                             echo '<input type="radio" id="radio_btn'.$index.'" value="'.$user['CodiceFiscale'].'" name = "responsabile">';
-                                            echo '<label for="radio_btn'.$index.'"><a href="user-details.php?id='.$user['CodiceFiscale'].'">'.$user['CodiceFiscale'].'</a></label>';
+                                            echo '<label style="color:black" for="radio_btn'.$index.'">'.$user['CodiceFiscale'].'</label>';
                                           ?>
                                           
 
@@ -151,6 +168,7 @@ if(isset($_POST['submit'])){
 
                                       </tr>
                                       <?php $index++; ?>
+                                      <?php endif?>
                                     <?php endforeach;?>
                                   </tbody>
                                 </table>
@@ -161,7 +179,18 @@ if(isset($_POST['submit'])){
                           <div class="divider"></div> 
                           <!-- END TABLE HERE -->
                  
-                          
+                          <div class="row">
+                              <div class="input-field col s4">
+                                <?php
+                                  if (isset($_SESSION['message']))
+                                  {
+                                      echo "<p class='red-text text-darken-2'>".$_SESSION['message']."</p>";
+                                      unset($_SESSION['message']);
+                                      unset($_SESSION['values']);
+                                  }
+                                ?>
+                              </div>
+
                           <div class="row">
                             <div class="input-field col s12">
                               <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea impianto

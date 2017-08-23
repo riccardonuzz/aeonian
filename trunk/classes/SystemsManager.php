@@ -20,15 +20,23 @@ class SystemsManager {
        */
     public function registraImpianto($post){
 
-      /*
-      private function controlloCF($post['responsabile']){
-        $this->database->query("SELECT CodiceFiscale FROM utenti WHERE CodiceFiscale = :codicefiscale AND Ruolo = 2");
-        $this->database->bind(":codicefiscale", $post['responsabile']);
-        $row = $this->database->resultSet();
-        return $row;
-      }
-      */
+    
       //Insert into MySql
+       if(empty($post['nomeimpianto']) || empty($post['nazione']) || empty($post['provincia']) || empty($post['indirizzo']) || empty($post['cap']) || empty($post['citta'])|| empty($post['responsabile'])) {
+
+          return Array(
+              "error" => 1,
+              "values" => Array (
+                  "nomeimpianto" => $post['nomeimpianto'],
+                  "nazione" => $post['nazione'],
+                  "provincia" => $post['provincia'],
+                  "indirizzo" => $post['indirizzo'],
+                  "cap" => $post['cap'],
+                  "citta" => $post['citta']
+              )
+          );
+       }
+
       $this->database->query("INSERT INTO impianto VALUES (:id, :nome, :nazione, :provincia, :indirizzo, :CAP, :citta)");
       $this->database->bind(":id", '');
       $this->database->bind(":nome", $post['nomeimpianto']);
@@ -38,6 +46,7 @@ class SystemsManager {
       $this->database->bind(":CAP", $post['cap']);
       $this->database->bind(":citta", $post['citta']);
       $this->database->execute();
+
 
       
       //Seleziono l'id dell'ultimo impianto inserito
@@ -49,7 +58,7 @@ class SystemsManager {
       }
 
       
-      //$idimpianto = $row->fetchColumn(0);
+    
       //Inserisco una nuova tupla nella tabella gestione
       $this->database->query("INSERT INTO gestione VALUES (:impianto, :utente)");
       $this->database->bind(":impianto", $idimpianto);
@@ -97,4 +106,13 @@ class SystemsManager {
         return $row;
 
    }
+   
+   public function respFromImpianto($idimpianto){
+        $this->database->query("SELECT * from  gestione JOIN utente WHERE Utente=CodiceFiscale  and Impianto = :id");
+        $this->database->bind(":id", $idimpianto);
+        $row = $this->database->singleResultSet();
+        return $row;
+
+   }
+
 }
