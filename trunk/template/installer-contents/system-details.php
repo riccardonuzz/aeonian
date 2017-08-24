@@ -1,6 +1,7 @@
 <?php
 require_once("../../config.php"); 
 require("../../classes/SystemsManager.php");
+require("../../classes/EnvironmentsManager.php");
 
 session_start();
 
@@ -14,8 +15,11 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
 
 //Gestore Utenti
 $systemsManager = new SystemsManager();
+$environmentsManager = new EnvironmentsManager();
+
 $systemDetails = $systemsManager->trovaImpianto($_GET['id']);
-$systemResponsabile =$systemsManager->respFromImpianto($_GET['id']);
+$systemResponsabili =$systemsManager->respFromImpianto($_GET['id']);
+$systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']); 
 ?>
 
  <!-- START HEADER -->
@@ -59,9 +63,6 @@ $systemResponsabile =$systemsManager->respFromImpianto($_GET['id']);
         <div class="container">
           <div class="section">
         
-            
-            <div class="divider"></div>
-            <br><br>
 
             <div class="row">
                 <div class="input-field col s6">
@@ -88,23 +89,69 @@ $systemResponsabile =$systemsManager->respFromImpianto($_GET['id']);
                     <input readonly value="<?php echo $systemDetails['CAP']; ?>" id="disabled" type="text" >
                     <label for="disabled">CAP</label>
                 </div>
-            </div>
-           <div class="row">
                 <div class="input-field col s6">
                     <input readonly value="<?php echo $systemDetails['Citta']; ?>" id="disabled" type="text">
                     <label for="disabled">Città</label>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemResponsabile['Nome']."  ".$systemResponsabile['Cognome']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Responsabile </label>
+            <?php $index = 1 ?>
+            <?php foreach ($systemResponsabili as $resp): ?>
+                <div class="row">
+                    <div class="input-field col s6">
+                        <input readonly value="<?php echo $resp['Nome']."  ".$resp['Cognome']; ?>" id="disabled" type="text" >
+                        <label for="disabled">Responsabile<?php echo ' '.$index ?></label>
+                    </div>
                 </div>
-            </div>
+            <?php $index++ ?>
+            <?php endforeach?>
+
+            <br>
+            <a href="create-environment.php?id=<?php echo $systemDetails['IDImpianto']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Aggiungi ambiente</a>
             
-            <div class="row">
-                <a href="create-environment.php?id=<?php echo $systemDetails['IDImpianto']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Aggiungi ambiente</a>
-            </div>
+
+            <br><br><br>
+
+              <!-- START TABLE HERE -->
+              <!--DataTables example-->
+              <!-- Tabella degli ambienti -->
+              <div id="table-datatables">
+
+                <div class="col s12 m8 l12">
+                  <table id="data-table-simple" class="responsive-table display" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nome Impianto</th>
+                            <th>Nome Ambiente</th>
+                            <th>Descrizione</th>
+                        </tr>
+                    </thead>
+                 
+                    <tfoot>
+                        <tr>
+                            <th>Nome Impianto</th>
+                            <th>Nome Ambiente</th>
+                            <th>Descrizione</th>
+                        </tr>
+                    </tfoot>
+                 
+                    <tbody>
+                        <?php foreach ($systemAmbienti as $ambiente) :?>
+                        <tr>
+                            <td><?php echo $ambiente['ImpNome'] ?></td>
+                            <td><?php echo $ambiente['Nome'] ?></td>
+                            <td><?php echo $ambiente['Descrizione'] ?></td>
+
+                        </tr>
+                        <?php endforeach;?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div> 
+            <br>
+            <div class="divider"></div> 
+            <!-- END TABLE HERE -->
+
             </div>
           </div>
         </div>

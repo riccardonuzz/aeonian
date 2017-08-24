@@ -28,7 +28,9 @@ if (!isset($_SESSION)) {
               </li>
               <li class="bold"><a href="installerhome.php" class="waves-effect waves-cyan admin-homepage"><i class="mdi-action-home"></i> Homepage</a>
               </li>
-              <li class="bold"><a href="systems-management.php" class="waves-effect waves-cyan admin-users-management"><i class="mdi-social-people"></i> Gestisci impianti</a>
+              <li class="bold"><a href="systems-management.php" class="waves-effect waves-cyan admin-users-management"><i class="mdi-communication-business"></i> Gestisci impianti</a>
+              </li>
+              <li class="bold"><a href="environments-management.php" class="waves-effect waves-cyan admin-users-management"><i class="mdi-action-store"></i> Gestisci ambienti</a>
               </li>
               <li class="bold"><a href="<?php echo ROOT_URL.TEMPLATE_PATH."login.php?logout=1"; ?>"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
               </li>

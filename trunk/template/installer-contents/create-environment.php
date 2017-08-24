@@ -16,7 +16,7 @@ $systemsManager= new SystemsManager();
 
 
 
-//quando ricevo un POST sulla pagina
+// quando ricevo un POST sulla pagina
 if(isset($_POST['submit'])){
   $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
   $checkValue = $environmentManager->registraAmbiente($post,$_GET['id']);
@@ -28,7 +28,8 @@ if(isset($_POST['submit'])){
     exit;
   }
   else{
-    header('Location: environments-management.php');
+    // ritorna alla pagina dei dettagli impianto (così è più facile inserire più ambienti di fila)
+    header("Location: system-details.php?id=".$_GET['id']);
   }
 }
 

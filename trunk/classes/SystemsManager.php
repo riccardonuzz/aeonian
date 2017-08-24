@@ -15,30 +15,29 @@ class SystemsManager {
        * 
        * registra un impianto (system)
        *
-       * @param Array $post Contiene le informazioni dell'impianto che vengono "postate"
-       * @return void
+       * @param Array $post Contiene le informazioni dell'impianto che vengono "postate" (al momento della compilazione
+       * del form)
+       * @return Array con i valori della post e l'eventuale errore verificatosi (1-"ci sono ancora campi da compilare")
        */
     public function registraImpianto($post){
 
-    
       //Insert into MySql
-       if(empty($post['nomeimpianto']) || empty($post['nazione']) || empty($post['provincia']) || empty($post['indirizzo']) || empty($post['cap']) || empty($post['citta'])|| empty($post['responsabile'])) {
+      if(empty($post['nomeimpianto']) || empty($post['nazione']) || empty($post['provincia']) || empty($post['indirizzo']) || empty($post['cap']) || empty($post['citta'])|| empty($post['responsabile'])) {
 
-          return Array(
-              "error" => 1,
-              "values" => Array (
-                  "nomeimpianto" => $post['nomeimpianto'],
-                  "nazione" => $post['nazione'],
-                  "provincia" => $post['provincia'],
-                  "indirizzo" => $post['indirizzo'],
-                  "cap" => $post['cap'],
-                  "citta" => $post['citta']
-              )
-          );
-       }
+        return Array(
+            "error" => 1,
+            "values" => Array (
+                "nomeimpianto" => $post['nomeimpianto'],
+                "nazione" => $post['nazione'],
+                "provincia" => $post['provincia'],
+                "indirizzo" => $post['indirizzo'],
+                "cap" => $post['cap'],
+                "citta" => $post['citta']
+            )
+        );
+      }
 
-      $this->database->query("INSERT INTO impianto VALUES (:id, :nome, :nazione, :provincia, :indirizzo, :CAP, :citta)");
-      $this->database->bind(":id", '');
+      $this->database->query("INSERT INTO impianto (Nome, Nazione, Provincia, Indirizzo, CAP, Citta) VALUES (:nome, :nazione, :provincia, :indirizzo, :CAP, :citta)");
       $this->database->bind(":nome", $post['nomeimpianto']);
       $this->database->bind(":nazione", $post['nazione']);
       $this->database->bind(":provincia", $post['provincia']);
@@ -57,16 +56,18 @@ class SystemsManager {
         $idimpianto = $result['IDImpianto'];
       }
 
+      //Inserimento all'interno della tabella gestione di tutti i responsabili dell'impianto appena registrato
+      $responsabili = isset($_POST['responsabile']) ? $_POST['responsabile'] : array();
+      foreach ($responsabili as $resp) {
+        //Inserisco una nuova tupla nella tabella gestione
+        $this->database->query("INSERT INTO gestione VALUES (:impianto, :utente)");
+        $this->database->bind(":impianto", $idimpianto);
+        $this->database->bind(":utente", $resp);
+        $this->database->execute();
+      }
       
-    
-      //Inserisco una nuova tupla nella tabella gestione
-      $this->database->query("INSERT INTO gestione VALUES (:impianto, :utente)");
-      $this->database->bind(":impianto", $idimpianto);
-      $this->database->bind(":utente", $post['responsabile']);
-      $this->database->execute();
       
-
-    }
+    } // fine di registraImpianto
     
 
     /**
@@ -108,9 +109,9 @@ class SystemsManager {
    }
    
    public function respFromImpianto($idimpianto){
-        $this->database->query("SELECT * from  gestione JOIN utente WHERE Utente=CodiceFiscale  and Impianto = :id");
+        $this->database->query("SELECT * from  gestione JOIN utente WHERE Utente=CodiceFiscale and Impianto = :id");
         $this->database->bind(":id", $idimpianto);
-        $row = $this->database->singleResultSet();
+        $row = $this->database->resultSet();
         return $row;
 
    }

@@ -1,6 +1,6 @@
 <?php
 require_once("../../config.php"); 
-require("../../classes/SystemsManager.php");
+require("../../classes/EnvironmentsManager.php");
 
 session_start();
 
@@ -8,9 +8,11 @@ if(!isset($_SESSION['is_logged_in'])) {
   header('Location: '.ROOT_URL.'/template/login.php');
 }
 
-//Gestore Utenti
-$systemsManager = new SystemsManager();
-$impianti = $systemsManager->getImpianti();
+//Gestore Ambienti
+$environmentsManager = new EnvironmentsManager();
+//prendo la lista con tutti gli ambienti presenti del database
+$ambienti = $environmentsManager->getAmbienti();
+
 
 ?>
 
@@ -43,7 +45,7 @@ $impianti = $systemsManager->getImpianti();
                 <h5 class="breadcrumbs-title">Gestione impianti</h5>
                 <ol class="breadcrumbs">
                     <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
-                    <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/systems-management.php">Gestione impianti</a></li>
+                    <li><a href="#">Gestione ambienti</a></li>
                 </ol>
               </div>
             </div>
@@ -56,41 +58,35 @@ $impianti = $systemsManager->getImpianti();
         <div class="container">
           <div class="section">
 
-            <!-- <p class="caption">Utenti </p> -->
-            <a href="create-system.php" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Crea ambiente</a>
-            <br><br>
-            
-            <div class="divider"></div>
-            <br><br>
-
             <!-- START TABLE HERE -->
-            <!--DataTables example-->
-            <div id="table-datatables">
+              <!--DataTables example-->
+              <!-- Tabella degli ambienti -->
+              <div id="table-datatables">
 
                 <div class="col s12 m8 l12">
                   <table id="data-table-simple" class="responsive-table display" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Nome</th>
-                            <th>Indirizzo</th>
-                            <th>Città</th>
+                            <th>Nome Impianto</th>
+                            <th>Nome Ambiente</th>
+                            <th>Descrizione</th>
                         </tr>
                     </thead>
                  
                     <tfoot>
                         <tr>
-                        <th>Nome</th>
-                        <th>Indirizzo</th>
-                        <th>Città</th>
+                            <th>Nome Impianto</th>
+                            <th>Nome Ambiente</th>
+                            <th>Descrizione</th>
                         </tr>
                     </tfoot>
                  
                     <tbody>
-                        <?php foreach ($impianti as $impianto) :?>
+                        <?php foreach ($ambienti as $ambiente) :?>
                         <tr>
-                            <td><a href="system-details.php?id=<?php echo $impianto['IDImpianto']; ?>""><?php echo $impianto['Nome'] ?></a></td>
-                            <td><?php echo $impianto['Indirizzo'] ?></td>
-                            <td><?php echo $impianto['Citta'] ?></td>
+                            <td><?php echo $ambiente['ImpNome'] ?></td>
+                            <td><?php echo $ambiente['Nome'] ?></td>
+                            <td><?php echo $ambiente['Descrizione'] ?></td>
 
                         </tr>
                         <?php endforeach;?>

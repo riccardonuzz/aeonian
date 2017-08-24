@@ -16,7 +16,7 @@ class EnvironmentsManager {
        * registra un'ambiente (enviroment)
        *
        * @param Array $post Contiene le informazioni dell'ambiente che vengono "postate"
-       * @return void
+       * @return Array con i valori della post e l'eventuale errore verificatosi (1-"ci sono ancora campi da compilare")
        */
     public function registraAmbiente($post,$idimpianto){
 
@@ -42,62 +42,34 @@ class EnvironmentsManager {
    
       $this->database->execute();
 
-
-      
-     
-      
-
-      
-    
-   
-
-    }
+    } // fine registraAmbiente()
     
 
     /**
        * 
        * Restituisce lista degli
        *
-       * @return Array $row  lista di tutti gli impianti
+       * @return Array $row  lista di tutti gli ambienti con i relativi impianti
        */
-    public function getImpianti(){
+    public function getAmbienti(){
         //Prendo le info dell'utente
-        $this->database->query("SELECT * FROM impianto");
+        $this->database->query("SELECT impianto.Nome AS ImpNome, ambiente.Nome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto");
         $row = $this->database->resultSet();
         return $row;
     }
 
-    
+
     /**
-       * 
-       * Restituisce lista degli impianti relativi ad un utente
-       * @param string $utente indica il codice fiscale con il quale ricercare l'utente e i relativi impianti
-       * @return Array $row lista degli impianti di un utente
-       */
-    public function getImpiantiUtente($utente){
-        
-        $this->database->query("SELECT * from gestione JOIN impianto ON Impianto = IDImpianto WHERE Utente = :codicefiscale");
-        $this->database->bind(":codicefiscale", $utente);
-        $row = $this->database->resultSet();
-        return $row;
+    *
+    * Restituisce la lista degli ambienti relativi all'impianto, il cui id viene passato come input alla funzione
+    *
+    * @return Array $row  lista di tutti gli ambienti relativi all'impianto
+    */
+    public function getAmbientiImpianto($idimpianto){
+      $this->database->query("SELECT impianto.Nome AS ImpNome, ambiente.Nome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto WHERE Impianto = :imp");
+      $this->database->bind(":imp", $idimpianto);
+      $row = $this->database->resultSet();
+      return $row;      
     }
-
-
-
-   public function trovaImpianto($idimpianto){
-        $this->database->query("SELECT * from impianto WHERE IDImpianto = :id");
-        $this->database->bind(":id", $idimpianto);
-        $row = $this->database->singleResultSet();
-        return $row;
-
-   }
-   
-   public function respFromImpianto($idimpianto){
-        $this->database->query("SELECT * from  gestione JOIN utente WHERE Utente=CodiceFiscale  and Impianto = :id");
-        $this->database->bind(":id", $idimpianto);
-        $row = $this->database->singleResultSet();
-        return $row;
-
-   }
 
 }

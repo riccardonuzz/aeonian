@@ -155,10 +155,9 @@ if(isset($_POST['submit'])){
                                           <td>
                                           <?php
 
-                                            echo '<input type="radio" id="radio_btn'.$index.'" value="'.$client['CodiceFiscale'].'" name = "responsabile">';
-                                            echo '<label style="color:black" for="radio_btn'.$index.'">'.$client['CodiceFiscale'].'</label>';
+                                            echo '<input type="checkbox" id="check_btn'.$index.'" value="'.$client['CodiceFiscale'].'" name = "responsabile[]">';
+                                            echo '<label style="color:black" for="check_btn'.$index.'">'.$client['CodiceFiscale'].'</label>';
                                           ?>
-                                          
 
 
                                           </td>
