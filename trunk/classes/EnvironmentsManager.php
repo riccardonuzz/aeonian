@@ -53,7 +53,7 @@ class EnvironmentsManager {
        */
     public function getAmbienti(){
         //Prendo le info dell'utente
-        $this->database->query("SELECT impianto.Nome AS ImpNome, ambiente.Nome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto");
+        $this->database->query("SELECT impianto.Nome AS impNome, ambiente.Nome AS ambNome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto");
         $row = $this->database->resultSet();
         return $row;
     }
@@ -66,10 +66,23 @@ class EnvironmentsManager {
     * @return Array $row  lista di tutti gli ambienti relativi all'impianto
     */
     public function getAmbientiImpianto($idimpianto){
-      $this->database->query("SELECT impianto.Nome AS ImpNome, ambiente.Nome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto WHERE Impianto = :imp");
+      $this->database->query("SELECT impianto.Nome AS ImpNome, IDAmbiente, ambiente.Nome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto WHERE Impianto = :imp");
       $this->database->bind(":imp", $idimpianto);
       $row = $this->database->resultSet();
       return $row;      
+    }
+
+    /**
+    *
+    * Restituisce il singolo ambiente in base all'id passatole
+    *
+    * @return Array $row  col singolo ambiente e gli attributi utili
+    */
+    public function trovaAmbiente($idambiente){
+      $this->database->query("SELECT IDAmbiente, ambiente.Nome AS ambNome, Descrizione, Impianto, impianto.Nome AS impNome FROM ambiente JOIN impianto ON Impianto = IDImpianto WHERE IDAmbiente = :idamb");
+      $this->database->bind(":idamb", $idambiente);
+      $row = $this->database->singleResultSet();
+      return $row;
     }
 
 }

@@ -84,8 +84,8 @@ $ambienti = $environmentsManager->getAmbienti();
                     <tbody>
                         <?php foreach ($ambienti as $ambiente) :?>
                         <tr>
-                            <td><?php echo $ambiente['ImpNome'] ?></td>
-                            <td><?php echo $ambiente['Nome'] ?></td>
+                            <td><?php echo $ambiente['impNome'] ?></td>
+                            <td><?php echo $ambiente['ambNome'] ?></td>
                             <td><?php echo $ambiente['Descrizione'] ?></td>
 
                         </tr>

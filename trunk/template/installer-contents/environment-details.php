@@ -1,6 +1,5 @@
 <?php
 require_once("../../config.php"); 
-require("../../classes/SystemsManager.php");
 require("../../classes/EnvironmentsManager.php");
 
 session_start();
@@ -13,13 +12,9 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
     header('Location: '.ROOT_URL.'/index.php');
 }
 
-//Gestore Utenti
-$systemsManager = new SystemsManager();
+//Gestore Ambienti
 $environmentsManager = new EnvironmentsManager();
-
-$systemDetails = $systemsManager->trovaImpianto($_GET['id']);
-$systemResponsabili =$systemsManager->respFromImpianto($_GET['id']);
-$systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']); 
+$ambiente = $environmentsManager->trovaAmbiente($_GET['id']); 
 ?>
 
  <!-- START HEADER -->
@@ -52,7 +47,8 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
                     <ol class="breadcrumbs">
                         <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
                         <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/systems-management.php">Gestione impianti</a></li>
-                        <li><a href="#">Dettagli impianto</a></li>
+                        <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/system-details.php?id=<?php echo $ambiente['Impianto']?>">Dettagli impianto</a></li>
+                        <li><a href="#">Dettagli ambiente</a></li>
                     </ol>
                 </div>
             </div>
@@ -66,47 +62,24 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
 
             <div class="row">
                 <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemDetails['Nome']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Nome</label>
+                    <input readonly value="<?php echo $ambiente['impNome']; ?>" id="disabled" type="text" >
+                    <label for="disabled">Nome Impianto</label>
                 </div>
                 <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemDetails['Nazione']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Nazione</label>
+                    <input readonly value="<?php echo $ambiente['ambNome']; ?>" id="disabled" type="text" >
+                    <label for="disabled">Nome Ambiente</label>
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemDetails['Provincia']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Provincia</label>
-                </div>
-                <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemDetails['Indirizzo']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Indirizzo</label>
+                <div class="input-field col s12">
+                    <input readonly value="<?php echo $ambiente['Descrizione']; ?>" id="disabled" type="text" >
+                    <label for="disabled">Descrizione</label>
                 </div>
             </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemDetails['CAP']; ?>" id="disabled" type="text" >
-                    <label for="disabled">CAP</label>
-                </div>
-                <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemDetails['Citta']; ?>" id="disabled" type="text">
-                    <label for="disabled">Città</label>
-                </div>
-            </div>
-            <?php $index = 1 ?>
-            <?php foreach ($systemResponsabili as $resp): ?>
-                <div class="row">
-                    <div class="input-field col s6">
-                        <input readonly value="<?php echo $resp['Nome']."  ".$resp['Cognome']; ?>" id="disabled" type="text" >
-                        <label for="disabled">Responsabile<?php echo ' '.$index ?></label>
-                    </div>
-                </div>
-            <?php $index++ ?>
-            <?php endforeach?>
+        
 
             <br>
-            <a href="create-environment.php?id=<?php echo $systemDetails['IDImpianto']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Aggiungi ambiente</a>
+            <a href="create-environment.php?id=<?php echo $ambiente['IDAmbiente']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Aggiungi sensore</a>
             
 
             <br><br><br>
@@ -120,6 +93,7 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
                   <table id="data-table-simple" class="responsive-table display" cellspacing="0">
                     <thead>
                         <tr>
+                            <th>Nome Impianto</th>
                             <th>Nome Ambiente</th>
                             <th>Descrizione</th>
                         </tr>
@@ -127,18 +101,15 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
                  
                     <tfoot>
                         <tr>
+                            <th>Nome Impianto</th>
                             <th>Nome Ambiente</th>
                             <th>Descrizione</th>
                         </tr>
                     </tfoot>
                  
                     <tbody>
-                        <?php foreach ($systemAmbienti as $ambiente) :?>
-                        <tr>
-                            <td><a href="environment-details.php?id=<?php echo $ambiente['IDAmbiente']?>"><?php echo $ambiente['Nome'] ?></a></td>
-                            <td><?php echo $ambiente['Descrizione'] ?></td>
-                        </tr>
-                        <?php endforeach;?>
+                        
+
                     </tbody>
                   </table>
                 </div>
