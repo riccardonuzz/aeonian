@@ -13,7 +13,7 @@ class EnvironmentsManager {
 
     /**
        * 
-       * registra un'ambiente (enviroment)
+       * registra un ambiente (enviroment)
        *
        * @param Array $post Contiene le informazioni dell'ambiente che vengono "postate"
        * @return Array con i valori della post e l'eventuale errore verificatosi (1-"ci sono ancora campi da compilare")
@@ -34,8 +34,7 @@ class EnvironmentsManager {
           );
        }
 
-      $this->database->query("INSERT INTO ambiente VALUES (:id, :nome, :descrizione, :impianto )");
-      $this->database->bind(":id", '');
+      $this->database->query("INSERT INTO ambiente (Nome, Descrizione, Impianto) VALUES (:nome, :descrizione, :impianto)");
       $this->database->bind(":nome", $post['nomeAmbiente']);
       $this->database->bind(":descrizione", $post['descrizione']);
       $this->database->bind(":impianto", $idimpianto);

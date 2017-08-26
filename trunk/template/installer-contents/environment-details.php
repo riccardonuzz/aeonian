@@ -1,6 +1,8 @@
 <?php
 require_once("../../config.php"); 
 require("../../classes/EnvironmentsManager.php");
+require("../../classes/SensorsManager.php");
+
 
 session_start();
 
@@ -14,7 +16,10 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
 
 //Gestore Ambienti
 $environmentsManager = new EnvironmentsManager();
-$ambiente = $environmentsManager->trovaAmbiente($_GET['id']); 
+$ambiente = $environmentsManager->trovaAmbiente($_GET['id']);
+//Gestore Sensori
+$sensorsManager = new SensorsManager();
+$sensoriAmbiente = $sensorsManager->getSensoriAmbiente($_GET['id']);
 ?>
 
  <!-- START HEADER -->
@@ -43,7 +48,7 @@ $ambiente = $environmentsManager->trovaAmbiente($_GET['id']);
             <div class="container">
             <div class="row">
                 <div class="col s12 m12 l12">
-                    <h5 class="breadcrumbs-title">Dettagli impianto</h5>
+                    <h5 class="breadcrumbs-title">Dettagli ambiente</h5>
                     <ol class="breadcrumbs">
                         <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
                         <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/systems-management.php">Gestione impianti</a></li>
@@ -79,7 +84,7 @@ $ambiente = $environmentsManager->trovaAmbiente($_GET['id']);
         
 
             <br>
-            <a href="create-environment.php?id=<?php echo $ambiente['IDAmbiente']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Aggiungi sensore</a>
+            <a href="create-sensor.php?id=<?php echo $ambiente['IDAmbiente']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Aggiungi sensore</a>
             
 
             <br><br><br>
@@ -93,23 +98,29 @@ $ambiente = $environmentsManager->trovaAmbiente($_GET['id']);
                   <table id="data-table-simple" class="responsive-table display" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Nome Impianto</th>
-                            <th>Nome Ambiente</th>
-                            <th>Descrizione</th>
+                            <th>Nome Sensore</th>
+                            <th>Tipologia</th>
+                            <th>UnitaMisura</th>
                         </tr>
                     </thead>
                  
                     <tfoot>
                         <tr>
-                            <th>Nome Impianto</th>
-                            <th>Nome Ambiente</th>
-                            <th>Descrizione</th>
+                            <th>Nome Sensore</th>
+                            <th>Tipologia</th>
+                            <th>UnitaMisura</th>
                         </tr>
                     </tfoot>
                  
                     <tbody>
-                        
+                        <?php foreach ($sensoriAmbiente as $sensore) :?>
+                        <tr>
+                            <td><a href="sensor-details.php?id=<?php echo $sensore['IDSensore']; ?>""><?php echo $sensore['sensNome'] ?></a></td>
+                            <td><?php echo $sensore['tipoNome'] ?></td>
+                            <td><?php echo $sensore['UnitaMisura'] ?></td>
 
+                        </tr>
+                        <?php endforeach;?>
                     </tbody>
                   </table>
                 </div>
