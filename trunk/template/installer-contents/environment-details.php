@@ -67,12 +67,12 @@ $sensoriAmbiente = $sensorsManager->getSensoriAmbiente($_GET['id']);
 
             <div class="row">
                 <div class="input-field col s6">
-                    <input readonly value="<?php echo $ambiente['impNome']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Nome Impianto</label>
-                </div>
-                <div class="input-field col s6">
                     <input readonly value="<?php echo $ambiente['ambNome']; ?>" id="disabled" type="text" >
                     <label for="disabled">Nome Ambiente</label>
+                </div>
+                <div class="input-field col s6">
+                    <input readonly value="<?php echo $ambiente['impNome']; ?>" id="disabled" type="text" >
+                    <label for="disabled">Nome Impianto</label>
                 </div>
             </div>
             <div class="row">

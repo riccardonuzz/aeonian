@@ -8,6 +8,10 @@ if(!isset($_SESSION['is_logged_in'])) {
   header('Location: '.ROOT_URL.'/template/login.php');
 }
 
+if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
+    header('Location: '.ROOT_URL.'/index.php');
+}
+
 //Gestore Utenti
 $systemsManager = new SystemsManager();
 $impianti = $systemsManager->getImpianti();

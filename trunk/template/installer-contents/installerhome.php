@@ -7,6 +7,11 @@ require_once("../../config.php");
 if(!isset($_SESSION['is_logged_in'])) {
     header('Location: '.ROOT_URL.TEMPLATE_PATH.'login.php');
 }
+
+if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
+    header('Location: '.ROOT_URL.'/index.php');
+}
+
 ?>
   
     <!-- START HEADER -->

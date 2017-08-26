@@ -45,7 +45,7 @@ $sensore = $sensorsManager->trovaSensore($_GET['id']);
             <div class="container">
             <div class="row">
                 <div class="col s12 m12 l12">
-                    <h5 class="breadcrumbs-title">Dettagli ambiente</h5>
+                    <h5 class="breadcrumbs-title">Dettagli sensore</h5>
                     <ol class="breadcrumbs">
                         <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
                         <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/systems-management.php">Gestione impianti</a></li>
@@ -86,12 +86,12 @@ $sensore = $sensorsManager->trovaSensore($_GET['id']);
            
             <div class="row">
                 <div class="input-field col s6">
-                    <input readonly value="<?php echo $sensore['impNome']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Nome Impianto</label>
-                </div>
-                <div class="input-field col s6">
                     <input readonly value="<?php echo $sensore['ambNome']; ?>" id="disabled" type="text" >
                     <label for="disabled">Nome Ambiente</label>
+                </div>
+                <div class="input-field col s6">
+                    <input readonly value="<?php echo $sensore['impNome']; ?>" id="disabled" type="text" >
+                    <label for="disabled">Nome Impianto</label>
                 </div>
             </div>
             </div>

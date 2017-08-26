@@ -37,6 +37,21 @@ class SystemsManager {
         );
       }
 
+         // Controllo che il CAP sia di esattamente 5 caratteri
+      if(strlen($post['cap']) != 5 || !ctype_digit($post['cap'])){
+        return Array(
+            "error" => 2,
+            "values" => Array (
+                "nomeimpianto" => $post['nomeimpianto'],
+                "nazione" => $post['nazione'],
+                "provincia" => $post['provincia'],
+                "indirizzo" => $post['indirizzo'],
+                "cap" => $post['cap'],
+                "citta" => $post['citta']
+            )
+        );
+      }
+
       $this->database->query("INSERT INTO impianto (Nome, Nazione, Provincia, Indirizzo, CAP, Citta) VALUES (:nome, :nazione, :provincia, :indirizzo, :CAP, :citta)");
       $this->database->bind(":nome", $post['nomeimpianto']);
       $this->database->bind(":nazione", $post['nazione']);

@@ -1,6 +1,5 @@
 <?php
 require_once("../../config.php"); 
-require("../../classes/SystemsManager.php");
 require("../../classes/EnvironmentsManager.php");
 
 session_start();
@@ -10,10 +9,12 @@ if(!isset($_SESSION['is_logged_in'])) {
   header('Location: '.ROOT_URL.'/template/login.php');
 }
 
+if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
+    header('Location: '.ROOT_URL.'/index.php');
+}
+
 //Gestore ambienti
 $environmentManager = new EnvironmentsManager();
-$systemsManager= new SystemsManager();
-
 
 
 // quando ricevo un POST sulla pagina

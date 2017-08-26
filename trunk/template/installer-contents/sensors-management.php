@@ -8,6 +8,10 @@ if(!isset($_SESSION['is_logged_in'])) {
   header('Location: '.ROOT_URL.'/template/login.php');
 }
 
+if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
+    header('Location: '.ROOT_URL.'/index.php');
+}
+
 //Gestore Sensori
 $sensorsManager = new SensorsManager();
 //prendo la lista con tutti i sensori presenti del database
@@ -42,10 +46,10 @@ $sensori = $sensorsManager->getSensori();
           <div class="container">
             <div class="row">
               <div class="col s12 m12 l12">
-                <h5 class="breadcrumbs-title">Gestione sensori</h5>
+                <h5 class="breadcrumbs-title">Panoramica sensori</h5>
                 <ol class="breadcrumbs">
                     <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
-                    <li><a href="#">Gestione sensori</a></li>
+                    <li><a href="#">Panoramica sensori</a></li>
                 </ol>
               </div>
             </div>

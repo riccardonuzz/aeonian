@@ -67,7 +67,7 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
             <div class="row">
                 <div class="input-field col s6">
                     <input readonly value="<?php echo $systemDetails['Nome']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Nome</label>
+                    <label for="disabled">Nome Impianto</label>
                 </div>
                 <div class="input-field col s6">
                     <input readonly value="<?php echo $systemDetails['Nazione']; ?>" id="disabled" type="text" >

@@ -9,6 +9,10 @@ if(!isset($_SESSION['is_logged_in'])) {
   header('Location: '.ROOT_URL.'/template/login.php');
 }
 
+if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
+    header('Location: '.ROOT_URL.'/index.php');
+}
+
 //Gestore Impianti
 $systemsManager = new SystemsManager();
 //Istanza del gestore Utenti
@@ -22,6 +26,12 @@ if(isset($_POST['submit'])){
 
   if($checkValue['error']==1){
     $_SESSION['message'] = 'Ci sono dei campi che non sono stati compilati.';
+    $_SESSION['values'] = $checkValue['values'];
+    header('Location: create-system.php');
+    exit;
+  }
+  if($checkValue['error']==2){
+    $_SESSION['message'] = 'Il CAP può contenere solo cifre ed ha una lunghezza fissa di 5 caratteri.';
     $_SESSION['values'] = $checkValue['values'];
     header('Location: create-system.php');
     exit;
@@ -177,7 +187,7 @@ if(isset($_POST['submit'])){
                           <!-- END TABLE HERE -->
                  
                           <div class="row">
-                              <div class="input-field col s4">
+                              <div class="input-field col s6">
                                 <?php
                                   if (isset($_SESSION['message']))
                                   {

@@ -13,7 +13,7 @@ class EnvironmentsManager {
 
     /**
        * 
-       * registra un ambiente (enviroment)
+       * registra un ambiente (environment)
        *
        * @param Array $post Contiene le informazioni dell'ambiente che vengono "postate"
        * @return Array con i valori della post e l'eventuale errore verificatosi (1-"ci sono ancora campi da compilare")
@@ -22,17 +22,16 @@ class EnvironmentsManager {
 
     
       //Insert into MySql
-       if(empty($post['nomeAmbiente']) || empty($post['descrizione'])) {
+      if(empty($post['nomeAmbiente']) || empty($post['descrizione'])) {
 
-          return Array(
-              "error" => 1,
-              "values" => Array (
-                  "nomeAmbiente" => $post['nomeAmbiente'],
-                  "descrizione" => $post['descrizione'],
-                  
-              )
-          );
-       }
+        return Array(
+            "error" => 1,
+            "values" => Array (
+            "nomeAmbiente" => $post['nomeAmbiente'],
+            "descrizione" => $post['descrizione'],   
+          )
+        );
+      }
 
       $this->database->query("INSERT INTO ambiente (Nome, Descrizione, Impianto) VALUES (:nome, :descrizione, :impianto)");
       $this->database->bind(":nome", $post['nomeAmbiente']);
@@ -46,7 +45,7 @@ class EnvironmentsManager {
 
     /**
        * 
-       * Restituisce lista degli
+       * Restituisce lista degli ambienti
        *
        * @return Array $row  lista di tutti gli ambienti con i relativi impianti
        */

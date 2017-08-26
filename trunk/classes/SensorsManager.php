@@ -34,6 +34,7 @@ class SensorsManager {
         );
       }
 
+
       $this->database->query("INSERT INTO sensore(Nome, Ambiente, TipologiaSensore, Marca) VALUES (:nome, :ambiente, :tipologia, :marca)");
       $this->database->bind(":nome", $post['nomesensore']);
       $this->database->bind(":ambiente", $idambiente);
@@ -56,6 +57,12 @@ class SensorsManager {
     }
 
 
+    /**
+    *
+    * Trova un singolo sensore a partire dal sui id e restituisce una serie di informazioni relativi ad esso
+    *
+    * @return Array $row  informazioni su un singolo sensore
+    */
     public function trovaSensore($idsensore){
       $this->database->query("SELECT UnitaMisura, Marca, Ambiente, IDImpianto, IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, ambiente.Nome AS ambNome, impianto.Nome AS impNome FROM sensore JOIN tipologiasensore JOIN ambiente JOIN impianto ON TipologiaSensore = IDTipologiaSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto WHERE IDSensore = :idsens");
       $this->database->bind(":idsens", $idsensore);
