@@ -125,8 +125,7 @@ if(isset($_POST['submit'])){
 
                            <div class="row">
                             <div class="input-field col s6">
-                              <input id="cap" type="text" name="cap"
-                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['cap']; ?><?php endif; ?>">
+                              <input id="cap" type="text" name="cap" minlength="5" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['cap']; ?><?php endif; ?>">
                               <label for="cap">CAP</label>
                             </div>
                             <div class="input-field col s6">
