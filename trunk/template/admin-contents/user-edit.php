@@ -48,6 +48,20 @@ if(isset($_POST['submit'])){
     exit;
   }
 
+  if($checkValue['error']==3){
+    $_SESSION['message'] = 'Utente non modificato. Codice fiscale o email già presenti nel sistema.';
+    //$_SESSION['values'] = $checkValue['values'];
+    header('Location: user-edit.php?id='.$checkValue['values']['codicefiscale']);
+    exit;
+  }
+
+  if($checkValue['error']==4){
+    $_SESSION['message'] = 'Utente non modificato. Uno o più numeri di telefono sono già presenti nel sistema.';
+    //$_SESSION['values'] = $checkValue['values'];
+    header('Location: user-edit.php?id='.$checkValue['values']['codicefiscale']);
+    exit;
+  }
+
   //altrimenti se è tutto ok, reindirizzo alle info dell'utente, così da poter vedere quanto modificato
   else{
     header('Location: user-details.php?id='.$checkValue);
@@ -171,6 +185,7 @@ if(isset($_POST['submit'])){
                                 {
                                     echo "<p class='red-text text-darken-2'>".$_SESSION['message']."</p>";
                                     unset($_SESSION['message']);
+                                    //unset($_SESSION['values']);
                                 }
                               ?>
                             </div>

@@ -11079,7 +11079,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sEmptyTable": "No data available in table",
+			"sEmptyTable": "Nessun dato disponibile nella tabella",
 	
 	
 			/**

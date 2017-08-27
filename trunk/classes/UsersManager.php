@@ -20,7 +20,8 @@ class UsersManager {
        * @return void
        */
     public function registraUtente($post){
-        
+
+        //controllo se uno di questi campi è vuoto
         if(empty($post['nome']) || empty($post['cognome']) || empty($post['email']) || empty($post['password']) || empty($post['numerotelefono']) || $post['ruolo']==0 || empty($post['codicefiscale'])) {
 
             return Array(
@@ -36,6 +37,7 @@ class UsersManager {
             );
         }
 
+        //controllo che la password rispetti l'espressione regolare
         if(!preg_match('#(?=.*[\d\W])(?=.*[a-z])(?=.*[A-Z]).{8,100}#', $post['password'])){
             return Array(
                 "error" => 2,
@@ -52,7 +54,8 @@ class UsersManager {
 
        $password = md5($post['password']);
 
-       if($this->userAlreadyExists($post['email'], $post['codicefiscale'])){
+       //controllo che l'utente esista in base ad email e codice fiscale
+       if($this->userAlreadyExists($post['email'], $post['codicefiscale'], 0)){
             return Array(
                 "error" => 3,
                 "values" => Array (
@@ -66,7 +69,8 @@ class UsersManager {
             );
        }
 
-       if($this->phoneNumberAlreadyExists($post)){
+       //controllo che il numero di telefono non sia stato inserito
+       if($this->phoneNumberAlreadyExists($post, 0)){
             return Array(
                 "error" => 4,
                 "values" => Array (
@@ -131,6 +135,39 @@ class UsersManager {
         }
 
 
+
+        //controllo che l'utente esista in base ad email e codice fiscale
+        if($this->userAlreadyExists($post['email'], $post['codicefiscale'], 1)){
+            return Array(
+                "error" => 3,
+                "values" => Array (
+                    "nome" => $post['nome'],
+                    "cognome" => $post['cognome'],
+                    "email" => $post['email'],
+                    "ruolo" => $post['ruolo'],
+                    "numerotelefono" => $post['numerotelefono'],
+                    "codicefiscale" => $post['codicefiscale']
+                )
+            );
+        }
+
+        //controllo che il numero di telefono non sia stato inserito
+        if($this->phoneNumberAlreadyExists($post, 1)){
+            return Array(
+                "error" => 4,
+                "values" => Array (
+                    "nome" => $post['nome'],
+                    "cognome" => $post['cognome'],
+                    "email" => $post['email'],
+                    "ruolo" => $post['ruolo'],
+                    "numerotelefono" => $post['numerotelefono'],
+                    "codicefiscale" => $post['codicefiscale']
+                )
+            );
+        }
+
+
+
         if(empty($post['password'])){
             //Inserto into MySql
             $this->database->query("UPDATE utente SET Email=:email, Nome=:nome, Cognome=:cognome WHERE CodiceFiscale=:codicefiscale");
@@ -149,6 +186,7 @@ class UsersManager {
             $this->database->query("UPDATE utente SET Email=:email, Nome=:nome, Cognome=:cognome, Password=:password WHERE CodiceFiscale=:codicefiscale");
             $this->database->bind(":password", $password);
         }
+
 
         $this->database->bind(":codicefiscale", $post['codicefiscale']);
         $this->database->bind(":email", $post['email']);
@@ -261,9 +299,21 @@ class UsersManager {
     }
 
 
-
-    public function userAlreadyExists($email, $codicefiscale){
-        $this->database->query("SELECT * FROM utente WHERE CodiceFiscale = :codicefiscale OR Email = :email");
+    /**
+       * 
+       * Controlla che un utente esista o meno prima di essere inserito
+       * @param string $email  indica la mail dell'utente
+       * @param string $codiceficale  indica il codice fiscale con il quale ricercare l'utente
+       * @param boolean $editFlag  se è uguale ad 1, controlla che un utente con codice fiscale diverso da quello corrente, non abbia la stessa mail
+       * @return boolean 1 se l'utente esiste già, 0 se non esiste
+       */
+    public function userAlreadyExists($email, $codicefiscale, $editFlag){
+        if($editFlag){
+            $this->database->query("SELECT * FROM utente WHERE CodiceFiscale <> :codicefiscale AND Email = :email");
+        }
+        else {
+            $this->database->query("SELECT * FROM utente WHERE CodiceFiscale = :codicefiscale OR Email = :email");
+        }
         $this->database->bind(":codicefiscale", $codicefiscale);
         $this->database->bind(":email", $email);
         $row = $this->database->resultSet();
@@ -277,22 +327,49 @@ class UsersManager {
     }
 
 
+    /**
+       * 
+       * Controlla che un utente esista o meno prima di essere inserito
+       * @param Array $post  Contiene le informazioni dell'utente
+       * @param boolean $editFlag  se è uguale ad 1, controlla che un utente con codice fiscale diverso da quello corrente, non abbia la stesso numero di telefono
+       * @return boolean 1 se uno o più numeri di telefono sono già presenti nel sistema, 0 se non sono presenti
+       */
+    public function phoneNumberAlreadyExists($post, $editFlag) {
 
-    public function phoneNumberAlreadyExists($post) {
         $found=0;
 
-        $this->database->query("SELECT * FROM telefono WHERE Numero = :numerotelefono");
-        $this->database->bind(":numerotelefono", $post['numerotelefono']);
+        if($editFlag){
+            $this->database->query("SELECT * FROM telefono WHERE Utente <> :codicefiscale AND Numero = :numerotelefono");
+            $this->database->bind(":codicefiscale", $post['codicefiscale']);
+            $this->database->bind(":numerotelefono", $post['numerotelefono100']);  
+            echo "Codice fiscale: ".$post['codicefiscale']."<br>Numero telefono 100: ".$post['numerotelefono100']."<br>";   
+        }
+        else {
+            $this->database->query("SELECT * FROM telefono WHERE Numero = :numerotelefono");
+            $this->database->bind(":numerotelefono", $post['numerotelefono']);
+        }
+
+
         $row = $this->database->resultSet();
         if($row){
             return 1;
         }
 
+        print_r($row);
 
-        for($i=0; $i<20; $i++){
+
+        for($i=0; $i<200; $i++){
             if(isset($post['numerotelefono'.$i]) && !empty($post['numerotelefono'.$i])){
-                $this->database->query("SELECT * FROM telefono WHERE Numero = :numerotelefono");
-                $this->database->bind(":numerotelefono", $post['numerotelefono'.$i]);
+
+                if($editFlag){
+                    $this->database->query("SELECT * FROM telefono WHERE Utente <> :codicefiscale AND Numero = :numerotelefono");
+                    $this->database->bind(":codicefiscale", $post['codicefiscale']);                                
+                }
+                else {
+                    $this->database->query("SELECT * FROM telefono WHERE Numero = :numerotelefono");
+                }
+
+                $this->database->bind(":numerotelefono", $post['numerotelefono'.$i]);    
                 $row = $this->database->resultSet();
                 if($row){
                     $found = 1;
