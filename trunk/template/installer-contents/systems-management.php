@@ -78,6 +78,7 @@ $impianti = $systemsManager->getImpianti();
                             <th>Nome</th>
                             <th>Indirizzo</th>
                             <th>Città</th>
+                            <th>Responsabili</th>
                         </tr>
                     </thead>
                  
@@ -86,16 +87,37 @@ $impianti = $systemsManager->getImpianti();
                         <th>Nome</th>
                         <th>Indirizzo</th>
                         <th>Città</th>
+                        <th>Responsabili</th>
                         </tr>
                     </tfoot>
                  
                     <tbody>
                         <?php foreach ($impianti as $impianto) :?>
                         <tr>
+                        <?php 
+                        $responsabili = $systemsManager->respFromImpianto($impianto['IDImpianto']);
+
+                        ?>
                             <td><a href="system-details.php?id=<?php echo $impianto['IDImpianto']; ?>"><?php echo $impianto['Nome'] ?></a></td>
                             <td><?php echo $impianto['Indirizzo'] ?></td>
                             <td><?php echo $impianto['Citta'] ?></td>
+                            
+                            <td>
 
+                            <?php
+                            $index=0;
+                             foreach ($responsabili as $resp):
+                              if($index==0)
+                                 echo $resp['Nome']." ".$resp['Cognome'];
+
+                              else  
+                                 echo ", ".$resp['Nome']." ".$resp['Cognome'];
+
+                             $index++;
+                             endforeach;
+                            ?>
+                            </td>
+                          
                         </tr>
                         <?php endforeach;?>
                     </tbody>

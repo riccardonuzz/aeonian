@@ -1,3 +1,4 @@
+<?php header("Content-Type: text/html; charset=utf-8"); ?>
 <?php
 require_once("DBManager.php");
 
@@ -22,20 +23,34 @@ class SensorsManager {
 
     
       //Insert into MySql
-      if(empty($post['nomesensore']) || empty($post['tipo']) || empty($post['marca'])) {
+      if(empty($post['nomesensore']) || empty($post['tipo']) || empty($post['marca'])|| empty($post['idsensore'])) {
 
         return Array(
             "error" => 1,
             "values" => Array (
             "nomesensore" => $post['nomesensore'],
             "tipo" => $post['tipo'],
-            "marca" => $post['marca']
+            "marca" => $post['marca'],
+            "idsensore" => $post['idsensore']
           )
         );
       }
 
+      if(strlen($post['idsensore']) != 10 || !ctype_digit($post['idsensore'])){
 
-      $this->database->query("INSERT INTO sensore(Nome, Ambiente, TipologiaSensore, Marca) VALUES (:nome, :ambiente, :tipologia, :marca)");
+        return Array(
+            "error" => 2,
+            "values" => Array (
+            "nomesensore" => $post['nomesensore'],
+            "tipo" => $post['tipo'],
+            "marca" => $post['marca'],
+            "idsensore" => $post['idsensore']
+          )
+        );
+      }
+
+      $this->database->query("INSERT INTO sensore(IDSensore,Nome, Ambiente, TipologiaSensore, Marca) VALUES (:id,:nome, :ambiente, :tipologia, :marca)");
+      $this->database->bind(":id", $post['idsensore']);
       $this->database->bind(":nome", $post['nomesensore']);
       $this->database->bind(":ambiente", $idambiente);
       $this->database->bind(":tipologia", $post['tipo']);
@@ -79,7 +94,7 @@ class SensorsManager {
        */
     public function getSensori(){
         //Prendo le info dell'utente
-        $this->database->query("SELECT IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, ambiente.Nome AS ambNome, impianto.Nome AS impNome FROM sensore JOIN tipologiasensore JOIN ambiente JOIN impianto ON TipologiaSensore = IDTipologiaSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto");
+        $this->database->query("SELECT sensore.Ambiente AS sensAmb, ambiente.Impianto AS sensImp, IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, ambiente.Nome AS ambNome, impianto.Nome AS impNome FROM sensore JOIN tipologiasensore JOIN ambiente JOIN impianto ON TipologiaSensore = IDTipologiaSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto");
         $row = $this->database->resultSet();
         return $row;
     }

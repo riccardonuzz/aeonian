@@ -1,7 +1,6 @@
 <?php
 require_once("../../config.php"); 
 require("../../classes/EnvironmentsManager.php");
-
 session_start();
 
 if(!isset($_SESSION['is_logged_in'])) {
@@ -14,6 +13,7 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
 
 //Gestore Ambienti
 $environmentsManager = new EnvironmentsManager();
+
 //prendo la lista con tutti gli ambienti presenti del database
 $ambienti = $environmentsManager->getAmbienti();
 
@@ -70,16 +70,16 @@ $ambienti = $environmentsManager->getAmbienti();
                   <table id="data-table-simple" class="responsive-table display" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Nome Impianto</th>
                             <th>Nome Ambiente</th>
+                            <th>Nome Impianto</th>
                             <th>Descrizione</th>
                         </tr>
                     </thead>
                  
                     <tfoot>
                         <tr>
-                            <th>Nome Impianto</th>
                             <th>Nome Ambiente</th>
+                            <th>Nome Impianto</th>
                             <th>Descrizione</th>
                         </tr>
                     </tfoot>
@@ -87,8 +87,8 @@ $ambienti = $environmentsManager->getAmbienti();
                     <tbody>
                         <?php foreach ($ambienti as $ambiente) :?>
                         <tr>
-                            <td><?php echo $ambiente['impNome'] ?></td>
-                            <td><?php echo $ambiente['ambNome'] ?></td>
+                            <td><a href="environment-details.php?id=<?php echo $ambiente['IDAmbiente']?>"><?php echo $ambiente['ambNome'] ?></a></td> 
+                            <td><a href="system-details.php?id=<?php echo $ambiente['idimpianto']; ?>"><?php echo $ambiente['impNome'] ?></td>
                             <td><?php echo $ambiente['Descrizione'] ?></td>
 
                         </tr>

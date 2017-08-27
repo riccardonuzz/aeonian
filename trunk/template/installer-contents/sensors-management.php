@@ -90,10 +90,10 @@ $sensori = $sensorsManager->getSensori();
                     <tbody>
                         <?php foreach ($sensori as $sensore) :?>
                         <tr>
-                            <td><?php echo $sensore['sensNome'] ?></td>
+                            <td><a href="sensor-details.php?id=<?php echo $sensore['IDSensore']; ?>""><?php echo $sensore['sensNome'] ?></a></td>
                             <td><?php echo $sensore['tipoNome'] ?></td>
-                            <td><?php echo $sensore['impNome'] ?></td>
-                            <td><?php echo $sensore['ambNome'] ?></td>
+                            <td><a href="system-details.php?id=<?php echo $sensore['sensImp']; ?>"><?php echo $sensore['impNome'] ?></a></td>
+                            <td><a href="environment-details.php?id=<?php echo $sensore['sensAmb']?>"><?php echo $sensore['ambNome'] ?></a></td>
 
                         </tr>
                         <?php endforeach;?>

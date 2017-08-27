@@ -51,7 +51,7 @@ class EnvironmentsManager {
        */
     public function getAmbienti(){
         //Prendo le info dell'utente
-        $this->database->query("SELECT impianto.Nome AS impNome, ambiente.Nome AS ambNome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto");
+        $this->database->query("SELECT IDAmbiente, ambiente.Impianto AS idimpianto, impianto.Nome AS impNome, ambiente.Nome AS ambNome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto");
         $row = $this->database->resultSet();
         return $row;
     }
