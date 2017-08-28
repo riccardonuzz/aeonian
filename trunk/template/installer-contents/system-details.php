@@ -62,8 +62,15 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
 
         <div class="container">
           <div class="section">
-        
+           
 
+          <div class="row">
+                <a href="system-edit.php?id=<?php echo $_GET['id']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica sistema</a>
+            </div>
+            <br>
+        
+            <div class="divider"></div>
+            <br><br>
             <div class="row">
                 <div class="input-field col s12">
                     <input readonly value="<?php echo $systemDetails['Nome']; ?>" id="disabled" type="text" >

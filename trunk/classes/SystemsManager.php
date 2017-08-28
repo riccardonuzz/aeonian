@@ -131,4 +131,20 @@ class SystemsManager {
 
    }
 
+   public function isResponsabile($idcliente,$idimpianto){
+
+        $this->database->query("SELECT * from  gestione JOIN utente WHERE Utente=:$idcliente and Impianto = :id");
+        $this->database->bind(":id", $idimpianto);
+        $this->database->bind(":idcliente", $idimpianto);
+        $row = $this->database->resultSet();
+        if($row!= null){
+          return True;
+        }
+        else{
+          return False;
+        }
+
+      
+   }
+
 }

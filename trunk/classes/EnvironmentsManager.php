@@ -83,4 +83,28 @@ class EnvironmentsManager {
       return $row;
     }
 
+
+    public function modificaAmbiente($post, $idamb){
+     
+      //Insert into MySql
+      if(empty($post['nomeAmbiente']) || empty($post['descrizione'])) {
+
+        return Array(
+            "error" => 1,
+            "values" => Array (
+            "nomeAmbiente" => $post['nomeAmbiente'],
+            "descrizione" => $post['descrizione'],   
+          )
+        );
+      }
+
+
+      $this->database->query("UPDATE ambiente SET Nome = :nomeamb,  Descrizione = :descr WHERE IDAmbiente = :idamb ");
+      $this->database->bind(":nomeamb", $post['nomeAmbiente']);
+      $this->database->bind(":descr", $post['descrizione']);
+      $this->database->bind(":idamb", $idamb);
+      $this->database->execute();
+    }
+
+
 }
