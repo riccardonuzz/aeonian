@@ -36,10 +36,23 @@ class SensorsManager {
         );
       }
 
-      if(strlen($post['idsensore']) != 10 || !ctype_digit($post['idsensore'])){
+      if(!preg_match('/[A-Z0-9]{10}/',$post['idsensore'])){
 
         return Array(
             "error" => 2,
+            "values" => Array (
+            "nomesensore" => $post['nomesensore'],
+            "tipo" => $post['tipo'],
+            "marca" => $post['marca'],
+            "idsensore" => $post['idsensore']
+          )
+        );
+      }
+
+      if($this->sensorAlreadyExists($post['idsensore'])){
+
+        return Array(
+            "error" => 3,
             "values" => Array (
             "nomesensore" => $post['nomesensore'],
             "tipo" => $post['tipo'],
@@ -59,6 +72,47 @@ class SensorsManager {
 
     } // fine registraSensore()
     
+    
+    public function sensorAlreadyExists($idsensore){
+      $this->database->query("SELECT * FROM sensore WHERE IDSensore = :idsensore");
+      $this->database->bind(":idsensore", $idsensore);
+      $row = $this->database->resultSet();
+
+      if($row != null){
+        return True;
+      }else{
+        return False;
+      }
+    }
+
+    /**
+    *
+    */ 
+    public function modificaSensore($post, $idsens){
+      //Insert into MySql
+      if(empty($post['nomesensore']) || empty($post['tipo']) || empty($post['marca'])) {
+
+        return Array(
+            "error" => 1,
+            "values" => Array (
+            "nomesensore" => $post['nomesensore'],
+            "tipo" => $post['tipo'],
+            "marca" => $post['marca'],
+            "idsensore" => $post['idsensore']
+          )
+        );
+      }
+
+
+      $this->database->query("UPDATE sensore SET Nome = :nomesens, TipologiaSensore = :tipo, Marca = :marca WHERE IDSensore = :idsens ");
+      $this->database->bind(":nomesens", $post['nomesensore']);
+      $this->database->bind(":tipo", $post['tipo']);
+      $this->database->bind(":marca", $post['marca']);
+      $this->database->bind(":idsens", $idsens);
+      $this->database->execute();
+    }
+
+
     /**
     *
     * Restituisce la lista con tutte le tipologie di sensori
@@ -79,7 +133,7 @@ class SensorsManager {
     * @return Array $row  informazioni su un singolo sensore
     */
     public function trovaSensore($idsensore){
-      $this->database->query("SELECT UnitaMisura, Marca, Ambiente, IDImpianto, IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, ambiente.Nome AS ambNome, impianto.Nome AS impNome FROM sensore JOIN tipologiasensore JOIN ambiente JOIN impianto ON TipologiaSensore = IDTipologiaSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto WHERE IDSensore = :idsens");
+      $this->database->query("SELECT TipologiaSensore, UnitaMisura, Marca, Ambiente, IDImpianto, IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, ambiente.Nome AS ambNome, impianto.Nome AS impNome FROM sensore JOIN tipologiasensore JOIN ambiente JOIN impianto ON TipologiaSensore = IDTipologiaSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto WHERE IDSensore = :idsens");
       $this->database->bind(":idsens", $idsensore);
       $row = $this->database->singleResultSet();
       return $row;

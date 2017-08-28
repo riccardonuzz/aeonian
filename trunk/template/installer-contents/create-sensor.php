@@ -1,4 +1,3 @@
-<?php header("Content-Type: text/html; charset=utf8"); ?>
 <?php
 require_once("../../config.php"); 
 require("../../classes/SensorsManager.php");
@@ -36,12 +35,17 @@ if(isset($_POST['submit'])){
     exit;
   }
   if($checkValue['error']==2){
-    $_SESSION['message'] = "L'identificativo del sensore può contenere solo cifre ed ha una lunghezza fissa di 10 caratteri.";
+    $_SESSION['message'] = "L'identificativo del sensore può contenere solo cifre/lettere maiuscole ed ha una lunghezza fissa di 10 caratteri.";
     $_SESSION['values'] = $checkValue['values'];
     header('Location: create-sensor.php?id='.$_GET['id']);
     exit;
   }
-
+  if($checkValue['error']==3){
+    $_SESSION['message'] = "L'identificativo del sensore esiste già all'interno del database.";
+    $_SESSION['values'] = $checkValue['values'];
+    header('Location: create-sensor.php?id='.$_GET['id']);
+    exit;
+  }
   else{
     header("Location: environment-details.php?id=".$_GET['id']);
   }
@@ -75,7 +79,7 @@ if(isset($_POST['submit'])){
         <div class="container">
           <div class="row">
             <div class="col s12 m12 l12">
-              <h5 class="breadcrumbs-title">Crea sensore</h5>
+              <h5 class="breadcrumbs-title">Aggiungi sensore</h5>
               <ol class="breadcrumbs">
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/systems-management.php">Gestione impianti</a></li>
@@ -102,7 +106,7 @@ if(isset($_POST['submit'])){
   
                           <div class="row">
                             <div class="input-field col s6">
-                              <input id="sensor_id" type="text" name="idsensore" minlength="10" maxlength="10" onkeypress='return event.charCode >= 48 && event.charCode <= 57'
+                              <input id="sensor_id" type="text" name="idsensore" maxlength="10"
                               value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['idsensore']; ?><?php endif; ?>" >
                               <label for="sensor_id">Codice Sensore</label>
                             </div>

@@ -1,7 +1,7 @@
 <?php
 require_once("../../config.php"); 
-require("../../classes/SystemsManager.php");
-require("../../classes/UsersManager.php");
+require("../../classes/SensorsManager.php");
+
 session_start();
 
 //se la sessione non è presente, allora effettua il login
@@ -13,31 +13,24 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
     header('Location: '.ROOT_URL.'/index.php');
 }
 
-//Gestore Impianti
-$systemsManager = new SystemsManager();
-//Istanza del gestore Utenti
-$usersManager = new UsersManager();
-$clients = $usersManager->getClienti();
+//Gestore sensori
+$sensorsManager = new SensorsManager();
+$tipi = $sensorsManager->getTipi();
+$sensore = $sensorsManager->trovaSensore($_GET['id']);
 
 //quando ricevo un POST sulla pagina
 if(isset($_POST['submit'])){
   $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-  $checkValue = $systemsManager->registraImpianto($post);
+  $checkValue = $sensorsManager->modificaSensore($post, $_GET['id']);
 
   if($checkValue['error']==1){
     $_SESSION['message'] = 'Ci sono dei campi che non sono stati compilati.';
     $_SESSION['values'] = $checkValue['values'];
-    header('Location: create-system.php');
-    exit;
-  }
-  if($checkValue['error']==2){
-    $_SESSION['message'] = 'Il CAP può contenere solo cifre ed ha una lunghezza fissa di 5 caratteri.';
-    $_SESSION['values'] = $checkValue['values'];
-    header('Location: create-system.php');
+    header('Location: create-sensor.php?id='.$_GET['id']);
     exit;
   }
   else{
-    header('Location: systems-management.php');
+    header("Location: sensor-details.php?id=".$_GET['id']);
   }
 }
 
@@ -69,11 +62,15 @@ if(isset($_POST['submit'])){
         <div class="container">
           <div class="row">
             <div class="col s12 m12 l12">
-              <h5 class="breadcrumbs-title">Crea impianto</h5>
+              <h5 class="breadcrumbs-title">Modifica sensore</h5>
               <ol class="breadcrumbs">
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
                   <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/systems-management.php">Gestione impianti</a></li>
-                  <li><a href="#">Crea impianto</a></li>
+                  <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/system-details.php?id=<?php echo $sensore['IDImpianto']?>">Dettagli impianto</a></li>
+                  <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/environment-details.php?id=<?php echo $sensore['Ambiente']?>">Dettagli ambiente</a></li>
+                  <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/sensor-details.php?id=<?php echo $sensore['IDSensore']?>">Dettagli sensore</a></li>
+                  <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/sensor-details.php?id=<?php echo $sensore['IDSensore']?>">Dettagli sensore</a></li>
+                  <li><a href="#">Modifica sensore</a></li>
               </ol>
             </div>
           </div>
@@ -81,65 +78,42 @@ if(isset($_POST['submit'])){
       </div>
       <!--breadcrumbs end-->
 
-
+      
       <!--start container-->
       <div class="container">
         <div class="section">
           
-          <div class="divider"></div>
-
           <!--Form Advance-->          
          
                   <div class="col s12 m12 l12">
                     
-                        <form class="col s12" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                        <form class="col s12" method="POST" action="<?php echo $_SERVER['PHP_SELF']."?id=".$_GET['id']; ?>">
   
                           <div class="row">
-                            <div class="input-field col s12">
-                              <input id="system_name" type="text" name="nomeimpianto"
-                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['nomeimpianto']; ?><?php endif; ?>" >
-                              <label for="system_name">Nome Impianto</label>
+                            <div class="input-field col s6">
+                              <input readonly id="sensor_id" type="text" name="idsensore" value="<?php echo $sensore['IDSensore'] ?>" >
+                              <label for="sensor_id">Codice Sensore</label>
+                            </div>
+
+                             <div class="input-field col s6">
+                              <input id="sensor_name" type="text" name="nomesensore"
+                              value="<?php echo $sensore['sensNome'] ?>" >
+                              <label for="sensor_name">Nome Sensore</label>
                             </div>
                           </div>
 
-                          <div class="row">
-                            <div class="input-field col s12">
-                              <input id="address" type="text" name="indirizzo"
-                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['indirizzo']; ?><?php endif; ?>">
-                              <label for="address">Indirizzo</label>
-                            </div>
-                          </div>
-
-                          <div class="row">
-                            <div class="input-field col s4">
-                              <input id="city" type="text" name="citta"
-                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['citta']; ?><?php endif; ?>">
-                              <label for="city">Città</label>
-                            </div>
-                            <div class="input-field col s4">
-                              <input id="cap" type="text" name="cap" maxlength="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57' value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['cap']; ?><?php endif; ?>">
-                              <label for="cap">CAP</label>
-                            </div>
-                            <div class="input-field col s4">
-                              <input id="province" type="text" name="provincia"
-                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['provincia']; ?><?php endif; ?>">
-                              <label for="province">Provincia</label>
-                            </div>
-                          </div>
-                          
                           <div class="row">
                             <div class="input-field col s6">
-                              <input id="country" type="text" name="nazione"
-                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['nazione']; ?><?php endif; ?>" >
-                              <label for="country">Nazione</label>
+                              <input id="brand" type="text" name="marca"
+                              value="<?php echo $sensore['Marca'] ?>">
+                              <label for="brand">Marca</label>
                             </div>
                           </div>
-
-                         
-
-                           
                           
-                                         <!-- START TABLE HERE -->
+                        
+                          <br><br>
+                          
+                          <!-- START TABLE HERE -->
                           <!--DataTables example-->
                           <div id="table-datatables">
 
@@ -147,35 +121,37 @@ if(isset($_POST['submit'])){
                                 <table id="data-table-simple" class="responsive-table display" cellspacing="0">
                                   <thead>
                                       <tr>
-                                          <th>Codice fiscale</th>
-                                          <th>Nome</th>
-                                          <th>Cognome</th>
+                                          <th>Tipologia</th>
+                                          <th>Unità di Misura</th>
                                       </tr>
                                   </thead>
                                
                                   <tfoot>
                                       <tr>
-                                      <th>Codice fiscale</th>
-                                      <th>Nome</th>
-                                      <th>Cognome</th>
+                                          <th>Tipologia</th>
+                                          <th>Unità di Misura</th>
                                       </tr>
                                   </tfoot>
                                
                                   <tbody>
                                   <?php $index = 0; ?>
-                                  <?php foreach ($clients as $client) :?>
+                                  <?php foreach ($tipi as $tipo) :?>
                                       <tr>
                                           <td>
                                           <?php
-
-                                            echo '<input type="checkbox" id="check_btn'.$index.'" value="'.$client['CodiceFiscale'].'" name = "responsabile[]">';
-                                            echo '<label style="color:black" for="check_btn'.$index.'">'.$client['CodiceFiscale'].'</label>';
+                                            if($tipo['IDTipologiaSensore'] == $sensore["TipologiaSensore"]){
+                                              echo '<input type="radio" id="radio_btn'.$index.'" value="'.$tipo['IDTipologiaSensore'].'" name = "tipo" checked="checked">';
+                                              echo '<label style="color:black" for="radio_btn'.$index.'">'.$tipo['Nome'].'</label>';
+                                            }
+                                            else{
+                                              echo '<input type="radio" id="radio_btn'.$index.'" value="'.$tipo['IDTipologiaSensore'].'" name = "tipo">';
+                                              echo '<label style="color:black" for="radio_btn'.$index.'">'.$tipo['Nome'].'</label>';
+                                            }
                                           ?>
 
 
                                           </td>
-                                          <td><?php echo $client['Nome'] ?></td>
-                                          <td><?php echo $client['Cognome'] ?></td>
+                                          <td><?php echo $tipo['UnitaMisura'] ?></td>
 
                                       </tr>
                                     <?php $index++; ?>
@@ -187,10 +163,12 @@ if(isset($_POST['submit'])){
                           </div> 
                           <br>
                           <div class="divider"></div> 
+                          
                           <!-- END TABLE HERE -->
+                          
                  
                           <div class="row">
-                              <div class="input-field col s6">
+                              <div class="input-field col s4">
                                 <?php
                                   if (isset($_SESSION['message']))
                                   {
@@ -204,7 +182,9 @@ if(isset($_POST['submit'])){
 
                           <div class="row">
                             <div class="input-field col s12">
-                              <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea impianto
+                              <a href="sensor-details.php?id=<?php echo $_GET['id']; ?>" class="btn waves-effect pink white-text admin-create-user">Annulla</a>
+
+                              <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Aggiungi sensore
                                 <i class="mdi-content-send right"></i>
                               </button>
                             </div>

@@ -65,35 +65,38 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
         
 
             <div class="row">
-                <div class="input-field col s6">
+                <div class="input-field col s12">
                     <input readonly value="<?php echo $systemDetails['Nome']; ?>" id="disabled" type="text" >
                     <label for="disabled">Nome Impianto</label>
-                </div>
-                <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemDetails['Nazione']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Nazione</label>
-                </div>
+                </div>               
             </div>
-            <div class="row">
-                <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemDetails['Provincia']; ?>" id="disabled" type="text" >
-                    <label for="disabled">Provincia</label>
-                </div>
-                <div class="input-field col s6">
+            <div class = "row">
+                <div class="input-field col s12">
                     <input readonly value="<?php echo $systemDetails['Indirizzo']; ?>" id="disabled" type="text" >
                     <label for="disabled">Indirizzo</label>
                 </div>
             </div>
             <div class="row">
-                <div class="input-field col s6">
-                    <input readonly value="<?php echo $systemDetails['CAP']; ?>" id="disabled" type="text" >
-                    <label for="disabled">CAP</label>
-                </div>
-                <div class="input-field col s6">
+                <div class="input-field col s4">
                     <input readonly value="<?php echo $systemDetails['Citta']; ?>" id="disabled" type="text">
                     <label for="disabled">Città</label>
                 </div>
+                <div class="input-field col s4">
+                    <input readonly value="<?php echo $systemDetails['CAP']; ?>" id="disabled" type="text" >
+                    <label for="disabled">CAP</label>
+                </div>
+                <div class="input-field col s4">
+                    <input readonly value="<?php echo $systemDetails['Provincia']; ?>" id="disabled" type="text" >
+                    <label for="disabled">Provincia</label>
+                </div>                
             </div>
+            <div class="row">
+                <div class="input-field col s6">
+                    <input readonly value="<?php echo $systemDetails['Nazione']; ?>" id="disabled" type="text" >
+                    <label for="disabled">Nazione</label>
+                </div>             
+            </div>
+
             <?php $index = 1 ?>
             <?php foreach ($systemResponsabili as $resp): ?>
                 <div class="row">
