@@ -61,10 +61,10 @@ $sensore = $sensorsManager->trovaSensore($_GET['id']);
 
         <div class="container">
           <div class="section">
-            <div class="row">
-                <a href="sensor-edit.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica sensore</a>
-            </div>
-            <br>
+
+            <a href="sensor-edit.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica sensore</a>
+                
+            <br><br>
             
             <div class="divider"></div>
             <br><br>

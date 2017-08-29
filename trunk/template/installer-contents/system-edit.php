@@ -19,12 +19,11 @@ $impianto = $systemsManager->trovaImpianto($_GET['id']);
 //Istanza del gestore Utenti
 $usersManager = new UsersManager();
 $clients = $usersManager->getClienti();
-$responsabili= $systemsManager->respFromImpianto($_GET['id']);
 
 //quando ricevo un POST sulla pagina
 if(isset($_POST['submit'])){
   $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-  $checkValue = $systemsManager->registraImpianto($post);
+  $checkValue = $systemsManager->modificaImpianto($post, $_GET['id']);
 
   if($checkValue['error']==1){
     $_SESSION['message'] = 'Ci sono dei campi che non sono stati compilati.';
@@ -92,7 +91,7 @@ if(isset($_POST['submit'])){
          
                   <div class="col s12 m12 l12">
                     
-                        <form class="col s12" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+                        <form class="col s12" method="POST" action="<?php echo $_SERVER['PHP_SELF'].'?id='.$_GET['id']; ?>">
   
                           <div class="row">
                             <div class="input-field col s12">
@@ -139,7 +138,7 @@ if(isset($_POST['submit'])){
 
                            
                           
-                                         <!-- START TABLE HERE -->
+                          <!-- START TABLE HERE -->
                           <!--DataTables example-->
                           <div id="table-datatables">
 
@@ -168,21 +167,17 @@ if(isset($_POST['submit'])){
                                           <td>
                                           <?php
                                           
-                                          <!--
-                                          if($systemsManager->respFromImpianto($client['CodiceFiscale'],$impianto['IDImpianto'])){
+                                          if($systemsManager->isResponsabile($client['CodiceFiscale'], $impianto['IDImpianto'])){
 
                                             echo '<input type="checkbox" id="check_btn'.$index.'" value="'.$client['CodiceFiscale'].'" name = "responsabile[]" checked="checked">';
-                                            echo '<label style="color:black" for="check_btn'.$index.'">'.$client['CodiceFiscale'].'if</label>';
+                                            echo '<label style="color:black" for="check_btn'.$index.'">'.$client['CodiceFiscale'].'</label>';
                                           }
                                           else{
                                             echo '<input type="checkbox" id="check_btn'.$index.'" value="'.$client['CodiceFiscale'].'" name = "responsabile[]">';
-                                            echo '<label style="color:black" for="check_btn'.$index.'">'.$client['CodiceFiscale'].'else</label>';
+                                            echo '<label style="color:black" for="check_btn'.$index.'">'.$client['CodiceFiscale'].'</label>';
 
                                           }
-                                            -->
-                                          
-
-
+                                          ?>
                                           </td>
                                           <td><?php echo $client['Nome'] ?></td>
                                           <td><?php echo $client['Cognome'] ?></td>
@@ -214,7 +209,9 @@ if(isset($_POST['submit'])){
 
                           <div class="row">
                             <div class="input-field col s12">
-                              <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea impianto
+                              <a href="system-details.php?id=<?php echo $_GET['id']; ?>" class="btn waves-effect pink white-text admin-create-user">Annulla</a>
+
+                              <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Modifica impianto
                                 <i class="mdi-content-send right"></i>
                               </button>
                             </div>
