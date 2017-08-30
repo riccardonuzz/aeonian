@@ -103,7 +103,7 @@ if(isset($_POST['action'])) {
                             <td><a href="system-details.php?id=<?php echo $sensore['sensImp']; ?>"><?php echo $sensore['impNome'] ?></a></td>
                             <td>
                               <a href="environment-details.php?id=<?php echo $sensore['sensAmb']?>"><?php echo $sensore['ambNome'] ?></a>
-                              <button onclick="deleteSensor('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/sensors-management.php';?>', '<?php echo $sensore['IDSensore'];?>')" class="btn-floating btn-warning-confirm waves-effect waves-light right"><i class="mdi-content-clear"></i></button>
+                              <button onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/sensors-management.php';?>', '<?php echo $sensore['IDSensore'];?>')" class="btn-floating btn-warning-confirm waves-effect waves-light right"><i class="mdi-content-clear"></i></button>
                               <div id="test"></div>
                             </td>
                         </tr>

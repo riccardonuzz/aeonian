@@ -64,7 +64,7 @@ if(!isset($_SESSION['is_logged_in'])) {
       * e l'id dell'oggetto che si intende eliminare, questa funzione fa comparire una finestra che
       * chiede all'utente se è sicuro dell'azione che sta per compiere.
       */
-      function deleteSensor(url, id) {
+      function elimina(url, id) {
         swal({
           title: "Sei sicuro?",
           text: "Non sarai in grado di recuperare i dati eliminati!",
