@@ -20,7 +20,7 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=1) {
                   <div class="row">
                       <div class="col col s8 m8 l12">
                           <ul id="profile-dropdown" class="dropdown-content">
-                              <li><a href="user-details.php?id=<?php echo $_SESSION['user_data']['codicefiscale']; ?>"><i class="mdi-action-face-unlock"></i> Profilo</a>
+                              <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH;?>admin-contents/user-details.php?id=<?php echo $_SESSION['user_data']['codicefiscale']; ?>"><i class="mdi-action-face-unlock"></i> Profilo</a>
                               </li>
                               <li><a href="#"><i class="mdi-communication-live-help"></i> Aiuto</a>
                               </li>
