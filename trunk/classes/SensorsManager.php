@@ -1,6 +1,6 @@
-<?php header("Content-Type: text/html; charset=utf-8"); ?>
 <?php
 require_once("DBManager.php");
+
 
 class SensorsManager {
     private $database;
@@ -11,7 +11,7 @@ class SensorsManager {
     public function __construct(){
         $this->database = new DBManager();
     }
-
+    
     /**
        * 
        * registra un sensore (sensor)
@@ -166,5 +166,18 @@ class SensorsManager {
       $row = $this->database->resultSet();
       return $row;      
     }
+
+    /*
+    *
+    * Elimina il sensore il cui id è stato specificato come parametro
+    */
+    public function eliminaSensore($idsensore){
+      
+      $this->database->query("DELETE FROM sensore WHERE IDSensore = :idsens");
+      $this->database->bind(":idsens", $idsensore);
+      $this->database->execute();
+  
+   }
+    
 
 }

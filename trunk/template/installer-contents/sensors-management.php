@@ -17,7 +17,15 @@ $sensorsManager = new SensorsManager();
 //prendo la lista con tutti i sensori presenti del database
 $sensori = $sensorsManager->getSensori();
 
-
+if(isset($_POST['action'])) {
+    $action = $_POST['action'];
+    $var = $_POST['id'];
+    switch($action) {
+      case 'delete':
+        $sensorsManager->eliminaSensore($var);
+        break;
+    }
+}
 ?>
 
  <!-- START HEADER -->
@@ -93,8 +101,11 @@ $sensori = $sensorsManager->getSensori();
                             <td><a href="sensor-details.php?id=<?php echo $sensore['IDSensore']; ?>""><?php echo $sensore['sensNome'] ?></a></td>
                             <td><?php echo $sensore['tipoNome'] ?></td>
                             <td><a href="system-details.php?id=<?php echo $sensore['sensImp']; ?>"><?php echo $sensore['impNome'] ?></a></td>
-                            <td><a href="environment-details.php?id=<?php echo $sensore['sensAmb']?>"><?php echo $sensore['ambNome'] ?></a></td>
-
+                            <td>
+                              <a href="environment-details.php?id=<?php echo $sensore['sensAmb']?>"><?php echo $sensore['ambNome'] ?></a>
+                              <button onclick="deleteSensor('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/sensors-management.php';?>', '<?php echo $sensore['IDSensore'];?>')" class="btn-floating btn-warning-confirm waves-effect waves-light right"><i class="mdi-content-clear"></i></button>
+                              <div id="test"></div>
+                            </td>
                         </tr>
                         <?php endforeach;?>
                     </tbody>

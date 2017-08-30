@@ -98,6 +98,7 @@ $impianti = $systemsManager->getImpianti();
                         $responsabili = $systemsManager->respFromImpianto($impianto['IDImpianto']);
 
                         ?>
+
                             <td><a href="system-details.php?id=<?php echo $impianto['IDImpianto']; ?>"><?php echo $impianto['Nome'] ?></a></td>
                             <td><?php echo $impianto['Indirizzo'] ?></td>
                             <td><?php echo $impianto['Citta'] ?></td>
@@ -116,6 +117,7 @@ $impianti = $systemsManager->getImpianti();
                              $index++;
                              endforeach;
                             ?>
+                            <a class="btn-floating waves-effect waves-light right "><i class="mdi-content-clear"></i></a>
                             </td>
                           
                         </tr>

@@ -89,7 +89,10 @@ $ambienti = $environmentsManager->getAmbienti();
                         <tr>
                             <td><a href="environment-details.php?id=<?php echo $ambiente['IDAmbiente']?>"><?php echo $ambiente['ambNome'] ?></a></td> 
                             <td><a href="system-details.php?id=<?php echo $ambiente['idimpianto']; ?>"><?php echo $ambiente['impNome'] ?></td>
-                            <td><?php echo $ambiente['Descrizione'] ?></td>
+                            <td>
+                              <?php echo $ambiente['Descrizione'] ?>
+                              <a class="btn-floating waves-effect waves-light right "><i class="mdi-content-clear"></i>
+                            </td>
 
                         </tr>
                         <?php endforeach;?>

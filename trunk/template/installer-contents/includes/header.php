@@ -38,9 +38,8 @@ if (!isset($_SESSION)) {
  <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection">  
  <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/perfect-scrollbar/perfect-scrollbar.css" type="text/css" rel="stylesheet" media="screen,projection">
  <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/data-tables/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet" media="screen,projection">
-
-
-    
+ <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/sweetalert/sweetalert.css" type="text/css" rel="stylesheet" media="screen,projection">
+   
 
 </head>
 
