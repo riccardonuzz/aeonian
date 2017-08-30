@@ -17,6 +17,17 @@ $environmentsManager = new EnvironmentsManager();
 //prendo la lista con tutti gli ambienti presenti del database
 $ambienti = $environmentsManager->getAmbienti();
 
+
+if(isset($_POST['action'])) {
+    $action = $_POST['action'];
+    $var = $_POST['id'];
+    switch($action) {
+      case 'delete':
+        $environmentsManager->eliminaAmbiente($var);
+        break;
+    }
+}
+
 ?>
 
  <!-- START HEADER -->
@@ -91,7 +102,7 @@ $ambienti = $environmentsManager->getAmbienti();
                             <td><a href="system-details.php?id=<?php echo $ambiente['idimpianto']; ?>"><?php echo $ambiente['impNome'] ?></td>
                             <td>
                               <?php echo $ambiente['Descrizione'] ?>
-                              <a class="btn-floating waves-effect waves-light right "><i class="mdi-content-clear"></i>
+                              <button onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/environments-management.php';?>', '<?php echo $ambiente['IDAmbiente'];?>')" class="btn-floating btn-warning-confirm waves-effect waves-light right"><i class="mdi-content-clear"></i></button>
                             </td>
 
                         </tr>

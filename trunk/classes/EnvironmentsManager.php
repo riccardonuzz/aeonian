@@ -106,5 +106,11 @@ class EnvironmentsManager {
       $this->database->execute();
     }
 
+    public function eliminaAmbiente($idambiente){
 
+      $this->database->query("DELETE FROM ambiente WHERE IDAmbiente = :idamb");
+      $this->database->bind(":idamb", $idambiente);
+      $this->database->execute();
+
+    }
 }

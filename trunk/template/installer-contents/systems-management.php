@@ -16,6 +16,17 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
 $systemsManager = new SystemsManager();
 $impianti = $systemsManager->getImpianti();
 
+
+if(isset($_POST['action'])) {
+    $action = $_POST['action'];
+    $var = $_POST['id'];
+    switch($action) {
+      case 'delete':
+        $systemsManager->eliminaImpianto($var);
+        break;
+    }
+}
+
 ?>
 
  <!-- START HEADER -->
@@ -117,7 +128,7 @@ $impianti = $systemsManager->getImpianti();
                              $index++;
                              endforeach;
                             ?>
-                            <a class="btn-floating waves-effect waves-light right "><i class="mdi-content-clear"></i></a>
+                            <button onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/systems-management.php';?>', '<?php echo $impianto['IDImpianto']; ?>')" class="btn-floating btn-warning-confirm waves-effect waves-light right"><i class="mdi-content-clear"></i></button>
                             </td>
                           
                         </tr>

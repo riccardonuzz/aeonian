@@ -216,5 +216,13 @@ class SystemsManager {
           return False;
         }      
    }
+  
 
+   public function eliminaImpianto($idimpianto){       
+
+        $this->database->query("DELETE FROM impianto WHERE IDImpianto = :idimp");
+        $this->database->bind(":idimp", $idimpianto);
+        $this->database->execute();
+
+   }
 }
