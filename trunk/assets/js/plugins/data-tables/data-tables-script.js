@@ -2,6 +2,11 @@ $(document).ready(function(){
     $('#data-table-simple').DataTable({
         responsive: true
     } );
+
+    $('#data-table-simple-rilevazioni').DataTable({
+        responsive: true,
+        "order": [[ 0, "desc" ]]
+    } );
     
     
     var table = $('#data-table-row-grouping').DataTable({

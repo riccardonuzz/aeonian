@@ -50,8 +50,8 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
                 <div class="col s12 m12 l12">
                     <h5 class="breadcrumbs-title">Dettagli impianto</h5>
                     <ol class="breadcrumbs">
-                        <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/installerhome.php">Dashboard</a></li>
-                        <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>installer-contents/systems-management.php">Gestione impianti</a></li>
+                        <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>user-contents/userhome.php">Dashboard</a></li>
+                        <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>user-contents/system-dashboard.php?id=<?php echo $_GET['id'];?>">Il mio impianto</a></li>
                         <li><a href="#">Dettagli impianto</a></li>
                     </ol>
                 </div>

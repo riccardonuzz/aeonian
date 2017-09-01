@@ -108,11 +108,6 @@ class DashboardManager {
 
     }
 
-
-    public function getMedia($vettoreValori) {
-
-    }
-
 }
 
 ?>

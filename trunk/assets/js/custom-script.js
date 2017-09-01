@@ -25,7 +25,7 @@ function getDashboard(response){
 		
 	  
 	//stampo numero impianti e numero sensori
-	var content='<div class="row"><div class="col s12 m6 l3"><div class="card"><div class="card-content green white-text"><p class="card-stats-title"><i class="mdi-social-group-add"></i> Numero ambienti</p><h4 class="card-stats-number">'+response[0].Ambienti.length+'</h4></div></div></div><div class="col s12 m6 l3"> <div class="card"> <div class="card-content pink lighten-1 white-text"> <p class="card-stats-title"><i class="mdi-editor-insert-drive-file"></i> Numero sensori</p><h4 class="card-stats-number">'+sensorNumber+'</h4> </div></div></div></div></div>';
+	var content='<div class="row"><div class="col s12 m6 l3"><div class="card"><div class="card-content green white-text"><p class="card-stats-title"><i class="mdi-action-store"></i> Numero ambienti</p><h4 class="card-stats-number">'+response[0].Ambienti.length+'</h4></div></div></div><div class="col s12 m6 l3"> <div class="card"> <div class="card-content pink lighten-1 white-text"> <p class="card-stats-title"><i class="mdi-hardware-memory"></i> Numero sensori</p><h4 class="card-stats-number">'+sensorNumber+'</h4> </div></div></div></div></div>';
 	  
 	  
      for(var i=0; i<response[0].Ambienti.length; i++)
@@ -39,29 +39,35 @@ function getDashboard(response){
 			 content=content+'<div class="col s4 m4 l4"><div id="card-reveal" class="section"> <div class="row"> <div class="col s12 m12 l12"></div><div class="col s12 m12 l12"> <div class="row"> <div class="col s12 m12 l12">';
 
 
-			 if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="Celsius") {
-				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light teal">';
+			 if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="°C") {
+				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light red">';
+				
 			 }
 
-			 else if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="Percentuale") {
+			 else if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="%") {
 				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light indigo darken-4">';
 			 }
 
-			 else if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="millibar") {
+			 else if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="mbar") {
 				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light amber">';
 			 }
 
+			 else if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="lx") {
+				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light yellow lighten-1">';
+			 }
+
 			 else {
-				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light pink">';
+				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light teal">';
 			 }
 			 
-			 content=content+'<canvas id="'+response[0].Ambienti[i].Sensori[k].IDSensore+'" style="margin-top: 15px; height: 100%!important; width: 92%!important; margin-left:15px;"></canvas> </div><div class="card-content"> <span class="card-title activator grey-text text-darken-4">'+response[0].Ambienti[i].Sensori[k].Nome+'<i class="mdi-action-info-outline right"></i></span></div><div class="card-reveal"> <span class="card-title grey-text text-darken-4">'+response[0].Ambienti[i].Sensori[k].Nome+'<i class="mdi-navigation-close right"></i></span>';
+			 content=content+'<canvas id="'+response[0].Ambienti[i].Sensori[k].IDSensore+'" style="margin-top: 15px; height: 100%!important; width: 92%!important; margin-left:15px;"></canvas> </div><div class="card-content"> <span class="card-title activator grey-text text-darken-4"><a href="sensor-details.php?id='+response[0].Ambienti[i].Sensori[k].IDSensore+'">'+response[0].Ambienti[i].Sensori[k].Nome+'</a><i class="mdi-action-info-outline right"></i></span></div><div class="card-reveal"> <span class="card-title grey-text text-darken-4">'+response[0].Ambienti[i].Sensori[k].Nome+'<i class="mdi-navigation-close right"></i></span>';
 
 			 if(response[0].Ambienti[i].Sensori[k].Min==null) {
 				content=content+ '<p>Nessuna rilevazione è stata effettuata dal sensore.</p></div></div></div></div></div></div></div></div>';
 			 }
 			 else {
-			 	content=content+ '<h5>Min: '+response[0].Ambienti[i].Sensori[k].Min+'</h5><br><h5>Max: '+response[0].Ambienti[i].Sensori[k].Max+'</h5><br><h5>Media: '+response[0].Ambienti[i].Sensori[k].Media+'</h5></div></div></div></div></div></div></div></div>';
+				var unitaMisura = response[0].Ambienti[i].Sensori[k].UnitaMisura;
+			 	content=content+ '<h5>MIN: '+response[0].Ambienti[i].Sensori[k].Min+" "+unitaMisura+'</h5><br><h5>MAX: '+response[0].Ambienti[i].Sensori[k].Max+" "+unitaMisura+'</h5><br><h5>MEDIA: '+response[0].Ambienti[i].Sensori[k].Media+" "+unitaMisura+'</h5></div></div></div></div></div></div></div></div>';
 			 }
 		 }
 
@@ -107,7 +113,7 @@ function getDashboard(response){
 			// Get the context of the canvas element we want to select
 			var grafico= document.getElementById(response[0].Ambienti[i].Sensori[k].IDSensore).getContext("2d");
 
-			new Chart(grafico).Line(LineChartSampleData, {scaleGridLineColor : "rgba(255,255,255,0.4)", scaleFontColor: "#fff"});
+			new Chart(grafico).Line(LineChartSampleData, {scaleGridLineColor : "rgba(255,255,255,0.4)", scaleFontColor: "#fff", tooltipTemplate: "<%if (label){%><%=label %>: <%}%><%= value + ' "+response[0].Ambienti[i].Sensori[k].UnitaMisura+" ' %>"});
 			
 
 		}
