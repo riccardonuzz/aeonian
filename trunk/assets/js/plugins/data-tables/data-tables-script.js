@@ -1,5 +1,7 @@
 $(document).ready(function(){
-    $('#data-table-simple').DataTable();
+    $('#data-table-simple').DataTable({
+        responsive: true
+    } );
     
     
     var table = $('#data-table-row-grouping').DataTable({
