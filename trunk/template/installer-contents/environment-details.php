@@ -108,7 +108,7 @@ $sensoriAmbiente = $sensorsManager->getSensoriAmbiente($_GET['id']);
                         <tr>
                             <th>Nome Sensore</th>
                             <th>Tipologia</th>
-                            <th>UnitaMisura</th>
+                            <th>Unità di Misura</th>
                         </tr>
                     </thead>
                  
@@ -116,7 +116,7 @@ $sensoriAmbiente = $sensorsManager->getSensoriAmbiente($_GET['id']);
                         <tr>
                             <th>Nome Sensore</th>
                             <th>Tipologia</th>
-                            <th>UnitaMisura</th>
+                            <th>Unità di Misura</th>
                         </tr>
                     </tfoot>
                  
