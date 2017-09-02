@@ -63,7 +63,7 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
         <div class="container">
           <div class="section">
                 
-            <a href="system-edit.php?id=<?php echo $_GET['id']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica impianto</a>
+            <a href="system-edit.php?id=<?php echo $_GET['id']; ?>" class="btn waves-effect orange-style white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica impianto</a>
            
             <br><br>
         
@@ -114,7 +114,7 @@ $systemAmbienti = $environmentsManager->getAmbientiImpianto($_GET['id']);
             <?php endforeach?>
 
             <br>
-            <a href="create-environment.php?id=<?php echo $systemDetails['IDImpianto']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-content-add right"></i>Aggiungi ambiente</a>
+            <a href="create-environment.php?id=<?php echo $systemDetails['IDImpianto']; ?>" class="btn waves-effect queen-blue white-text admin-create-user"><i class="mdi-content-add right"></i>Aggiungi ambiente</a>
             
 
             <br><br><br>

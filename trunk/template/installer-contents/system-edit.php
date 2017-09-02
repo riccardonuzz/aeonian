@@ -209,9 +209,9 @@ if(isset($_POST['submit'])){
 
                           <div class="row">
                             <div class="input-field col s12">
-                              <a href="system-details.php?id=<?php echo $_GET['id']; ?>" class="btn waves-effect pink white-text admin-create-user">Annulla</a>
+                              <a href="system-details.php?id=<?php echo $_GET['id']; ?>" class="btn waves-effect orange-style white-text admin-create-user">Annulla</a>
 
-                              <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Modifica impianto
+                              <button class="btn dingy-dungeon waves-effect waves-light right" type="submit" name="submit">Modifica impianto
                                 <i class="mdi-content-send right"></i>
                               </button>
                             </div>

@@ -11,8 +11,8 @@ if (!isset($_SESSION)) {
 
 ?>
 <aside id="left-sidebar-nav">
-          <ul id="slide-out" class="side-nav fixed leftside-navigation">
-              <li class="user-details cyan darken-2">
+          <ul id="slide-out" class="side-nav fixed leftside-navigation custom-side-nav">
+              <li id="bg-user" class="user-details cyan darken-2">
                   <div class="row">
                       <div class="col col s8 m8 l12">
                           <ul id="profile-dropdown" class="dropdown-content">

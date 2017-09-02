@@ -204,7 +204,9 @@ if(isset($_POST['submit'])){
 
                           <div class="row">
                             <div class="input-field col s12">
-                              <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea impianto
+                              <a href="systems-management.php" class="btn waves-effect orange-style white-text admin-create-user">Annulla</a>
+
+                              <button class="btn dingy-dungeon waves-effect waves-light right" type="submit" name="submit">Crea impianto
                                 <i class="mdi-content-send right"></i>
                               </button>
                             </div>

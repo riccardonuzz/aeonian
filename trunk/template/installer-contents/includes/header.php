@@ -53,9 +53,9 @@ if (!isset($_SESSION)) {
   <header id="header" class="page-topbar">
         <!-- start header nav-->
         <div class="navbar-fixed">
-            <nav class="cyan">
+            <nav class="space-cadet">
                 <div class="nav-wrapper">
-                    <h1 class="logo-wrapper"><a href="<?php echo ROOT_URL?>/index.php" class="brand-logo darken-1"><img src="<?php echo ROOT_URL.IMAGES_PATH; ?>materialize-logo.png" alt="materialize logo"></a> <span class="logo-text">Materialize</span></h1>
+                    <h1 class="logo-wrapper"><a href="<?php echo ROOT_URL?>/index.php" class="brand-logo darken-1"><img src="<?php echo ROOT_URL.IMAGES_PATH; ?>aeonian-title.png" alt="aeonian logo"></a> <span class="logo-text">Aeonian</span></h1>
                     <ul class="right hide-on-med-and-down">
                         <li><a class="waves-effect waves-block waves-light toggle-fullscreen"><i class="mdi-action-settings-overscan"></i></a>
                         </li>

@@ -67,9 +67,9 @@ $regoleSensore = $notifyManager->getRegoleNotificaSensore($_GET['id']);
         <div class="container">
           <div class="section">
 
-            <a href="sensor-edit.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica sensore</a>
+            <a href="sensor-edit.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect orange-style white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica sensore</a>
 
-            <a href="create-notifyrule.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect pink white-text admin-create-user right"><i class="mdi-social-notifications-on right"></i>Configura notifica</a>
+            <a href="create-notifyrule.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect queen-blue white-text admin-create-user right"><i class="mdi-social-notifications-on right"></i>Configura notifica</a>
                 
             <br><br>
             

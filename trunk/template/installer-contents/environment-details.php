@@ -64,7 +64,7 @@ $sensoriAmbiente = $sensorsManager->getSensoriAmbiente($_GET['id']);
         <div class="container">
           <div class="section">
            
-            <a href="environment-edit.php?id=<?php echo $_GET['id']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica ambiente</a>
+            <a href="environment-edit.php?id=<?php echo $_GET['id']; ?>" class="btn waves-effect orange-style white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica ambiente</a>
             
             <br><br>
             
@@ -90,7 +90,7 @@ $sensoriAmbiente = $sensorsManager->getSensoriAmbiente($_GET['id']);
         
 
             <br>
-            <a href="create-sensor.php?id=<?php echo $ambiente['IDAmbiente']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-content-add right"></i>Aggiungi sensore</a>
+            <a href="create-sensor.php?id=<?php echo $ambiente['IDAmbiente']; ?>" class="btn waves-effect queen-blue white-text admin-create-user"><i class="mdi-content-add right"></i>Aggiungi sensore</a>
         
 
             

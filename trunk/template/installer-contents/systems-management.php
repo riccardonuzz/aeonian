@@ -72,7 +72,7 @@ if(isset($_POST['action'])) {
           <div class="section">
 
             <!-- <p class="caption">Utenti </p> -->
-            <a href="create-system.php" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Crea impianto</a>
+            <a href="create-system.php" class="btn waves-effect queen-blue white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Crea impianto</a>
             <br><br>
             
             <div class="divider"></div>
