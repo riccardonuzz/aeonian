@@ -1,6 +1,7 @@
 <?php
 require_once("../../config.php"); 
 require("../../classes/SensorsManager.php");
+require("../../classes/NotifyManager.php");
 
 
 session_start();
@@ -16,7 +17,11 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
 
 //Gestore Sensori
 $sensorsManager = new SensorsManager();
+//Gestore Notifiche
+$notifyManager = new NotifyManager();
 $sensore = $sensorsManager->trovaSensore($_GET['id']);
+$regoleSensore = $notifyManager->getRegoleNotificaSensore($_GET['id']);
+
 ?>
 
  <!-- START HEADER -->
@@ -63,6 +68,8 @@ $sensore = $sensorsManager->trovaSensore($_GET['id']);
           <div class="section">
 
             <a href="sensor-edit.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica sensore</a>
+
+            <a href="create-notifyrule.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect pink white-text admin-create-user right"><i class="mdi-social-notifications-on right"></i>Configura notifica</a>
                 
             <br><br>
             
@@ -88,9 +95,17 @@ $sensore = $sensorsManager->trovaSensore($_GET['id']);
                     <input readonly value="<?php echo $sensore['tipoNome']; ?>" id="disabled" type="text" >
                     <label for="disabled">Tipologia Sensore</label>
                 </div>
-                <div class="input-field col s6">
+                <div class="input-field col s4">
                     <input readonly value="<?php echo $sensore['UnitaMisura']; ?>" id="disabled" type="text" >
                     <label for="disabled">Unità di Misura</label>
+                </div>
+                <div class="input-field col s1">
+                    <input readonly value="<?php echo $sensore['Minimo']; ?>" id="disabled" type="text" >
+                    <label for="disabled">Minimo</label>
+                </div>
+                <div class="input-field col s1">
+                    <input readonly value="<?php echo $sensore['Massimo']; ?>" id="disabled" type="text" >
+                    <label for="disabled">Massimo</label>
                 </div>
             </div>
            
@@ -104,6 +119,48 @@ $sensore = $sensorsManager->trovaSensore($_GET['id']);
                     <label for="disabled">Nome Impianto</label>
                 </div>
             </div>
+
+              <!-- START TABLE HERE -->
+              <!--DataTables example-->
+              <div id="table-datatables">
+
+                  <div class="col s12 m8 l12">
+                    <table id="data-table-simple" class="responsive-table display" cellspacing="0">
+                      <thead>
+                          <tr>
+                              <th>Operatore</th>
+                              <th>Valore Soglia</th>
+                          </tr>
+                      </thead>
+                   
+                      <tfoot>
+                          <tr>
+                              <th>Operatore</th>
+                              <th>Valore Soglia</th>
+                          </tr>
+                      </tfoot>
+                   
+                      <tbody>
+                      
+                        <?php foreach ($regoleSensore as $rule) :?>
+                          <tr>
+                            <td><?php echo $rule['Operazione'] ?></td>
+                            <td><?php echo $rule['Valore'] ?>
+                               <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/notify-management.php';?>', '<?php echo $rule['IDRegola']; ?>')"  class="custom-icon btn-warning-confirm mdi-action-delete right"></i>
+                            </td>                            
+                          </tr>                                
+                        <?php endforeach;?>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div> 
+              <br>
+              <div class="divider"></div> 
+              
+              <!-- END TABLE HERE -->
+
             </div>
           </div>
         </div>

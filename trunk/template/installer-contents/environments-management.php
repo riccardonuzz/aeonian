@@ -102,7 +102,7 @@ if(isset($_POST['action'])) {
                             <td><a href="system-details.php?id=<?php echo $ambiente['idimpianto']; ?>"><?php echo $ambiente['impNome'] ?></td>
                             <td>
                               <?php echo $ambiente['Descrizione'] ?>
-                              <button onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/environments-management.php';?>', '<?php echo $ambiente['IDAmbiente'];?>')" class="btn-floating btn-warning-confirm waves-effect waves-light right"><i class="mdi-content-clear"></i></button>
+                              <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/environments-management.php';?>', '<?php echo $ambiente['IDAmbiente'];?>')" class="custom-icon mdi-action-delete right"></i>
                             </td>
 
                         </tr>

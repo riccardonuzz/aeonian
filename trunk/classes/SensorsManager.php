@@ -23,7 +23,7 @@ class SensorsManager {
 
     
       //Insert into MySql
-      if(empty($post['nomesensore']) || empty($post['tipo']) || empty($post['marca'])|| empty($post['idsensore'])) {
+      if(empty($post['nomesensore']) || empty($post['tipo']) || empty($post['marca'])|| empty($post['idsensore']) || $post['minimo'] == null || $post['massimo'] == null) {
 
         return Array(
             "error" => 1,
@@ -31,7 +31,9 @@ class SensorsManager {
             "nomesensore" => $post['nomesensore'],
             "tipo" => $post['tipo'],
             "marca" => $post['marca'],
-            "idsensore" => $post['idsensore']
+            "idsensore" => $post['idsensore'],
+            "minimo" => $post['minimo'],
+            "massimo" => $post['massimo']
           )
         );
       }
@@ -44,7 +46,9 @@ class SensorsManager {
             "nomesensore" => $post['nomesensore'],
             "tipo" => $post['tipo'],
             "marca" => $post['marca'],
-            "idsensore" => $post['idsensore']
+            "idsensore" => $post['idsensore'],
+            "minimo" => $post['minimo'],
+            "massimo" => $post['massimo']
           )
         );
       }
@@ -57,17 +61,21 @@ class SensorsManager {
             "nomesensore" => $post['nomesensore'],
             "tipo" => $post['tipo'],
             "marca" => $post['marca'],
-            "idsensore" => $post['idsensore']
+            "idsensore" => $post['idsensore'],
+            "minimo" => $post['minimo'],
+            "massimo" => $post['massimo']
           )
         );
       }
 
-      $this->database->query("INSERT INTO sensore(IDSensore,Nome, Ambiente, TipologiaSensore, Marca) VALUES (:id,:nome, :ambiente, :tipologia, :marca)");
+      $this->database->query("INSERT INTO sensore(IDSensore,Nome, Ambiente, TipologiaSensore, Marca, Minimo, Massimo) VALUES (:id,:nome, :ambiente, :tipologia, :marca, :min, :max)");
       $this->database->bind(":id", $post['idsensore']);
       $this->database->bind(":nome", $post['nomesensore']);
       $this->database->bind(":ambiente", $idambiente);
       $this->database->bind(":tipologia", $post['tipo']);
       $this->database->bind(":marca", $post['marca']);
+      $this->database->bind(":min", $post['minimo']);
+      $this->database->bind(":max", $post['massimo']);
       $this->database->execute();
 
     } // fine registraSensore()
@@ -90,7 +98,7 @@ class SensorsManager {
     */ 
     public function modificaSensore($post, $idsens){
       //Insert into MySql
-      if(empty($post['nomesensore']) || empty($post['tipo']) || empty($post['marca'])) {
+      if(empty($post['nomesensore']) || empty($post['tipo']) || empty($post['marca']) || $post['minimo'] == null || $post['massimo'] == null) {
 
         return Array(
             "error" => 1,
@@ -98,17 +106,22 @@ class SensorsManager {
             "nomesensore" => $post['nomesensore'],
             "tipo" => $post['tipo'],
             "marca" => $post['marca'],
-            "idsensore" => $post['idsensore']
+            "idsensore" => $post['idsensore'],
+            "minimo" => $post['minimo'],
+            "massimo" => $post['massimo']
+
           )
         );
       }
 
 
-      $this->database->query("UPDATE sensore SET Nome = :nomesens, TipologiaSensore = :tipo, Marca = :marca WHERE IDSensore = :idsens ");
+      $this->database->query("UPDATE sensore SET Nome = :nomesens, TipologiaSensore = :tipo, Marca = :marca, Minimo = :min, Massimo = :max WHERE IDSensore = :idsens ");
       $this->database->bind(":nomesens", $post['nomesensore']);
       $this->database->bind(":tipo", $post['tipo']);
       $this->database->bind(":marca", $post['marca']);
       $this->database->bind(":idsens", $idsens);
+      $this->database->bind(":min", $post['minimo']);
+      $this->database->bind(":max", $post['massimo']);
       $this->database->execute();
     }
 
@@ -133,7 +146,7 @@ class SensorsManager {
     * @return Array $row  informazioni su un singolo sensore
     */
     public function trovaSensore($idsensore){
-      $this->database->query("SELECT TipologiaSensore, UnitaMisura, Marca, Ambiente, IDImpianto, IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, ambiente.Nome AS ambNome, impianto.Nome AS impNome FROM sensore JOIN tipologiasensore JOIN ambiente JOIN impianto ON TipologiaSensore = IDTipologiaSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto WHERE IDSensore = :idsens");
+      $this->database->query("SELECT Minimo, Massimo, TipologiaSensore, UnitaMisura, Marca, Ambiente, IDImpianto, IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, ambiente.Nome AS ambNome, impianto.Nome AS impNome FROM sensore JOIN tipologiasensore JOIN ambiente JOIN impianto ON TipologiaSensore = IDTipologiaSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto WHERE IDSensore = :idsens");
       $this->database->bind(":idsens", $idsensore);
       $row = $this->database->singleResultSet();
       return $row;

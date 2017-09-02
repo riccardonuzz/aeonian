@@ -128,7 +128,7 @@ if(isset($_POST['action'])) {
                              $index++;
                              endforeach;
                             ?>
-                            <button onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/systems-management.php';?>', '<?php echo $impianto['IDImpianto']; ?>')" class="btn-floating btn-warning-confirm waves-effect waves-light right"><i class="mdi-content-clear"></i></button>
+                            <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/systems-management.php';?>', '<?php echo $impianto['IDImpianto']; ?>')" class="custom-icon mdi-action-delete right"></i>
                             </td>
                           
                         </tr>

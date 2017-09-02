@@ -108,6 +108,18 @@ if(isset($_POST['submit'])){
                               value="<?php echo $sensore['Marca'] ?>">
                               <label for="brand">Marca</label>
                             </div>
+
+                            <div class="input-field col s3">
+                              <input id="minimum" type="number" step="0.01" name="minimo"
+                                value="<?php echo $sensore['Minimo'];?>">
+                              <label for="minimum">Minimo</label>
+                            </div>
+
+                            <div class="input-field col s3">
+                              <input id="maximum" type="number" step="0.01" name="massimo"
+                                value="<?php echo $sensore['Massimo'];?>">
+                              <label for="maximum">Massimo</label>
+                            </div>
                           </div>
                           
                         

@@ -124,7 +124,20 @@ if(isset($_POST['submit'])){
                               value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['marca']; ?><?php endif; ?>">
                               <label for="brand">Marca</label>
                             </div>
+
+                            <div class="input-field col s3">
+                              <input id="minimum" type="number" step="0.01" name="minimo"
+                                value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['minimo']; ?><?php endif; ?>">
+                              <label for="minimum">Minimo</label>
+                            </div>
+                            <div class="input-field col s3">
+                              <input id="maximum" type="number" step="0.01" name="massimo"
+                                value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['massimo']; ?><?php endif; ?>">
+                              <label for="maximum">Massimo</label>
+                            </div>
                           </div>
+
+               
                           
                           <br><br>
                           
