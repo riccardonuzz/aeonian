@@ -60,7 +60,7 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=1) {
         <div class="navbar-fixed">
             <nav class="cyan">
                 <div class="nav-wrapper">
-                    <h1 class="logo-wrapper"><a href="<?php echo ROOT_URL?>/index.php" class="brand-logo darken-1"><img src="<?php echo ROOT_URL.IMAGES_PATH; ?>materialize-logo.png" alt="materialize logo"></a> <span class="logo-text">Materialize</span></h1>
+                    <h1 class="logo-wrapper"><a href="<?php echo ROOT_URL?>/index.php" class="brand-logo darken-1"><img src="<?php echo ROOT_URL.IMAGES_PATH; ?>aeonian-title.png" alt="materialize logo"></a> <span class="logo-text">Materialize</span></h1>
                     <ul class="right hide-on-med-and-down">
                         <li><a class="waves-effect waves-block waves-light toggle-fullscreen"><i class="mdi-action-settings-overscan"></i></a>
                         </li>
