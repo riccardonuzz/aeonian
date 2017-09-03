@@ -6,7 +6,7 @@ if (!isset($_SESSION)) {
 
 //se la sessione non è presente, allora effettua il login
 if(!isset($_SESSION['is_logged_in'])) {
-  header('Location: ../../login.php');
+  header('Location: '.ROOT_URL.TEMPLATE_URL.'login.php');
 }
 ?>
 <footer class="page-footer">
