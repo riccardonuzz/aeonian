@@ -101,9 +101,12 @@ if(isset($_POST['action'])) {
                             <td><a href="sensor-details.php?id=<?php echo $sensore['IDSensore']; ?>""><?php echo $sensore['sensNome'] ?></a></td>
                             <td><?php echo $sensore['tipoNome'] ?></td>
                             <td><a href="system-details.php?id=<?php echo $sensore['sensImp']; ?>"><?php echo $sensore['impNome'] ?></a></td>
-                            <td>
-                              <a href="environment-details.php?id=<?php echo $sensore['sensAmb']?>"><?php echo $sensore['ambNome'] ?></a>
-                              <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/sensors-management.php';?>', '<?php echo $sensore['IDSensore'];?>')" class="custom-icon mdi-action-delete right"></i>
+                            <td class="custom-cell">
+                              <p>
+                                <a href="environment-details.php?id=<?php echo $sensore['sensAmb']?>"><?php echo $sensore['ambNome'] ?>
+                                </a>
+                              </p>
+                              <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/sensors-management.php';?>', '<?php echo $sensore['IDSensore'];?>')" class="custom-icon mdi-action-delete"></i>
                              
                             </td>
                         </tr>

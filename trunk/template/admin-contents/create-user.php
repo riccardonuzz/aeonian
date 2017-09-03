@@ -182,7 +182,7 @@ if(isset($_POST['submit'])) {
                             </div>
 
                             <div class="input-field col s4">
-                              <a onClick="addNumber();" class="btn waves-effect pink white-text admin-add-number"><i class="mdi-content-add right"></i>Aggiungi numero</a>
+                              <a onClick="addNumber();" class="btn waves-effect queen-blue white-text admin-add-number"><i class="mdi-content-add right"></i>Aggiungi numero</a>
                             </div>
                             
                           </div>
@@ -201,7 +201,7 @@ if(isset($_POST['submit'])) {
                                 ?>
                               </div>
                               <div class="input-field col s8">
-                                <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea utente
+                                <button class="btn dingy-dungeon waves-effect waves-light right" type="submit" name="submit">Crea utente
                                   <i class="mdi-content-send right"></i>
                                 </button>
                               </div>

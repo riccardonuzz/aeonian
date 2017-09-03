@@ -171,9 +171,14 @@ if(isset($_POST['submit'])){
                             <?php endforeach; ?>
 
                             <div class="input-field col s4">
-                              <a onClick="addNumber();" class="btn waves-effect pink white-text admin-add-number"><i class="mdi-content-add right"></i>Aggiungi numero</a>
+                              <a onClick="addNumber();" class="btn waves-effect orange-style white-text admin-add-number"><i class="mdi-content-add right"></i>Aggiungi numero</a>
                             </div>
-                            
+                            <div class="input-field col s8">
+                                <button class="btn dingy-dungeon waves-effect waves-light right" type="submit" name="submit">Modifica
+                                  <i class="mdi-content-send right"></i>
+                                </button>
+                              </div>
+                            </div>
                           </div>
                           
                           
@@ -189,12 +194,7 @@ if(isset($_POST['submit'])){
                                 }
                               ?>
                             </div>
-                              <div class="input-field col s8">
-                                <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Modifica
-                                  <i class="mdi-content-send right"></i>
-                                </button>
-                              </div>
-                            </div>
+                              
                         </form>
                         
                     

@@ -72,13 +72,13 @@ if(isset($_POST['action'])) {
         <div class="container">
           <div class="section">
 
-            <!-- START TABLE HERE -->
+              <!-- START TABLE HERE -->
               <!--DataTables example-->
               <!-- Tabella degli ambienti -->
               <div id="table-datatables">
 
                 <div class="col s12 m8 l12">
-                  <table id="data-table-simple" class="responsive-table display" cellspacing="0">
+                  <table id="data-table-simple" class="custom-table responsive-table display" cellspacing="0">
                     <thead>
                         <tr>
                             <th>Nome Ambiente</th>
@@ -100,10 +100,13 @@ if(isset($_POST['action'])) {
                         <tr>
                             <td><a href="environment-details.php?id=<?php echo $ambiente['IDAmbiente']?>"><?php echo $ambiente['ambNome'] ?></a></td> 
                             <td><a href="system-details.php?id=<?php echo $ambiente['idimpianto']; ?>"><?php echo $ambiente['impNome'] ?></td>
-                            <td>
-                              <?php echo $ambiente['Descrizione'] ?>
-                              <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/environments-management.php';?>', '<?php echo $ambiente['IDAmbiente'];?>')" class="custom-icon mdi-action-delete right"></i>
+                            <td class="custom-cell">
+                                
+                                <p><?php echo $ambiente['Descrizione'] ?></p>
+                                <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/environments-management.php';?>', '<?php echo $ambiente['IDAmbiente'];?>')" class="custom-icon mdi-action-delete"></i>
+                              
                             </td>
+
 
                         </tr>
                         <?php endforeach;?>

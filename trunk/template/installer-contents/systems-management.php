@@ -114,8 +114,8 @@ if(isset($_POST['action'])) {
                             <td><?php echo $impianto['Indirizzo'] ?></td>
                             <td><?php echo $impianto['Citta'] ?></td>
                             
-                            <td>
-
+                            <td class="custom-cell">
+                            <p>
                             <?php
                             $index=0;
                              foreach ($responsabili as $resp):
@@ -128,7 +128,8 @@ if(isset($_POST['action'])) {
                              $index++;
                              endforeach;
                             ?>
-                            <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/systems-management.php';?>', '<?php echo $impianto['IDImpianto']; ?>')" class="custom-icon mdi-action-delete right"></i>
+                            </p>
+                            <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'installer-contents/systems-management.php';?>', '<?php echo $impianto['IDImpianto']; ?>')" class="custom-icon mdi-action-delete"></i>
                             </td>
                           
                         </tr>

@@ -58,10 +58,8 @@ $userPhoneNumbers = $usersManager->getNumeriTelefono($_GET['id']);
 
         <div class="container">
           <div class="section">
-            <div class="row">
-                <a href="user-edit.php?id=<?php echo $userDetails['CodiceFiscale']; ?>" class="btn waves-effect pink white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica utente</a>
-            </div>
-            <br>
+                <a href="user-edit.php?id=<?php echo $userDetails['CodiceFiscale']; ?>" class="btn waves-effect orange-style white-text admin-create-user"><i class="mdi-editor-border-color right"></i>Modifica utente</a>
+            <br><br>
             
             <div class="divider"></div>
             <br><br>

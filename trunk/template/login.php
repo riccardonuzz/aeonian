@@ -75,15 +75,18 @@
   <link href="<?php echo ROOT_URL.STYLE_PATH; ?>style.css" type="text/css" rel="stylesheet" media="screen,projection">
   <link href="<?php echo ROOT_URL.STYLE_PATH; ?>layouts/page-center.css" type="text/css" rel="stylesheet" media="screen,projection">
   <link href="<?php echo ROOT_URL.STYLE_PATH; ?>custom/custom.min.css" type="text/css" rel="stylesheet" media="screen,projection">
+   <link href="<?php echo ROOT_URL.STYLE_PATH; ?>custom/custom.css" type="text/css" rel="stylesheet" media="screen,projection">
 
   <!-- INCLUDED PLUGIN CSS ON THIS PAGE -->
-  <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection">  
+  <link href="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/prism/prism.css" type="text/css" rel="stylesheet" media="screen,projection">
 </head>
 
-<body class="blue">
-
+<body class="space-cadet">
+  
   <div id="login-page" class="row">
+
     <div class="col s12 z-depth-4 card-panel">
+
       <form class="login-form" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <div class="row">
           <div class="input-field col s12 center">
@@ -105,31 +108,35 @@
             <label for="password">Password</label>
           </div>
         </div>
-        <div class="row">          
+        <div class="row">  
+          <!--not implemented        
           <div class="input-field col s12 m12 l12  login-text">
               <input type="checkbox" id="remember-me" name="remember"/>
               <label for="remember-me">Ricorda</label>
           </div>
-          <?php 
-          if (isset($_SESSION['message']))
-          {
-              echo "<br><br><p class='red-text text-darken-2'>".$_SESSION['message']."</p>";
-              unset($_SESSION['message']);
-          }
-          ?>
-        </div>
-        <div>
-        
-        
+          -->
+          <div class="input-field col s12">
+                <?php
+                  if (isset($_SESSION['message']))
+                  {
+                      echo "<br><p class='red-text text-darken-2'>".$_SESSION['message']."</p>";
+                      unset($_SESSION['message']);
+                      unset($_SESSION['values']);
+                  }
+                ?>
+              </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <button class="btn waves-effect waves-light login-button col s12" type="submit" name="submit">Login</button>
+            <button class="btn queen-blue waves-effect waves-light login-button col s12" type="submit" name="submit">Login</button>
           </div>
         </div>
-        <div class="row">
-          <div class="input-field col s12 m12 l12">
-              <p class="margin right-align medium-small"><a href="page-forgot-password.html">Hai dimenticato la password?</a></p>
+        <div class="row ">
+          <div class="input-field col s12 custom-forgotten-div">
+              <img id="logo-ae" src="<?php echo ROOT_URL.IMAGES_PATH; ?>aeonian-logo.png" alt="aeonian logo small">
+              <p class="margin right-align medium-small">
+                <a id="forgotten-pass" href="page-forgot-password.html">Hai dimenticato la password?</a>
+              </p>
           </div>          
         </div>
 
