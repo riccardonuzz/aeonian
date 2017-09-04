@@ -104,7 +104,7 @@ if(isset($_POST['action'])) {
                         <?php foreach ($terzeparti as $terzaparte) :?>
                         <tr>
                             <td><a href="thirdparty-details.php?id=<?php echo $terzaparte['IDTerzaParte']?>"><?php echo $terzaparte['IDTerzaParte'] ?></a></td> 
-                            <td><a href="thirdparty-details.php?id=<?php echo $terzaparte['IDTerzaParte']; ?>"><?php echo $terzaparte['Nome'] ?>
+                            <td><a href="thirdparty-details.php?id=<?php echo $terzaparte['IDTerzaParte']; ?>"><?php echo $terzaparte['Nome'] ?></a>
                               <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'user-contents/thirdparties-management.php';?>', '<?php echo $terzaparte['IDTerzaParte'];?>')" class="custom-icon mdi-action-delete right"></i>
                             </td>
 

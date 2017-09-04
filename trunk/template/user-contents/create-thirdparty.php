@@ -15,7 +15,7 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=2) {
 
 //Gestore Ambienti
 $thirdPartiesManager = new ThirdPartiesManager();
-
+$canali = $thirdPartiesManager->getTipologieCanali();
 
 //quando ricevo un POST sulla pagina
 if(isset($_POST['submit'])) {
@@ -24,7 +24,7 @@ if(isset($_POST['submit'])) {
 
   if($checkValue['error']==1){
     $_SESSION['message'] = 'Ci sono dei campi che non sono stati compilati.';
-    $_SESSION['values'] = $checkValue['values'];
+    $_SESSION['values']['nome'] = $checkValue['nome'];
     header('Location: create-thirdparty.php');
     exit;
   }
@@ -95,9 +95,34 @@ if(isset($_POST['submit'])) {
                               value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['nome']; ?><?php endif; ?>">
                               <label for="first_name">Nome</label>
                             </div>
+                          </div>
 
-                            <div class="input-field col s6">
-                                <button class="btn cyan waves-effect waves-light left" type="submit" name="submit">Crea terza parte
+                          <div class="row">
+                            <div class="col s6">
+                                <br>
+                                <p class="caption">Seleziona canali</p>
+                            </div>
+                          </div>
+
+                          <?php $index=0;
+                                foreach($canali as $canale):?>
+                            <div class="row">
+                              <div class="input-field col s2">
+                                  <?php echo '<input type="checkbox" id="check_btn'.$index.'" value="'.$canale['IDTipologiaCanale'].'" name = "canali[]">'; 
+                                  echo '<label style="color:black" for="check_btn'.$index.'">'.$canale['Nome'].'</label>';
+                                  ?>
+                              </div>
+                              <div class="input-field col s9">
+                                  <input id="valore_canale" type="text" name="valori[]"><label for="valore">Valore</label>            
+                              </div>
+                            </div>
+                          <?php $index++; 
+                                endforeach; ?>
+
+
+                          <div class="row">
+                            <div class="input-field col s12">
+                                <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea terza parte
                                   <i class="mdi-content-send right"></i>
                                 </button>
                             </div>
