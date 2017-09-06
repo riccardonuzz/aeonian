@@ -60,10 +60,11 @@ public class IotSensorSimulator {
 							
 							String output = (IDSensore + "-" + randomString );
 
+							System.out.println("Sensore: " + IDSensore + " - Valore rilevazione: " + randomString);
+							
 							// Url di destinazione
 					
-							String url = "http://dev/aeonian/template/user-contents/outputs-receptor.php?rilevazione=" + output;
-							System.out.println(url);	
+							String url = "http://dev/aeonian/template/user-contents/outputs-receptor.php?rilevazione=" + output;	
 							
 							URL turl = new URL( url );
 							HttpURLConnection con = (HttpURLConnection) turl.openConnection();
@@ -81,9 +82,7 @@ public class IotSensorSimulator {
 							out.writeBytes(output);
 							out.close();
 							
-							System.out.println(con.getResponseCode());
-							System.out.println(con.getResponseMessage());
-			
+							System.out.println("Codice e messaggio di risposta: " + con.getResponseCode() + " - " + con.getResponseMessage());
 						}
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
