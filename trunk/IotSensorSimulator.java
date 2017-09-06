@@ -11,10 +11,22 @@ public class IotSensorSimulator {
 	public static void main(String[] args) {
 		// sezione dichiarazione variabili locali
 		
+		/*
+		 * 	Lettura dei parametri di configurazione dal file config.php
+		 */
+
+		
+		/*
+		 *  Acquisizione della lista dei sensori installati presso gli impianti
+		 */
+		
 		Connection connessione = null;
 
 		String username = "root";
 		String password = "";
+		String database = "iot_database";
+		String ssl = "false";
+		int intervalloRilevazione = 5;
 
 		String stringa =	"SELECT s.IDSensore IDSensore, t.Nome TipologiaSensore, s.Minimo Minimo, s.Massimo Massimo " +
 							"FROM sensore s " + 
@@ -26,27 +38,29 @@ public class IotSensorSimulator {
 
 		try {
 			// caricamento del driver
+			
 			new com.mysql.jdbc.Driver();
+			
 			/*
 			 * creazione di una connessione al database
 			 */
-			connessione = DriverManager.getConnection("jdbc:mysql://localhost/iot_database?useSSL=false", username, password);
+			connessione = DriverManager.getConnection("jdbc:mysql://localhost/" + database + "?useSSL=" + ssl , username, password);
 		
 			if (connessione != null) {
-                System.out.println("\n Connected to the database iot_database");
+                System.out.println( "\n Connesso al database: " + database );
             }		
 			
 			// esecuzione comando SQL
 			Statement istruzione = connessione.createStatement();
 			ResultSet risultato = istruzione.executeQuery(stringa);
 	
-			System.out.println("\n Selezione dei sensori relativi all'impianto");
+			System.out.println( "\n Generazione ed invio delle rilevazioni in corso. Intervallo di rilevazione n." + intervalloRilevazione + " secondi.");
 	
 			Runnable runnable = new Runnable() {
 				
 			      public void run() {
 
-			        // task to run goes here
+			        // TODO
 				        
 					try {
 						while ( risultato.next() ) {
@@ -60,7 +74,7 @@ public class IotSensorSimulator {
 							
 							String output = (IDSensore + "-" + randomString );
 
-							System.out.println("Sensore: " + IDSensore + " - Valore rilevazione: " + randomString);
+							System.out.print( "\n Sensore: " + IDSensore + ". Min: " + Minimo + ". Max: " + Massimo + ". Valore rilevato: " + randomString );
 							
 							// Url di destinazione
 					
@@ -82,7 +96,7 @@ public class IotSensorSimulator {
 							out.writeBytes(output);
 							out.close();
 							
-							System.out.println("Codice e messaggio di risposta: " + con.getResponseCode() + " - " + con.getResponseMessage());
+							System.out.println(". Risposta del server: " + con.getResponseCode() + " - " + con.getResponseMessage() + ".");
 						}
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
@@ -98,7 +112,7 @@ public class IotSensorSimulator {
 			    };
 				
 			    ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-			    service.scheduleAtFixedRate(runnable, 0, 5, TimeUnit.SECONDS);
+			    service.scheduleAtFixedRate(runnable, 0, intervalloRilevazione, TimeUnit.SECONDS);
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
