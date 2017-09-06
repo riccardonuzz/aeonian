@@ -142,9 +142,8 @@ $regoleSensore = $notifyManager->getRegoleNotificaSensore($_GET['id']);
                             <?php foreach ($regoleSensore as $rule) :?>
                             <tr>
                                 <td><?php echo $rule['Operazione'] ?></td>
-                                <td class="custom-cell">
-                                <p><?php echo $rule['Valore'] ?></p>
-                                <i onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'user-contents/notify-management.php';?>', '<?php echo $rule['IDRegola']; ?>')"  class="custom-icon btn-warning-confirm mdi-action-delete"></i>
+                                <td><?php echo $rule['Valore'] ?>
+                                <i class="custom-icon mdi-action-delete right" onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'user-contents/notify-management.php';?>', '<?php echo $rule['IDRegola']; ?>')"  class="custom-icon btn-warning-confirm mdi-action-delete"></i>
                                 </td>                            
                             </tr>                                
                             <?php endforeach;?>
