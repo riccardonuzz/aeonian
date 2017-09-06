@@ -31,7 +31,11 @@ function getDashboard(response){
      for(var i=0; i<response[0].Ambienti.length; i++)
 	 {
 		  
-	 	content=content+'<div class="section"><div class="row"><div class="col s6 m3 l3"><h4>'+response[0].Ambienti[i].Nome+'</h4></div><div class="col s6 m3 l3"><a style="margin-top: 20px;" href="environment-details.php?id='+response[0].Ambienti[i].IDAmbiente+'" class="btn waves-effect pink white-text admin-add-number"><i class="mdi-action-list right"></i>Dettagli ambiente</a></div></div><div class="divider"></div></div></div><div class="row"></div><div class="row">';
+		 content=content+'<div class="section"><div class="row"><div class="col s6 m3 l3"><h4>'+response[0].Ambienti[i].Nome+'</h4></div><div class="col s6 m3 l3"><a style="margin-top: 20px;" href="environment-details.php?id='+response[0].Ambienti[i].IDAmbiente+'" class="btn waves-effect pink white-text admin-add-number"><i class="mdi-action-list right"></i>Dettagli ambiente</a></div></div><div class="divider"></div></div></div><div class="row"></div><div class="row">';
+		 
+		 if(!response[0].Ambienti[i].Sensori.length) {
+			content=content+'<div class="col s12 m12 l12"><h5>Nessun sensore disponibile in questo ambiente.</h5></div>';
+		 }
 		
 		 for(var k=0; k<response[0].Ambienti[i].Sensori.length; k++) {
 			

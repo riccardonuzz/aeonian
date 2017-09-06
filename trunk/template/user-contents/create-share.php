@@ -1,5 +1,6 @@
 <?php
 require_once("../../config.php"); 
+require("../../classes/SharesManager.php");
 require("../../classes/ThirdPartiesManager.php");
 
 session_start();
@@ -13,32 +14,37 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=2) {
   header('Location: '.ROOT_URL.'/index.php');
 }
 
-//Gestore Ambienti
+$sharesManager = new SharesManager();
+
+//Gestore terze parti
 $thirdPartiesManager = new ThirdPartiesManager();
-$canali = $thirdPartiesManager->getTipologieCanali();
+$terzeparti = $thirdPartiesManager->getTerzeParti($_SESSION['user_data']['codicefiscale']);
+
+if(isset($_GET['chlist'])){
+    echo json_encode($thirdPartiesManager->getCanaliTerzaParte($_GET['chlist']));
+    exit;
+}
 
 //quando ricevo un POST sulla pagina
 if(isset($_POST['submit'])) {
   $post = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-  $checkValue = $thirdPartiesManager->aggiungiTerzaParte($post, $_SESSION['user_data']['codicefiscale']);
+  $checkValue = $sharesManager->creaCondivisione($post, $_SESSION['user_data']['codicefiscale'], $_GET['id']);
 
   if($checkValue['error']==1){
     $_SESSION['message'] = 'Ci sono dei campi che non sono stati compilati.';
-    $_SESSION['values']['nome'] = $checkValue['nome'];
-    header('Location: create-thirdparty.php');
+    header('Location: create-share.php?id='.$checkValue['idsensore']);
     exit;
   }
 
   if($checkValue['error']==2){
-    $_SESSION['message'] = 'Se selezioni un canale devi compilare il campo.';
-    $_SESSION['values']['nome'] = $checkValue['nome'];
-    header('Location: create-thirdparty.php');
+    $_SESSION['message'] = 'Stai già condividendo le rilevazioni con questo canale! Scegline un altro.';
+    header('Location: create-share.php?id='.$checkValue['idsensore']);
     exit;
   }
 
 
   else {
-    header('Location: thirdparties-management.php');
+    header('Location: sensor-details.php?id='.$_GET['id']);
   }
   
 }
@@ -71,11 +77,11 @@ if(isset($_POST['submit'])) {
         <div class="container">
           <div class="row">
             <div class="col s12 m12 l12">
-              <h5 class="breadcrumbs-title">Aggiungi terza parte</h5>
+              <h5 class="breadcrumbs-title">Crea condivisione</h5>
               <ol class="breadcrumbs">
-                  <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>user-contents/userhome.php">Dashboard</a></li>
-                  <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>user-contents/thirdparties-management.php">Gestione terze parti</a></li>
-                  <li><a href="#">Aggiungi terza parte</a></li>
+              <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>user-contents/userhome.php">Dashboard</a></li>
+              <li><a href="<?php echo ROOT_URL.TEMPLATE_PATH?>user-contents/shares-management.php">Gestione condivisioni</a></li>
+              <li><a href="#">Crea condivisione</a></li>
               </ol>
             </div>
           </div>
@@ -95,49 +101,42 @@ if(isset($_POST['submit'])) {
                   <div class="col s12 m12 l12">
                     
                       
-                        <form class="col s12" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
-                          <div class="row">
-                            <div class="input-field col s6">
-                              <input id="first_name" type="text" name="nome" 
-                              value="<?php if (isset($_SESSION['values'])): ?><?php echo $_SESSION['values']['nome']; ?><?php endif; ?>">
-                              <label for="first_name">Nome</label>
-                            </div>
-                          </div>
+                        <form class="col s12" method="POST" action="<?php echo $_SERVER['PHP_SELF']."?id=".$_GET['id']; ?>">
 
                           <div class="row">
                             <div class="col s6">
                                 <br>
-                                <p class="caption">Seleziona canali</p>
+                                <p class="caption">Seleziona terze parti</p>
                             </div>
                           </div>
 
-                          <?php $index=0;
-                                foreach($canali as $canale):?>
-                            <div class="row">
-                              <div class="input-field col s2">
-                                  <?php echo '<input type="checkbox" id="check_btn'.$index.'" value="'.$canale['IDTipologiaCanale'].'" name = "canali[]">'; 
-                                  echo '<label style="color:black" for="check_btn'.$index.'">'.$canale['Nome'].'</label>';
-                                  
-                                  ?>
-                              </div>
-                              <div class="input-field col s9">
-                                  <input id="valore_canale" type="text" name="valori[]"><label for="valore">Valore</label>            
-                              </div>
+                          <div class="row">
+                                <div class="input-field col s6">
+                                <select id="terzaparte" name="terzaparte">
+                                        <option value="0" selected>Seleziona terza parte</option>
+                                    
+                                    <?php foreach($terzeparti as $terzaparte): ?>
+                                        <option value="<?php echo $terzaparte['IDTerzaParte'] ?>"><?php echo $terzaparte['Nome'] ?></option>
+                                    <?php endforeach;?>
+                                </select>
                             </div>
-                          <?php $index++; 
-                                endforeach; ?>
+                          </div>
 
+                          <div class="row">
+                                <div class="input-field col s6">
+                                    <div id="channels"></div>
+                                </div>
+                          </div>
+                          
 
                           <div class="row">
                             <div class="input-field col s12">
-                                <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea terza parte
+                                <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea condivisione
                                   <i class="mdi-content-send right"></i>
                                 </button>
                             </div>
 
                             </div>
-                          
-                          
                           
       
                             
@@ -181,4 +180,18 @@ if(isset($_POST['submit'])) {
   <?php require("./includes/footer.php"); ?>
       
       
-    
+    <script>
+         $('#terzaparte').change(function(){
+            var chlist=$(this).val();
+            $.getJSON( "http://localhost/aeonian/template/user-contents/create-share.php?chlist="+chlist, function( data ) {
+                var content='<p class="caption">Seleziona canale</p>';
+                
+                for(var i=0; i<data.length; i++){
+                    content=content+'<p><input value="'+data[i].IDCanale+'" name="canale" type="radio" id="test'+(i+1)+'"><label for="test'+(i+1)+'">'+data[i].Nome+": "+data[i].Valore+'</label></p>';
+                }
+
+                $("#channels").html(content);
+
+            });
+        })
+    </script>

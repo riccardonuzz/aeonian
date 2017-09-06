@@ -30,14 +30,18 @@ class ThirdPartiesManager {
         if(empty($post['nome']) || empty($post['canali'])) {
             return array (
                 "error" => 1,
-                "codicefiscale" => $codicefiscale
+                "nome" => $post['nome']
             );
         }
 
+        $post['valori'] = array_values(array_filter( $post['valori'], 'strlen'));
+
+
         for($i=0; $i<$this->getNumeroTipologieCanali(); $i++) {
             if(isset($post['canali'][$i]) && empty($post['valori'][$i])) {
+                
                 return array (
-                    "error" => 1,
+                    "error" => 2,
                     "nome" => $post['nome']
                 );
             }
@@ -91,5 +95,73 @@ class ThirdPartiesManager {
         $this->database->bind(":idterzaparte", $id);          
         return $this->database->resultSet();
     }
+
+    public function getTipologieCanaliMancanti($canali){
+        $query=""; $i=0;
+        foreach ($canali as $canale){
+            if($i==0){
+                $query=$query." IDTipologiaCanale != :idtipologia".$i;
+            }
+            $query=$query." AND IDTipologiaCanale != :idtipologia".$i;
+            $i++;
+        }
+
+        $this->database->query("SELECT * FROM tipologiacanale WHERE".$query);
+
+        $i=0;
+        foreach ($canali as $canale){
+            $this->database->bind(":idtipologia".$i, $canali[$i]['IDTipologiaCanale']); 
+            $i++;
+        }
+
+        return $this->database->resultSet();       
+    }
+
+
+    public function modificaTerzaParte($post, $idterzaparte){
+
+        if(empty($post['nome']) || empty($post['canali'])) {
+            return array (
+                "error" => 1,
+                "IDTerzaParte" => $idterzaparte
+            );
+        }
+
+        for($i=0; $i<$this->getNumeroTipologieCanali(); $i++) {
+            if(isset($post['canali'][$i]) && empty($post['valori'][$i])) {
+                return array (
+                    "error" => 1,
+                    "nome" => $post['nome']
+                );
+            }
+        }
+
+
+         //Inserisco la terza parte nel DB
+         $this->database->query("UPDATE terzaparte SET Nome = :nome WHERE IDTerzaParte = :idterzaparte");
+         $this->database->bind(":nome", $post['nome']);        
+         $this->database->bind(":idterzaparte", $idterzaparte);
+         $this->database->execute();
+
+         $this->database->query("DELETE FROM canale WHERE TerzaParte = :idterzaparte");
+         $this->database->bind(":idterzaparte", $idterzaparte);
+         $this->database->execute();
+
+
+        for($i=0; $i<$this->getNumeroTipologieCanali(); $i++) {
+            if(isset($post['canali'][$i])) {
+                $this->database->query("INSERT INTO canale(TerzaParte, TipologiaCanale, Valore) VALUES (:terzaparte, :tipologiacanale, :valore)");
+                $this->database->bind(":terzaparte", $idterzaparte);
+                $this->database->bind(":tipologiacanale", $post['canali'][$i]);
+                $this->database->bind(":valore", $post['valori'][$i]);                
+                $this->database->execute();
+            }
+        }
+
+        return $idterzaparte;
+
+    }
+
+
 
 }

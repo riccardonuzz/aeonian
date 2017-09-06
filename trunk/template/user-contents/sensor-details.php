@@ -70,7 +70,8 @@ $regoleSensore = $notifyManager->getRegoleNotificaSensore($_GET['id']);
         <div class="container">
           <div class="section">
 
-            <a href="create-notifyrule.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect queen-blue white-text admin-create-user right"><i class="mdi-social-notifications-on right"></i>Configura notifica</a>
+            <a href="create-notifyrule.php?id=<?php echo $sensore['IDSensore']; ?>" style="margin-left: 10px; margin-bottom: 10px;" class="btn waves-effect queen-blue white-text admin-create-user right"><i class="mdi-social-notifications-on right"></i>Configura notifica</a>
+            <a href="create-share.php?id=<?php echo $sensore['IDSensore']; ?>" class="btn waves-effect queen-blue white-text admin-create-user right"><i class="mdi-social-share right"></i>Condividi con terza parte</a>
 
                 <p class="caption">Informazioni sensore</p>            
 
