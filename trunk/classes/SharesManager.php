@@ -35,12 +35,10 @@ class SharesManager {
     }
 
 
-    public function getCondivisioni($idutente){
-        $this->database->query("SELECT * FROM condivisione WHERE TerzaParte = :terzaparte AND Canale = :canale AND Sensore = :sensore");
-        $this->database->bind(":terzaparte", $idterzaparte);
-        $this->database->bind(":canale", $idcanale);
-        $this->database->bind(":sensore", $idsensore);
-        $row = $this->database->singleResultSet();
+    public function getCondivisioni($idambiente){
+        $this->database->query("SELECT IDCondivisione, sensore.Nome AS NomeSensore, terzaparte.Nome AS NomeTerzaParte, tipologiacanale.Nome AS NomeTipologiaCanale FROM condivisione JOIN sensore JOIN canale JOIN terzaparte JOIN tipologiacanale ON condivisione.Sensore = sensore.IDSensore AND condivisione.Canale = canale.IDCanale AND condivisione.TerzaParte = terzaparte.IDTerzaParte AND canale.TipologiaCanale = tipologiacanale.IDTipologiaCanale WHERE sensore.Ambiente = :idambiente");
+        $this->database->bind(":idambiente", $idambiente);
+        return $this->database->resultSet();
     }
 
 
@@ -56,6 +54,13 @@ class SharesManager {
         }
 
         return 0;
+    }
+
+    public function eliminaCondivisione($id) {
+        //eliminazione di una terza parte
+        $this->database->query("DELETE FROM condivisione WHERE IDCondivisione= :idcondivisione");
+        $this->database->bind(":idcondivisione", $id); 
+        $this->database->execute();
     }
 
 }

@@ -47,8 +47,6 @@ $impiantiUtente = $systemsManager-> getImpiantiUtente($_SESSION['user_data']['co
                     </li>
                 </ul>
                 
-              <li class="bold"><a href="shares-management.php" class="waves-effect waves-cyan"><i class="mdi-social-share"></i> Condivisioni</a>
-              </li>
               <li class="bold"><a href="thirdparties-management.php" class="waves-effect waves-cyan"><i class="mdi-action-exit-to-app
 "></i> Terze parti</a>
               </li>
