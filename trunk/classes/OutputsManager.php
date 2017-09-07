@@ -9,7 +9,8 @@ class OutputsManager {
      * Crea l'oggetto del Gestore Dababase
      */
 	 
-    public function __construct(){
+    public function __construct()
+	{
         $this->database = new DBManager();
     }
 	
@@ -22,8 +23,8 @@ class OutputsManager {
 	*
 	*/
 	
-	public function elaboraStringa( $stringa ) {
-		
+	public function elaboraStringa( $stringa )
+	{
 		list ( $slice1, $slice3 ) = explode("-", $stringa );
 		
 		$sensor = $slice1;
@@ -40,19 +41,11 @@ class OutputsManager {
 		{		
 			foreach( $notifyRules as $notifyRule ) 
 			{
-				$response = $this->checkNotifyRules( $value, $notifyRule );
-				
-				/*
-				*	Generazione della notifica.
-				*/
+				$response = $this->controlloNotifica( $value, $notifyRule );
 				
 				if( $response == true )
 				{
-					$this->database->query( "INSERT INTO notifica ( Regola, Messaggio ) VALUES ( :regola, :messaggio ) " );
-					$this->database->bind( ":regola", $notifyRule['IDRegola'] );
-					$this->database->bind( ":messaggio", $value . " " . $notifyRule['Operazione'] . " " . $notifyRule['Valore'] );
-			   
-					$this->database->execute();					
+					$this->creaNotifica( $value, $notifyRule );
 				}
 			}
 		}
@@ -63,36 +56,33 @@ class OutputsManager {
 		
 		$this->database->query( "INSERT INTO rilevazione ( Sensore, Valore) VALUES ( :sensore, :valore ) " );
 		$this->database->bind( ":sensore", $sensor );
-		$this->database->bind( ":valore", $value );
-   
+		$this->database->bind( ":valore", $value ); 
 		$this->database->execute();
 	}
 
-	public function creaNotifica( $notifica ) {
-		
+	public function creaNotifica( $value, $notifyRule )
+	{
+		$this->database->query( "INSERT INTO notifica ( Regola, Messaggio ) VALUES ( :regola, :messaggio ) " );
+		$this->database->bind( ":regola", $notifyRule['IDRegola'] );
+		$this->database->bind( ":messaggio", $value . " " . $notifyRule['Operazione'] . " " . $notifyRule['Valore'] );   
+		$this->database->execute();			
 	}
 
-    public function getRilevazioni($IDSensore){
+    public function getRilevazioni($IDSensore)
+	{
         $this->database->query("SELECT * FROM rilevazione JOIN tipologiasensore JOIN sensore ON sensore.IDSensore = rilevazione.Sensore AND sensore.TipologiaSensore = tipologiasensore.IDTipologiaSensore WHERE Sensore = :idsensore ORDER BY Data ASC");
         $this->database->bind(":idsensore", $IDSensore);
         $row = $this->database->resultSet();
+		
         return $row;
     }
-	
-	public function controlloNotifica( $rilevazione ) {
-		
-	}
-	
-	public function trovaRilevazione ( $parametri ) {
-		
-	}
 	
 	/*
 	*	Verifica la corrispondenza dei valori rilevati con le regole di notifica imposte.
 	*	Restituisce TRUE se la regola di notifica è verificata e deve essere generata una notifica.
 	*/
 	
-	private function checkNotifyRules( $value, $notifyRule )
+	public function controlloNotifica( $value, $notifyRule )
 	{
 		switch ( $notifyRule['Operazione'] )
 		{
@@ -104,7 +94,12 @@ class OutputsManager {
 				break;
 			default: return false;
 				break;
-		}
+		}	
 	}
-
+	
+	public function trovaRilevazione ( $parametri )
+	{
+		
+	}
+	
 }
