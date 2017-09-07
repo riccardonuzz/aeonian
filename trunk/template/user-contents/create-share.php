@@ -130,7 +130,10 @@ if(isset($_POST['submit'])) {
                           
 
                           <div class="row">
-                            <div class="input-field col s12">
+                          <div class="input-field col s6">
+                            <a href="sensor-details.php?id=<?php echo $_GET['id'];?>" class="btn waves-effect orange-style white-text admin-create-user">Annulla</a>
+                            </div>
+                            <div class="input-field col s6">
                                 <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea condivisione
                                   <i class="mdi-content-send right"></i>
                                 </button>

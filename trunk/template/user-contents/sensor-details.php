@@ -2,7 +2,7 @@
 require_once("../../config.php"); 
 require("../../classes/SensorsManager.php");
 require("../../classes/OutputsManager.php");
-require("../../classes/NotifyManager.php");
+//require("../../classes/NotifyManager.php");
 
 
 session_start();

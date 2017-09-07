@@ -63,4 +63,10 @@ class SharesManager {
         $this->database->execute();
     }
 
+    public function trovaCondivisione($id) {
+        $this->database->query("SELECT IDCondivisione, ambiente.Impianto AS Impianto, sensore.Ambiente AS Ambiente, Valore, sensore.Nome AS NomeSensore, terzaparte.Nome AS NomeTerzaParte, tipologiacanale.Nome AS NomeTipologiaCanale FROM condivisione JOIN sensore JOIN canale JOIN terzaparte JOIN tipologiacanale JOIN ambiente ON condivisione.Sensore = sensore.IDSensore AND condivisione.Canale = canale.IDCanale AND condivisione.TerzaParte = terzaparte.IDTerzaParte AND canale.TipologiaCanale = tipologiacanale.IDTipologiaCanale AND sensore.Ambiente = ambiente.IDAmbiente WHERE IDCondivisione = :idcondivisione");
+        $this->database->bind(":idcondivisione", $id);
+        return $this->database->singleResultSet();
+    }
+
 }
