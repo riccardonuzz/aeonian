@@ -1,5 +1,6 @@
 <?php
 require_once("DBManager.php");
+require_once("NotifyManager.php");
 
 class OutputsManager {
     private $database;
@@ -27,8 +28,38 @@ class OutputsManager {
 		
 		$sensor = $slice1;
 		$value = str_replace( ',', '.', $slice3 );
-	
-		echo "Sensore: " . $sensor . " - Valore: " . $value . "<br>";
+		
+		/*
+		*	Interfaccia con il gestore delle notifiche e controllo della presenza di regole di notifica relative al sensore sorgente.
+		*/		
+
+		$notifyManager = new NotifyManager();
+		$notifyRules = $notifyManager->getRegoleNotificaSensore( $sensor );
+
+		if( isset( $notifyRules ) )
+		{		
+			foreach( $notifyRules as $notifyRule ) 
+			{
+				$response = $this->checkNotifyRules( $value, $notifyRule );
+				
+				/*
+				*	Generazione della notifica.
+				*/
+				
+				if( $response == true )
+				{
+					$this->database->query( "INSERT INTO notifica ( Regola, Messaggio ) VALUES ( :regola, :messaggio ) " );
+					$this->database->bind( ":regola", $notifyRule['IDRegola'] );
+					$this->database->bind( ":messaggio", $value . " " . $notifyRule['Operazione'] . " " . $notifyRule['Valore'] );
+			   
+					$this->database->execute();					
+				}
+			}
+		}
+		
+		/*
+		*	Generazione della rilevazione.
+		*/
 		
 		$this->database->query( "INSERT INTO rilevazione ( Sensore, Valore) VALUES ( :sensore, :valore ) " );
 		$this->database->bind( ":sensore", $sensor );
@@ -54,6 +85,26 @@ class OutputsManager {
 	
 	public function trovaRilevazione ( $parametri ) {
 		
+	}
+	
+	/*
+	*	Verifica la corrispondenza dei valori rilevati con le regole di notifica imposte.
+	*	Restituisce TRUE se la regola di notifica è verificata e deve essere generata una notifica.
+	*/
+	
+	private function checkNotifyRules( $value, $notifyRule )
+	{
+		switch ( $notifyRule['Operazione'] )
+		{
+			case '<': if( $value < $notifyRule['Valore'] ) return true;
+				break;
+			case '>': if( $value > $notifyRule['Valore'] ) return true;
+				break;
+			case '=': if( $value = $notifyRule['Valore'] ) return true;
+				break;
+			default: return false;
+				break;
+		}
 	}
 
 }
