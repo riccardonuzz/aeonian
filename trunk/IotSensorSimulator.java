@@ -98,8 +98,7 @@ public class IotSensorSimulator {
 			
 			// esecuzione comando SQL
 			Statement istruzione = connessione.createStatement();
-			final
-			ResultSet risultato = istruzione.executeQuery(stringa);
+			final ResultSet risultato = istruzione.executeQuery(stringa);
 	
 			System.out.println( "Simulazione ed invio delle rilevazioni in corso. L\'intervallo di rilevazione è di n." + intervalloRilevazione + " secondi.");
 	
