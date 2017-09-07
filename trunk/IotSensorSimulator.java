@@ -42,7 +42,7 @@ public class IotSensorSimulator {
 			inputStream = new Scanner ( new File ( configFile ) );
 		}
 		catch (FileNotFoundException e ) {
-			System.out.println ("File di configurazione non trovato.");
+			System.out.println( "File di configurazione non trovato." );
 			System.exit(0);
 		}
 		
@@ -51,21 +51,16 @@ public class IotSensorSimulator {
 		 */
 		
 		while ( inputStream.hasNextLine() ) {
-	
-			String riga = inputStream.nextLine();
-					
-			if( riga.contains("define") && !(riga.startsWith("//") ) ) {
-		
+			String riga = inputStream.nextLine();			
+			if( riga.contains("define") && !(riga.startsWith("//") ) ) {				
 				String key = riga.split("\"")[1];
-				String value = riga.split("\"")[3];
-	
+				String value = riga.split("\"")[3];			
 				if( config.containsKey( key ) ) {
-					config.put( key, value );
-					System.out.println( "Acquisizione chiave \"" + key + "\"" );
+					config.put( key, value );				
 				}
 			}
 		}
-	
+		System.out.println( "Acquisizione dei parametri di configurazione completata." );
 		inputStream.close();
 			
 		/*
@@ -73,7 +68,7 @@ public class IotSensorSimulator {
 		 */
 		
 		Connection connessione = null;
-
+		
 		String stringa =	"SELECT s.IDSensore IDSensore, t.Nome TipologiaSensore, s.Minimo Minimo, s.Massimo Massimo " +
 							"FROM sensore s " + 
 							"JOIN ambiente a on s.Ambiente = a.IDAmbiente " +
@@ -81,7 +76,6 @@ public class IotSensorSimulator {
 							"JOIN tipologiasensore t on s.TipologiaSensore = t.IDTipologiaSensore " +
 						//	"WHERE i.IDImpianto = 1 " +
 							"ORDER BY s.TipologiaSensore";
-
 		try {
 			// caricamento del driver
 			
@@ -100,7 +94,7 @@ public class IotSensorSimulator {
 			Statement istruzione = connessione.createStatement();
 			final ResultSet risultato = istruzione.executeQuery(stringa);
 	
-			System.out.println( "Simulazione ed invio delle rilevazioni in corso. L\'intervallo di rilevazione è di n." + intervalloRilevazione + " secondi.");
+			System.out.println( "Simulazione ed invio delle rilevazioni in corso.\nL\'intervallo di rilevazione impostato è di n." + intervalloRilevazione + " secondi.");
 	
 			Runnable runnable = new Runnable() {
 				
@@ -110,7 +104,7 @@ public class IotSensorSimulator {
 				        
 					try {
 						while ( risultato.next() ) {
-							
+				
 							String IDSensore = risultato.getString("IDSensore");
 							float Minimo = risultato.getFloat("Minimo");
 							float Massimo = risultato.getFloat("Massimo");						
@@ -118,23 +112,19 @@ public class IotSensorSimulator {
 							String randomString = String.format("%1.2f", random);						
 							String output = (IDSensore + "-" + randomString );
 
-							System.out.println( "Sensore: " + IDSensore + " - Range dei valori ammessi:  " + Minimo + " - " + Massimo + ". Valore rilevato: " + randomString );
+							System.out.print( "Sensore: " + IDSensore + " - Range dei valori ammessi:  " + Minimo + " - " + Massimo + ". Valore rilevato: " + randomString );
 							
 							// Url di destinazione
 					
 							String url = config.get("ROOT_URL") + "/template/user-contents/outputs-receptor.php?rilevazione=" + output;	
-
-							System.out.println(url);
 							
 							URL turl = new URL( url );
 							HttpURLConnection con = (HttpURLConnection) turl.openConnection();
 							
-							con.setRequestMethod("GET");
-							
+							con.setRequestMethod("GET");			
 							con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 							con.setRequestProperty("Content-Length", Integer.toString(output.getBytes().length));
-							con.setRequestProperty("Content-Language", "it-IT");
-							
+							con.setRequestProperty("Content-Language", "it-IT");						
 							con.setUseCaches(false);
 							con.setDoOutput(true);
 							
@@ -155,15 +145,12 @@ public class IotSensorSimulator {
 						e.printStackTrace();
 					}	            
 			      }
-			    };
-				
+			    };			
 			    ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
 			    service.scheduleAtFixedRate(runnable, 0, intervalloRilevazione, TimeUnit.SECONDS);
 		} 
 		catch (SQLException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }
