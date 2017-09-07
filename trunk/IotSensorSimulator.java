@@ -26,7 +26,7 @@ public class IotSensorSimulator {
 		 * 	Dichiarazione ed inizializzazione della Mappa
 		 */
 		
-		HashMap<String, String> config = new HashMap<String, String>();
+		final HashMap<String, String> config = new HashMap<String, String>();
 		
 		config.put("DB_HOST", null);
 		config.put("DB_USER", null);
@@ -98,6 +98,7 @@ public class IotSensorSimulator {
 			
 			// esecuzione comando SQL
 			Statement istruzione = connessione.createStatement();
+			final
 			ResultSet risultato = istruzione.executeQuery(stringa);
 	
 			System.out.println( "Simulazione ed invio delle rilevazioni in corso. L\'intervallo di rilevazione è di n." + intervalloRilevazione + " secondi.");
@@ -124,6 +125,8 @@ public class IotSensorSimulator {
 					
 							String url = config.get("ROOT_URL") + "/template/user-contents/outputs-receptor.php?rilevazione=" + output;	
 
+							System.out.println(url);
+							
 							URL turl = new URL( url );
 							HttpURLConnection con = (HttpURLConnection) turl.openConnection();
 							
