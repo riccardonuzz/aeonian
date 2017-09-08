@@ -49,9 +49,9 @@ class DashboardManager {
                 $this->database->bind(":idambiente", $temp_IdAmbiente);
                 $sensori = $this->database->resultSet();
 
-                             
+                $k=0;      
                 foreach ($sensori as $sensore) {
-                    $k=0;
+                    
 
                     $temp_IdSensore = $sensore['IDSensore'];
 
@@ -80,7 +80,7 @@ class DashboardManager {
 
                     
 
-                    $this->database->query("SELECT * FROM Rilevazione WHERE Sensore = :idsensore ORDER BY Data");
+                    $this->database->query("SELECT * FROM Rilevazione WHERE Sensore = :idsensore ORDER BY Data LIMIT 30");
                     $this->database->bind(":idsensore", $temp_IdSensore);
                     $rilevazioni = $this->database->resultSet();
 
@@ -102,7 +102,11 @@ class DashboardManager {
             array_push($json_response, $row_array); //push the values in the array
       }
        
-     
+    //   print "<pre>";
+    //   print_r($json_response);
+    //   print "</pre>";
+    //   exit;
+
       return $json_response;
       
 

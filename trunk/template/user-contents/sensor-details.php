@@ -1,9 +1,7 @@
 <?php
 require_once("../../config.php"); 
 require("../../classes/SensorsManager.php");
-require("../../classes/OutputsManager.php");
-//require("../../classes/NotifyManager.php");
-
+require_once("../../classes/OutputsManager.php");
 
 session_start();
 
@@ -143,7 +141,7 @@ $regoleSensore = $notifyManager->getRegoleNotificaSensore($_GET['id']);
                             <tr>
                                 <td><?php echo $rule['Operazione'] ?></td>
                                 <td><?php echo $rule['Valore'] ?>
-                                <i class="custom-icon mdi-action-delete right" onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'user-contents/notify-management.php';?>', '<?php echo $rule['IDRegola']; ?>')"  class="custom-icon btn-warning-confirm mdi-action-delete"></i>
+                                <i class="custom-icon mdi-action-delete right" onclick="elimina('<?php echo ROOT_URL.TEMPLATE_PATH.'user-contents/notifyrule-management.php';?>', '<?php echo $rule['IDRegola']; ?>')"  class="custom-icon btn-warning-confirm mdi-action-delete"></i>
                                 </td>                            
                             </tr>                                
                             <?php endforeach;?>

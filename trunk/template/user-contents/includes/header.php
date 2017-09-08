@@ -1,14 +1,22 @@
 <!DOCTYPE html>
 <?php
+require_once("../../classes/OutputsManager.php");
+
 //inizia la sessione se non è già iniziata
 if (!isset($_SESSION)) {
     session_start();
-  }
-  
-  //se la sessione non è presente, allora effettua il login
-  if(!isset($_SESSION['is_logged_in'])) {
-    header('Location: '.ROOT_URL.TEMPLATE_PATH.'login.php');
-  }
+}
+
+//se la sessione non è presente, allora effettua il login
+if(!isset($_SESSION['is_logged_in'])) {
+  header('Location: '.ROOT_URL.TEMPLATE_PATH.'login.php');
+}
+
+$outputsManager = new OutputsManager();
+
+$numeroNotifiche = $outputsManager->getNumeroNotifiche($_SESSION['user_data']['codicefiscale']);
+$ultimeNotifiche = $outputsManager->getUltimeNotifiche($_SESSION['user_data']['codicefiscale']);
+
 ?>
 
 <html lang="it">
@@ -59,7 +67,7 @@ if (!isset($_SESSION)) {
                 <div class="nav-wrapper">
                     <h1 class="logo-wrapper"><a href="<?php echo ROOT_URL?>/index.php" class="brand-logo darken-1"><img src="<?php echo ROOT_URL.IMAGES_PATH; ?>aeonian-title.png" alt="materialize logo"></a> <span class="logo-text">Materialize</span></h1>
                     <ul class="right hide-on-med-and-down">
-                        <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light notification-button" data-activates="notifications-dropdown"><i class="mdi-social-notifications"><small class="notification-badge">5</small></i>
+                        <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light notification-button" data-activates="notifications-dropdown"><i class="mdi-social-notifications"><small class="notification-badge"><?php echo $numeroNotifiche['Totale']; ?></small></i>
                         </a>
                         </li> 
                         <li><a class="waves-effect waves-block waves-light toggle-fullscreen"><i class="mdi-action-settings-overscan"></i></a>
@@ -68,28 +76,25 @@ if (!isset($_SESSION)) {
                     <!-- notifications-dropdown -->
                     <ul id="notifications-dropdown" class="dropdown-content">
                       <li>
-                        <h5>NOTIFICATIONS <span class="new badge">5</span></h5>
+                        <h5>NOTIFICHE</h5>
                       </li>
                       <li class="divider"></li>
+                      <?php foreach($ultimeNotifiche as $notifica): ?>
+                        <?php if($notifica['Letta']): ?>
+                          <li>
+                            <a href="notification-details.php?id="><i class="mdi-alert-error"></i> <?php echo "Errore sensore ".$notifica['Sensore']; ?></a>
+                            <!--<time class="media-meta" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>-->
+                          </li>
+                        <?php else: ?>
+                        <li>
+                            <a href="notification-details.php?id="><i class="mdi-alert-error"></i> <?php echo "Errore sensore ".$notifica['Sensore']; ?><span class="new badge"></span></a>
+                            <!--<time class="media-meta" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>-->
+                          </li>
+                        <?php endif;?>
+                      <?php endforeach; ?>
+                      <li class="divider"></li>
                       <li>
-                        <a href="#!"><i class="mdi-action-add-shopping-cart"></i> A new order has been placed!</a>
-                        <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">2 hours ago</time>
-                      </li>
-                      <li>
-                        <a href="#!"><i class="mdi-action-stars"></i> Completed the task</a>
-                        <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">3 days ago</time>
-                      </li>
-                      <li>
-                        <a href="#!"><i class="mdi-action-settings"></i> Settings updated</a>
-                        <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">4 days ago</time>
-                      </li>
-                      <li>
-                        <a href="#!"><i class="mdi-editor-insert-invitation"></i> Director meeting started</a>
-                        <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>
-                      </li>
-                      <li>
-                        <a href="#!"><i class="mdi-action-trending-up"></i> Generate monthly report</a>
-                        <time class="media-meta" datetime="2015-06-12T20:50:48+08:00">1 week ago</time>
+                        <a href="<?php echo ROOT_URL.TEMPLATE_PATH."user-contents/notifications-management.php?utente=".$_SESSION['user_data']['codicefiscale']; ?>"><i class="mdi-action-announcement"></i> Visualizza tutte le notifiche</a>
                       </li>
                     </ul>
                 </div>

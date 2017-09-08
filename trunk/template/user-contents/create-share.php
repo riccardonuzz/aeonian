@@ -128,7 +128,7 @@ if(isset($_POST['submit'])) {
                                 </div>
                           </div>
                           
-
+                          <br><br>
                           <div class="row">
                           <div class="input-field col s6">
                             <a href="sensor-details.php?id=<?php echo $_GET['id'];?>" class="btn waves-effect orange-style white-text admin-create-user">Annulla</a>

@@ -50,7 +50,7 @@ $impiantiUtente = $systemsManager-> getImpiantiUtente($_SESSION['user_data']['co
               <li class="bold"><a href="thirdparties-management.php" class="waves-effect waves-cyan"><i class="mdi-action-exit-to-app
 "></i> Terze parti</a>
               </li>
-              <li class="bold"><a href="notifications-management.php" class="waves-effect waves-cyan"><i class="mdi-notification-sms-failed"></i> Gestione notifiche</a>
+              <li class="bold"><a href="<?php echo ROOT_URL.TEMPLATE_PATH."user-contents/notifications-management.php?utente=".$_SESSION['user_data']['codicefiscale']; ?>" class="waves-effect waves-cyan"><i class="mdi-notification-sms-failed"></i> Notifiche</a>
               </li>
               <li class="bold"><a href="<?php echo ROOT_URL.TEMPLATE_PATH."login.php?logout=1"; ?>"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
               </li>

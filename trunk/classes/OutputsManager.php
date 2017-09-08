@@ -101,5 +101,23 @@ class OutputsManager {
 	{
 		
 	}
+
+	public function getNumeroNotifiche($utente) {
+		$this->database->query("SELECT COUNT(*) AS Totale FROM notifica JOIN regolanotifica JOIN sensore JOIN ambiente JOIN impianto JOIN gestione ON notifica.Regola = regolanotifica.IDRegola AND regolanotifica.Sensore = sensore.IDSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto AND impianto.IDImpianto = gestione.Impianto WHERE Utente = :utente AND Letta = 0");
+        $this->database->bind(":utente", $utente);
+		return $this->database->SingleResultSet();
+	}
+
+	public function getUltimeNotifiche($utente) {
+		$this->database->query("SELECT * FROM notifica JOIN regolanotifica JOIN sensore JOIN ambiente JOIN impianto JOIN gestione ON notifica.Regola = regolanotifica.IDRegola AND regolanotifica.Sensore = sensore.IDSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto AND impianto.IDImpianto = gestione.Impianto WHERE Utente = :utente ORDER BY IDNotifica DESC LIMIT 5");
+        $this->database->bind(":utente", $utente);
+		return $this->database->resultSet();
+	}
+
+	public function getNotifiche($utente) {
+		$this->database->query("SELECT * FROM notifica JOIN regolanotifica JOIN sensore JOIN ambiente JOIN impianto JOIN gestione ON notifica.Regola = regolanotifica.IDRegola AND regolanotifica.Sensore = sensore.IDSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto AND impianto.IDImpianto = gestione.Impianto WHERE Utente = :utente ORDER BY IDNotifica DESC");
+        $this->database->bind(":utente", $utente);
+		return $this->database->resultSet();
+	}
 	
 }
