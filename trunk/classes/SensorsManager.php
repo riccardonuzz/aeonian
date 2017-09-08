@@ -1,8 +1,9 @@
 <?php
 require_once("DBManager.php");
+require_once("interfaces/ISensorsManager.php");
 
 
-class SensorsManager {
+class SensorsManager implements ISensorsManager{
     private $database;
 
     /*
@@ -12,13 +13,10 @@ class SensorsManager {
         $this->database = new DBManager();
     }
     
-    /**
-       * 
-       * registra un sensore (sensor)
-       *
-       * @param Array $post Contiene le informazioni del sensore che vengono "postate"
-       * @return Array con i valori della post e l'eventuale errore verificatosi (1-"ci sono ancora campi da compilare")
-       */
+    
+    
+
+
     public function registraSensore($post,$idambiente){
 
     
@@ -81,6 +79,7 @@ class SensorsManager {
     } // fine registraSensore()
     
     
+    
     public function sensorAlreadyExists($idsensore){
       $this->database->query("SELECT * FROM sensore WHERE IDSensore = :idsensore");
       $this->database->bind(":idsensore", $idsensore);
@@ -126,64 +125,40 @@ class SensorsManager {
     }
 
 
-    /**
-    *
-    * Restituisce la lista con tutte le tipologie di sensori
-    *
-    * @return Array $row  lista delle tipologie di sensori
-    */
     public function getTipi(){
       $this->database->query("SELECT * FROM tipologiasensore");
-      $row = $this->database->resultSet();
-      return $row;
+      return $this->database->resultSet();
     }
 
 
-    /**
-    *
-    * Trova un singolo sensore a partire dal sui id e restituisce una serie di informazioni relativi ad esso
-    *
-    * @return Array $row  informazioni su un singolo sensore
-    */
+  
     public function trovaSensore($idsensore){
       $this->database->query("SELECT Minimo, Massimo, TipologiaSensore, UnitaMisura, Marca, Ambiente, IDImpianto, IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, ambiente.Nome AS ambNome, impianto.Nome AS impNome FROM sensore JOIN tipologiasensore JOIN ambiente JOIN impianto ON TipologiaSensore = IDTipologiaSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto WHERE IDSensore = :idsens");
       $this->database->bind(":idsens", $idsensore);
-      $row = $this->database->singleResultSet();
-      return $row;
+      return $this->database->singleResultSet();
     }
 
 
-    /**
-       * 
-       * Restituisce lista dei sensori
-       *
-       * @return Array $row  lista di tutti i sensori con i relativi impianti e i relativi ambienti
-       */
+
     public function getSensori(){
         //Prendo le info dell'utente
         $this->database->query("SELECT sensore.Ambiente AS sensAmb, ambiente.Impianto AS sensImp, IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, ambiente.Nome AS ambNome, impianto.Nome AS impNome FROM sensore JOIN tipologiasensore JOIN ambiente JOIN impianto ON TipologiaSensore = IDTipologiaSensore AND sensore.Ambiente = ambiente.IDAmbiente AND ambiente.Impianto = impianto.IDImpianto");
-        $row = $this->database->resultSet();
-        return $row;
+        return $this->database->resultSet();
     }
 
 
-    /**
-    *
-    * Restituisce la lista dei sensori relativi all'ambiente, il cui id viene passato come input alla funzione
-    *
-    * @return Array $row  lista di tutti i sensori relativi all'ambiente
-    */
+
+
     public function getSensoriAmbiente($idambiente){
       $this->database->query("SELECT IDSensore, sensore.Nome AS sensNome, tipologiasensore.Nome AS tipoNome, UnitaMisura FROM sensore JOIN tipologiasensore ON TipologiaSensore = IDTipologiaSensore WHERE Ambiente = :amb");
       $this->database->bind(":amb", $idambiente);
-      $row = $this->database->resultSet();
-      return $row;      
+      return $this->database->resultSet();    
     }
 
-    /*
-    *
-    * Elimina il sensore il cui id è stato specificato come parametro
-    */
+
+
+   
+    
     public function eliminaSensore($idsensore){
       
       $this->database->query("DELETE FROM sensore WHERE IDSensore = :idsens");
@@ -191,6 +166,23 @@ class SensorsManager {
       $this->database->execute();
   
    }
+
+
+
+  
+   public function checkProperty($idsensore, $codicefiscale) {
+      $this->database->query("SELECT * FROM gestione JOIN ambiente JOIN sensore ON gestione.Impianto = ambiente.Impianto AND ambiente.IDAmbiente = sensore.Ambiente WHERE IDSensore = :idsensore AND Utente = :codicefiscale");
+      $this->database->bind(":codicefiscale", $codicefiscale);
+      $this->database->bind(":idsensore", $idsensore);
+      $row = $this->database->singleResultSet();
+
+      if($row){
+        return 1;
+      }
+
+      return 0;
+    
+  }
     
 
 }

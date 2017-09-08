@@ -1,6 +1,6 @@
 <?php
 require_once("../../config.php"); 
-require_once("../../classes/OutputsManager.php");
+require_once("../../classes/NotifyManager.php");
 
 
  //Inizio sessione
@@ -15,8 +15,14 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=2) {
 }
 
 
-$outputsManager = new OutputsManager();
-$notifiche = $outputsManager -> getNotifiche($_GET['utente']);
+// if($_GET['utente'] != $_SESSION['user_data']['codicefiscale']) {
+//     header('Location: '.ROOT_URL."/403.php");
+// }
+
+
+$notifyManager = new NotifyManager();
+$notifiche = $notifyManager -> getNotifiche($_SESSION['user_data']['codicefiscale']);
+
 
 
 ?>
@@ -65,7 +71,11 @@ $notifiche = $outputsManager -> getNotifiche($_GET['utente']);
             <div id="email-list" class="col s10 m4 l4 card-panel z-depth-1">
                 <ul class="collection">
                     <?php foreach ($notifiche as $notifica): ?>
-                        <li class="collection-item avatar">
+                        <?php if ($notifica['Letta']): ?>
+                            <li class="collection-item avatar">
+                        <?php else: ?>
+                            <li class="collection-item avatar selected">
+                        <?php endif; ?>
                         <img src="<?php echo ROOT_URL.IMAGES_PATH; ?>error.png" alt="" class="circle">
                         <span class="title">Errore sensore <a href="sensor-details.php?id=<?php echo $notifica['Sensore'];?>"><?php echo $notifica['Sensore'];?></a></span>
                         <p>Eccezione rilevata</p>

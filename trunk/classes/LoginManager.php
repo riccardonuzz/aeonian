@@ -1,7 +1,8 @@
 <?php
 require_once("DBManager.php");
+require_once("interfaces/ILoginManager.php");
 
-class LoginManager {
+class LoginManager implements ILoginManager{
     private $database;
 
 
@@ -14,14 +15,6 @@ class LoginManager {
 
 
 
-
-       /**
-       * 
-       * consente di effettuare il login
-       *
-       * @param Array $post Contiene le informazioni dell'utente che vengono "postate"
-       * @return int  0 se username e/o password sono errati, 1 se è un amministratore, 2 se è un cliente, 3 se è un installatore
-       */
     function login($post){
         $password = md5($post['password']);
            
@@ -62,12 +55,7 @@ class LoginManager {
 
 
 
-    /**
-       * 
-       * consente di eseguire il logout distruggendo la sessione
-       *
-       * @return void
-       */
+   
     function logout(){
         session_destroy();
         header('Location: '.ROOT_URL.'/index.php');

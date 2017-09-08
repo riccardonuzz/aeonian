@@ -37,7 +37,7 @@ if(!isset($_SESSION['is_logged_in'])) {
 
   <!-- chartjs -->
   <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/chartjs/chart.min.js"></script>
-  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/chartjs/chart-script.js"></script>
+  
 
 
 

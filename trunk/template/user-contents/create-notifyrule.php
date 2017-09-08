@@ -15,8 +15,13 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=2) {
     header('Location: '.ROOT_URL.'/index.php');
 }
 
+
 //Gestore notifiche
 $notifyManager = new NotifyManager();
+
+if(!$notifyManager->checkRuleProperty($_GET['id'], $_SESSION['user_data']['codicefiscale'])) {
+  header('Location: '.ROOT_URL.'/403.php');
+}
 
 //Gestore sensori
 $sensorsManager = new SensorsManager();

@@ -18,6 +18,11 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=2) {
 
 //Gestore Ambienti
 $environmentsManager = new EnvironmentsManager();
+
+if(!$environmentsManager->checkProperty($_GET['id'], $_SESSION['user_data']['codicefiscale'])) {
+    header('Location: '.ROOT_URL.'/403.php');
+}
+
 $ambiente = $environmentsManager->trovaAmbiente($_GET['id']);
 
 //Gestore Sensori

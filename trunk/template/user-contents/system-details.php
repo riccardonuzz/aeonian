@@ -15,6 +15,12 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=2) {
 
 //Gestore Utenti
 $systemsManager = new SystemsManager();
+
+if(!$systemsManager->checkProperty($_GET['id'], $_SESSION['user_data']['codicefiscale'])) {
+    header('Location: '.ROOT_URL.'/403.php');
+}
+
+
 $environmentsManager = new EnvironmentsManager();
 
 $systemDetails = $systemsManager->trovaImpianto($_GET['id']);

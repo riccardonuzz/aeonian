@@ -16,6 +16,11 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=2) {
 
 //Gestore Sensori
 $sensorsManager = new SensorsManager();
+
+if(!$sensorsManager->checkProperty($_GET['id'], $_SESSION['user_data']['codicefiscale'])) {
+    header('Location: '.ROOT_URL.'/403.php');
+}
+
 $sensore = $sensorsManager->trovaSensore($_GET['id']);
 
 $outputsManager = new OutputsManager();

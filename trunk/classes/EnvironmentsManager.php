@@ -1,7 +1,8 @@
 <?php
 require_once("DBManager.php");
+require_once("interfaces/IEnvironmentsManager.php");
 
-class EnvironmentsManager {
+class EnvironmentsManager implements IEnvironmentsManager {
     private $database;
 
     /*
@@ -11,13 +12,8 @@ class EnvironmentsManager {
         $this->database = new DBManager();
     }
 
-    /**
-       * 
-       * registra un ambiente (environment)
-       *
-       * @param Array $post Contiene le informazioni dell'ambiente che vengono "postate"
-       * @return Array con i valori della post e l'eventuale errore verificatosi (1-"ci sono ancora campi da compilare")
-       */
+    
+
     public function registraAmbiente($post,$idimpianto){
 
     
@@ -43,12 +39,7 @@ class EnvironmentsManager {
     } // fine registraAmbiente()
     
 
-    /**
-       * 
-       * Restituisce lista degli ambienti
-       *
-       * @return Array $row  lista di tutti gli ambienti con i relativi impianti
-       */
+    
     public function getAmbienti(){
         //Prendo le info dell'utente
         $this->database->query("SELECT IDAmbiente, ambiente.Impianto AS idimpianto, impianto.Nome AS impNome, ambiente.Nome AS ambNome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto");
@@ -57,12 +48,7 @@ class EnvironmentsManager {
     }
 
 
-    /**
-    *
-    * Restituisce la lista degli ambienti relativi all'impianto, il cui id viene passato come input alla funzione
-    *
-    * @return Array $row  lista di tutti gli ambienti relativi all'impianto
-    */
+
     public function getAmbientiImpianto($idimpianto){
       $this->database->query("SELECT impianto.Nome AS ImpNome, IDAmbiente, ambiente.Nome, Descrizione FROM ambiente JOIN impianto ON Impianto = IDImpianto WHERE Impianto = :imp");
       $this->database->bind(":imp", $idimpianto);
@@ -70,12 +56,8 @@ class EnvironmentsManager {
       return $row;      
     }
 
-    /**
-    *
-    * Restituisce il singolo ambiente in base all'id passatole
-    *
-    * @return Array $row  col singolo ambiente e gli attributi utili
-    */
+   
+    
     public function trovaAmbiente($idambiente){
       $this->database->query("SELECT IDAmbiente, ambiente.Nome AS ambNome, Descrizione, Impianto, impianto.Nome AS impNome FROM ambiente JOIN impianto ON Impianto = IDImpianto WHERE IDAmbiente = :idamb");
       $this->database->bind(":idamb", $idambiente);
@@ -106,6 +88,8 @@ class EnvironmentsManager {
       $this->database->execute();
     }
 
+
+
     public function eliminaAmbiente($idambiente){
 
       $this->database->query("DELETE FROM ambiente WHERE IDAmbiente = :idamb");
@@ -113,4 +97,22 @@ class EnvironmentsManager {
       $this->database->execute();
 
     }
+
+
+    
+    
+    public function checkProperty($idambiente, $codicefiscale) {
+      $this->database->query("SELECT * FROM gestione JOIN ambiente ON gestione.Impianto = ambiente.Impianto WHERE IDAmbiente = :idambiente AND Utente = :codicefiscale");
+      $this->database->bind(":codicefiscale", $codicefiscale);
+      $this->database->bind(":idambiente", $idambiente);
+      $row = $this->database->singleResultSet();
+  
+      if($row){
+        return 1;
+      }
+  
+      return 0;
+      
+    }
+
 }

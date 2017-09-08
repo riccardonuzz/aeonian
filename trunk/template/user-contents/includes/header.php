@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-require_once("../../classes/OutputsManager.php");
+require_once("../../classes/NotifyManager.php");
 
 //inizia la sessione se non è già iniziata
 if (!isset($_SESSION)) {
@@ -12,10 +12,10 @@ if(!isset($_SESSION['is_logged_in'])) {
   header('Location: '.ROOT_URL.TEMPLATE_PATH.'login.php');
 }
 
-$outputsManager = new OutputsManager();
+$notifyManager = new NotifyManager();
 
-$numeroNotifiche = $outputsManager->getNumeroNotifiche($_SESSION['user_data']['codicefiscale']);
-$ultimeNotifiche = $outputsManager->getUltimeNotifiche($_SESSION['user_data']['codicefiscale']);
+$numeroNotifiche = $notifyManager->getNumeroNotifiche($_SESSION['user_data']['codicefiscale']);
+$ultimeNotifiche = $notifyManager->getUltimeNotifiche($_SESSION['user_data']['codicefiscale']);
 
 ?>
 
@@ -82,12 +82,12 @@ $ultimeNotifiche = $outputsManager->getUltimeNotifiche($_SESSION['user_data']['c
                       <?php foreach($ultimeNotifiche as $notifica): ?>
                         <?php if($notifica['Letta']): ?>
                           <li>
-                            <a href="notification-details.php?id="><i class="mdi-alert-error"></i> <?php echo "Errore sensore ".$notifica['Sensore']; ?></a>
+                            <a href="notification-details.php?id=<?php echo $notifica['IDNotifica']; ?>"><i class="mdi-alert-error"></i> <?php echo "Errore sensore ".$notifica['Sensore']; ?></a>
                             <!--<time class="media-meta" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>-->
                           </li>
                         <?php else: ?>
                         <li>
-                            <a href="notification-details.php?id="><i class="mdi-alert-error"></i> <?php echo "Errore sensore ".$notifica['Sensore']; ?><span class="new badge"></span></a>
+                            <a href="notification-details.php?id=<?php echo $notifica['IDNotifica']; ?>"><i class="mdi-alert-error"></i> <?php echo "Errore sensore ".$notifica['Sensore']; ?><span class="new badge"></span></a>
                             <!--<time class="media-meta" datetime="2015-06-12T20:50:48+08:00">6 days ago</time>-->
                           </li>
                         <?php endif;?>

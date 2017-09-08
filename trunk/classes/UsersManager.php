@@ -1,7 +1,8 @@
 <?php
 require_once("DBManager.php");
+require_once("interfaces/IUsersManager.php");
 
-class UsersManager {
+class UsersManager implements IUsersManager{
     private $database;
 
     /*
@@ -12,13 +13,7 @@ class UsersManager {
     }
 
 
-    /**
-       * 
-       * registra un utente
-       *
-       * @param Array $post Contiene le informazioni dell'utente che vengono "postate"
-       * @return void
-       */
+   
     public function registraUtente($post){
 
         //controllo se uno di questi campi è vuoto
@@ -116,15 +111,7 @@ class UsersManager {
     
     
 
-    /**
-       * 
-       * Modifica un utente pre-registrato
-       *
-       * @param Array $post  Contiene le informazioni dell'utente che si andranno a modificare (escluso il CodiceFiscale che è una primary key, ed il ruolo)
-       * @return Array ("codicefiscale" => $post['codicefiscale'], "error" => 1); se ci sono campi vuoti
-       * @return Array ("codicefiscale" => $post['codicefiscale'], "error" => 2); se la password non rispetta l'espressione regolare
-       * @return string $post['codicefiscale'] se l'operazione va a buon fine (Utilizzato per reindirizzare alla pagina dei dettagli)
-       */
+   
     public function modificaUtente($post){
 
         if(empty($post['nome']) || empty($post['cognome']) || empty($post['email']) || empty($post['numerotelefono100'])) {
@@ -218,13 +205,7 @@ class UsersManager {
 
 
 
-    /**
-       * 
-       * Trova un utente
-       *
-       * @param string $userId  indica il codice fiscale con il quale ricercare l'utente
-       * @return Array $row  contiene le informazioni dell'utente
-       */
+    
     public function trovaUtente($userId){
         //Cerco l'utente e prendo i dati dal database
         $this->database->query("SELECT utente.CodiceFiscale AS CodiceFiscale, utente.Nome AS Nome, Cognome, Email, ruolo.Nome AS Ruolo FROM utente JOIN ruolo ON utente.Ruolo=ruolo.IDRuolo WHERE CodiceFiscale = :codicefiscale");
@@ -236,12 +217,7 @@ class UsersManager {
 
 
 
-    /**
-       * 
-       * Restituisce lista di utenti
-       *
-       * @return Array $row  lista di tutti gli utenti
-       */
+   
     public function getUtenti(){
         //Prendo le info dell'utente
         $this->database->query("SELECT CodiceFiscale, Cognome, Nome FROM utente");
@@ -252,12 +228,7 @@ class UsersManager {
 
 
 
-    /**
-       * 
-       * Restituisce lista dei clienti
-       *
-       * @return Array $row  lista di tutti i clienti
-       */
+   
     public function getClienti(){
         //Prendo le info dell'utente
         $this->database->query("SELECT CodiceFiscale, Cognome, Nome FROM utente WHERE Ruolo = 2");
@@ -268,12 +239,7 @@ class UsersManager {
     
 
 
-    /**
-       * 
-       * Restituisce lista di utenti
-       *
-       * @return Array $row  lista di tutti gli utenti
-       */
+   
     public function getRuoli(){
         //Ritorna i ruoli
         $this->database->query("SELECT * FROM ruolo");
@@ -284,12 +250,6 @@ class UsersManager {
 
 
     
-     /**
-       * 
-       * Prende numeri di telefono di un utente
-       * @param string $userId  indica il codice fiscale con il quale ricercare l'utente
-       * @return Array $row  lista di tutti i numeri di telefono di un utente
-       */
     public function getNumeriTelefono($userId){
         //Cerco l'utente e prendo i dati dal database
         $this->database->query("SELECT * from telefono WHERE Utente = :codicefiscale");
@@ -299,14 +259,10 @@ class UsersManager {
     }
 
 
-    /**
-       * 
-       * Controlla che un utente esista o meno prima di essere inserito
-       * @param string $email  indica la mail dell'utente
-       * @param string $codiceficale  indica il codice fiscale con il quale ricercare l'utente
-       * @param boolean $editFlag  se è uguale ad 1, controlla che un utente con codice fiscale diverso da quello corrente, non abbia la stessa mail
-       * @return boolean 1 se l'utente esiste già, 0 se non esiste
-       */
+    
+
+
+
     public function userAlreadyExists($email, $codicefiscale, $editFlag){
         if($editFlag){
             $this->database->query("SELECT * FROM utente WHERE CodiceFiscale <> :codicefiscale AND Email = :email");
@@ -327,13 +283,11 @@ class UsersManager {
     }
 
 
-    /**
-       * 
-       * Controlla che un utente esista o meno prima di essere inserito
-       * @param Array $post  Contiene le informazioni dell'utente
-       * @param boolean $editFlag  se è uguale ad 1, controlla che un utente con codice fiscale diverso da quello corrente, non abbia la stesso numero di telefono
-       * @return boolean 1 se uno o più numeri di telefono sono già presenti nel sistema, 0 se non sono presenti
-       */
+
+
+
+
+    
     public function phoneNumberAlreadyExists($post, $editFlag) {
 
         $found=0;

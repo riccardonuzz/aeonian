@@ -1,8 +1,8 @@
 <?php
-
 require_once("DBManager.php");
+require_once("interfaces/IThirdPartiesManager.php");
 
-class ThirdPartiesManager {
+class ThirdPartiesManager implements IThirdPartiesManager{
     private $database;
 
     /*
@@ -12,12 +12,17 @@ class ThirdPartiesManager {
         $this->database = new DBManager();
     }
 
+
+    
     public function getTerzeParti($IDCliente){
          //Prendo le info dell'utente
          $this->database->query("SELECT * FROM terzaparte WHERE Utente = :idcliente");
          $this->database->bind(":idcliente", $IDCliente);         
          return $this->database->resultSet();
     }
+
+
+
 
     public function getNumeroTipologieCanali(){
         $this->database->query("SELECT COUNT(*) AS Totale FROM tipologiacanale");        
@@ -26,6 +31,8 @@ class ThirdPartiesManager {
     }
 
 
+
+   
     public function aggiungiTerzaParte($post, $codicefiscale){
         if(empty($post['nome']) || empty($post['canali'])) {
             return array (
@@ -70,6 +77,9 @@ class ThirdPartiesManager {
 
     }
 
+
+
+    
     public function eliminaTerzaParte($id){
         //eliminazione di una terza parte
         $this->database->query("DELETE FROM terzaparte WHERE IDTerzaParte= :idterzaparte");
@@ -77,12 +87,16 @@ class ThirdPartiesManager {
         $this->database->execute();
     }
 
+
+
     public function getTipologieCanali(){
         //prendo dal DB tutte le tipologie dei canali supportate dal sistema
         $this->database->query("SELECT * FROM tipologiacanale");
-        $row = $this->database->resultSet();
-        return $row;
+        return $this->database->resultSet();
     }
+
+
+
 
     public function trovaTerzaParte($id){
          $this->database->query("SELECT * FROM terzaparte WHERE IDTerzaParte = :idterzaparte");
@@ -90,12 +104,19 @@ class ThirdPartiesManager {
          return $this->database->singleResultSet();
     }
 
+
+
+   
+
     public function getCanaliTerzaParte($id){
         $this->database->query("SELECT * FROM canale JOIN tipologiacanale ON canale.TipologiaCanale=tipologiacanale.IDTipologiaCanale WHERE TerzaParte = :idterzaparte");
         $this->database->bind(":idterzaparte", $id);          
         return $this->database->resultSet();
     }
 
+
+
+    
     public function getTipologieCanaliMancanti($canali){
         $query=""; $i=0;
         foreach ($canali as $canale){
@@ -118,6 +139,7 @@ class ThirdPartiesManager {
     }
 
 
+   
     public function modificaTerzaParte($post, $idterzaparte){
 
         if(empty($post['nome']) || empty($post['canali'])) {

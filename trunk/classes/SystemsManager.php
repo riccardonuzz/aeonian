@@ -1,7 +1,8 @@
 <?php
 require_once("DBManager.php");
+require_once("interfaces/ISystemsManager.php");
 
-class SystemsManager {
+class SystemsManager implements ISystemsManager{
     private $database;
 
     /*
@@ -11,14 +12,8 @@ class SystemsManager {
         $this->database = new DBManager();
     }
 
-    /**
-       * 
-       * registra un impianto (system)
-       *
-       * @param Array $post Contiene le informazioni dell'impianto che vengono "postate" (al momento della compilazione
-       * del form)
-       * @return Array con i valori della post e l'eventuale errore verificatosi (1-"ci sono ancora campi da compilare")
-       */
+   
+
     public function registraImpianto($post){
 
       //Insert into MySql
@@ -84,14 +79,10 @@ class SystemsManager {
       
     } // fine di registraImpianto
     
-    /**
-       * 
-       * modifica un impianto (system)
-       *
-       * @param Array $post Contiene le informazioni dell'impianto che vengono "postate" (al momento della compilazione
-       * del form)
-       * @return Array con i valori della post e l'eventuale errore verificatosi (1-"ci sono ancora campi da compilare")
-       */
+
+
+
+
     public function modificaImpianto($post, $idimpianto){
 
       //Insert into MySql
@@ -157,12 +148,10 @@ class SystemsManager {
       }    
     } // fine di modificaImpianto
 
-    /**
-       * 
-       * Restituisce lista degli
-       *
-       * @return Array $row  lista di tutti gli impianti
-       */
+
+
+
+    
     public function getImpianti(){
         //Prendo le info dell'utente
         $this->database->query("SELECT * FROM impianto");
@@ -171,12 +160,8 @@ class SystemsManager {
     }
 
     
-    /**
-       * 
-       * Restituisce lista degli impianti relativi ad un utente
-       * @param string $utente indica il codice fiscale con il quale ricercare l'utente e i relativi impianti
-       * @return Array $row lista degli impianti di un utente
-       */
+  
+    
     public function getImpiantiUtente($utente){
         
         $this->database->query("SELECT * from gestione JOIN impianto ON Impianto = IDImpianto WHERE Utente = :codicefiscale");
@@ -225,4 +210,21 @@ class SystemsManager {
         $this->database->execute();
 
    }
+
+    
+
+   
+   public function checkProperty($idimpianto, $codicefiscale) {
+    $this->database->query("SELECT * FROM gestione WHERE Impianto = :idimpianto AND Utente = :codicefiscale");
+    $this->database->bind(":codicefiscale", $codicefiscale);
+    $this->database->bind(":idimpianto", $idimpianto);
+    $row = $this->database->singleResultSet();
+
+    if($row){
+      return 1;
+    }
+
+    return 0;
+    
+  }
 }

@@ -1,8 +1,9 @@
 <?php
 
 require_once("DBManager.php");
+require_once("interfaces/IDashboardManager.php");
 
-class DashboardManager {
+class DashboardManager implements IDashboardManager{
     private $database;
 
     /*
@@ -11,6 +12,7 @@ class DashboardManager {
     public function __construct(){
         $this->database = new DBManager();
     }
+
 
 
     public function getDatiDashboard($idImpianto){
@@ -111,6 +113,24 @@ class DashboardManager {
       
 
     }
+
+
+
+    
+    
+    public function checkProperty($idimpianto, $codicefiscale) {
+        $this->database->query("SELECT * FROM gestione WHERE Impianto = :idimpianto AND Utente = :codicefiscale");
+        $this->database->bind(":codicefiscale", $codicefiscale);
+        $this->database->bind(":idimpianto", $idimpianto);
+        $row = $this->database->singleResultSet();
+    
+        if($row){
+          return 1;
+        }
+    
+        return 0;
+        
+      }
 
 }
 

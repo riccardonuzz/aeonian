@@ -14,7 +14,14 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=2) {
     header('Location: '.ROOT_URL.'/index.php');
 }
 
+
 $dashboardManager = new DashboardManager();
+
+if(!$dashboardManager->checkProperty($_GET['id'], $_SESSION['user_data']['codicefiscale'])) {
+    header('Location: '.ROOT_URL.'/403.php');
+}
+
+
 $response = $dashboardManager->getDatiDashboard($_GET['id']);
 
 ?>

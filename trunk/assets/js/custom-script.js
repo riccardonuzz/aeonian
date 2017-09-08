@@ -13,7 +13,8 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR CUSTOM SCRIPT I
 function getDashboard(response){
 	var sensorNumber=0;	
 
-	console.log(response);
+	/* ABILITARE IN CASO DI DEBUG */
+	//console.log(response);
 
 	//alert(response[0].Ambienti[0].Nome);
 

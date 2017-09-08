@@ -15,6 +15,10 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=2) {
 //Gestore Utenti
 $sharesManager = new SharesManager();
 
+if(!$sharesManager->checkShareProperty($_GET['id'], $_SESSION['user_data']['codicefiscale'])) {
+    header('Location: '.ROOT_URL.'/403.php');
+  }
+
 $condivisione = $sharesManager->trovaCondivisione($_GET['id']);
 ?>
 
