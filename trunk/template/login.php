@@ -90,7 +90,6 @@
       <form class="login-form" method="POST" action="<?php echo $_SERVER['PHP_SELF']; ?>">
         <div class="row">
           <div class="input-field col s12 center">
-            <img src="images/login-logo.png" alt="" class="circle responsive-img valign profile-image-login">
             <p class="center login-form-text">AEONIAN SYSTEM</p>
           </div>
         </div>

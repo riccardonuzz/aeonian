@@ -84,7 +84,7 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
                     <div class="col s12 m6 l6" style="margin-bottom: 10px">
                       <div class="card medium">
                         <div class="card-image">
-                          <img src="<?php echo ROOT_URL.IMAGES_PATH; ?>sensori.png" alt="sensor">
+                          <img src="<?php echo ROOT_URL.IMAGES_PATH; ?>sensori.jpg" alt="sensor">
                           <span class="card-title">Panoramica Sensori</span>
                         </div>
                         <div class="card-content">
