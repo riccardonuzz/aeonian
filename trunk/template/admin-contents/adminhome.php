@@ -52,12 +52,22 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=1) {
 
             <!--start container-->
             <div class="container">
-            <div class="section">
-
-                <p class="caption">A Simple Blank Page to use it for your custome design and elements.</p>
-                <div class="divider"></div>
-                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            </div>
+              <div class="section">
+              <br>
+                 <div class="row">
+                    <div class="col s12 m6 l6" style="margin-bottom: 10px">
+                      <div class="card medium">
+                        <div class="card-image">
+                          <img src="<?php echo ROOT_URL.IMAGES_PATH; ?>users.jpg" alt="users">
+                          <span class="card-title">Gestione Utenti</span>
+                        </div>
+                        <div class="card-content">
+                          <p>"Gestione Utenti" consente di visualizzare tutti gli utenti registrati (in forma tabellare) e crearne uno nuovo. Consente inoltre di modificare gli utenti con estrema facilità grazie ad una ricerca rapida ed efficiente.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
             </div>
             <!--end container-->
       </section>

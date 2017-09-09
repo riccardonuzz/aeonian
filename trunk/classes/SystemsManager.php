@@ -32,7 +32,7 @@ class SystemsManager implements ISystemsManager{
         );
       }
 
-         // Controllo che il CAP sia di esattamente 5 caratteri
+      // Controllo che il CAP sia di esattamente 5 caratteri
       if(strlen($post['cap']) != 5 || !ctype_digit($post['cap'])){
         return Array(
             "error" => 2,

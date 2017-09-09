@@ -66,34 +66,34 @@ $userPhoneNumbers = $usersManager->getNumeriTelefono($_GET['id']);
 
             <div class="row">
                 <div class="input-field col s6">
-                    <input readonly value="<?php echo $userDetails['Nome']; ?>" id="disabled" type="text" class="validate">
+                    <input readonly value="<?php echo $userDetails['Nome']; ?>" id="disabled" type="text">
                     <label for="disabled">Nome</label>
                 </div>
                 <div class="input-field col s6">
-                    <input readonly value="<?php echo $userDetails['Cognome']; ?>" id="disabled" type="text" class="validate">
+                    <input readonly value="<?php echo $userDetails['Cognome']; ?>" id="disabled" type="text">
                     <label for="disabled">Cognome</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input readonly value="<?php echo $userDetails['CodiceFiscale']; ?>" id="disabled" type="text" class="validate">
+                    <input readonly value="<?php echo $userDetails['CodiceFiscale']; ?>" id="disabled" type="text">
                     <label for="disabled">Codice fiscale</label>
                 </div>
                 <div class="input-field col s6">
-                    <input readonly value="<?php echo $userDetails['Email']; ?>" id="disabled" type="text" class="validate">
+                    <input readonly value="<?php echo $userDetails['Email']; ?>" id="disabled" type="text">
                     <label for="disabled">Email</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s6">
-                    <input readonly value="<?php echo $userDetails['Ruolo']; ?>" id="disabled" type="text" class="validate">
+                    <input readonly value="<?php echo $userDetails['Ruolo']; ?>" id="disabled" type="text">
                     <label for="disabled">Ruolo</label>
                 </div>
             </div>
             <?php foreach ($userPhoneNumbers as $number): ?>
                 <div class="row">
                     <div class="input-field col s6">
-                        <input readonly value="<?php echo $number['Numero']; ?>" id="disabled" type="text" class="validate">
+                        <input readonly value="<?php echo $number['Numero']; ?>" id="disabled" type="text">
                         <label for="disabled">Numero telefonico</label>
                     </div>
                 </div>

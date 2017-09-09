@@ -114,13 +114,16 @@ if(isset($_POST['submit'])) {
                           <?php $index=0;
                                 foreach($canali as $canale):?>
                             <div class="row">
-                              <div class="input-field col s2">
+                              <div class="input-field col s4">
                                   <?php echo '<input type="checkbox" id="check_btn'.$index.'" value="'.$canale['IDTipologiaCanale'].'" name = "canali[]">'; 
                                   echo '<label style="color:black" for="check_btn'.$index.'">'.$canale['Nome'].'</label>';
                                   
                                   ?>
                               </div>
-                              <div class="input-field col s9">
+                            </div>
+                            <br>
+                            <div class="row">
+                              <div class="input-field col s12">
                                   <input id="valore_canale" type="text" name="valori[]"><label for="valore">Valore</label>            
                               </div>
                             </div>
@@ -130,7 +133,7 @@ if(isset($_POST['submit'])) {
 
                           <div class="row">
                             <div class="input-field col s12">
-                                <button class="btn cyan waves-effect waves-light right" type="submit" name="submit">Crea terza parte
+                                <button class="btn dingy-dungeon waves-effect waves-light right" type="submit" name="submit">Crea terza parte
                                   <i class="mdi-content-send right"></i>
                                 </button>
                             </div>

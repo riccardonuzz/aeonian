@@ -53,12 +53,58 @@ if(isset($_SESSION['user_data']) && $_SESSION['user_data']['ruolo']!=3) {
 
             <!--start container-->
             <div class="container">
-            <div class="section">
+              <div class="section">
+                <br>
+                  <div class="row">
+                    <div class="col s12 m6 l6" style="margin-bottom: 10px">
+                      <div class="card medium">
+                        <div class="card-image">
+                          <img src="<?php echo ROOT_URL.IMAGES_PATH; ?>blueprint.jpg" alt="system">
+                          <span class="card-title">Gestione Impianti</span>
+                        </div>
+                        <div class="card-content">
+                          <p>"Gestione impianti" consente di visualizzare tutti gli impianti registrati (in forma tabellare) e crearne uno nuovo. Consente inoltre di eliminare gli impianti con estrema facilità grazie ad una ricerca rapida ed efficiente.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l6" style="margin-bottom: 10px">
+                      <div class="card medium">
+                        <div class="card-image">
+                          <img src="<?php echo ROOT_URL.IMAGES_PATH; ?>industria.jpg" alt="environment">
+                          <span class="card-title">Panoramica Ambienti</span>
+                        </div>
+                        <div class="card-content">
+                          <p>"Panoramica ambienti" consente di visualizzare tutti gli ambienti registrati (in forma tabellare) e visualizzarne gli eventuali dettagli. Consente inoltre di eliminare gli ambienti con estrema facilità grazie ad una ricerca rapida ed efficiente.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
-                <p class="caption">A Simple Blank Page to use it for your custome design and elements.</p>
-                <div class="divider"></div>
-                <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            </div>
+                  <div class="row">
+                    <div class="col s12 m6 l6" style="margin-bottom: 10px">
+                      <div class="card medium">
+                        <div class="card-image">
+                          <img src="<?php echo ROOT_URL.IMAGES_PATH; ?>sensori.png" alt="sensor">
+                          <span class="card-title">Panoramica Sensori</span>
+                        </div>
+                        <div class="card-content">
+                          <p>"Panoramica sensori" consente di visualizzare tutti i sensori registrati (in forma tabellare) e visualizzarne i relativi dettagli. Consente inoltre di eliminare i sensori con estrema facilità grazie ad una ricerca rapida ed efficiente.</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col s12 m6 l6" style="margin-bottom: 10px">
+                      <div class="card medium">
+                        <div class="card-image">
+                          <img src="<?php echo ROOT_URL.IMAGES_PATH; ?>notifica.jpg" alt="notification">
+                          <span class="card-title">Configura Notifica</span>
+                        </div>
+                        <div class="card-content">
+                          <p>"Configura notifica" consente, una volta selezionato il sensore desiderato, di stabilire il valore soglia per suddetto sensore.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>    
+              </div>
             </div>
             <!--end container-->
       </section>

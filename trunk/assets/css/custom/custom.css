@@ -27,6 +27,30 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .dingy-dungeon{
 	background-color: #157A8C !important;
 }
+
+.satisfy-orange{
+	background-color: #ff9933 !important;
+}
+
+.dark-orange{
+	background-color: #D55121 !important;
+}
+
+.card1-color{
+	background-color: #1A202C !important;
+}
+
+.card2-color{
+	background-color: #1F7872 !important;
+}
+
+.card3-color{
+	background-color: #72B095 !important;
+}
+
+.card4-color{
+	background-color: #D13F31 !important;
+}
 /*------------------*/
 
 .custom-icon:hover {
@@ -156,4 +180,7 @@ td.custom-cell i.custom-icon{
 }
 
 
+ul.side-nav.leftside-navigation li.active > a {
+    color: #21AD94;
+}
 

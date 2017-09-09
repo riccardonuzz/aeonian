@@ -26,13 +26,13 @@ function getDashboard(response){
 		
 	  
 	//stampo numero impianti e numero sensori
-	var content='<div class="row"><div class="col s12 m6 l3"><div class="card"><div class="card-content green white-text"><p class="card-stats-title"><i class="mdi-action-store"></i> Numero ambienti</p><h4 class="card-stats-number">'+response[0].Ambienti.length+'</h4></div></div></div><div class="col s12 m6 l3"> <div class="card"> <div class="card-content pink lighten-1 white-text"> <p class="card-stats-title"><i class="mdi-hardware-memory"></i> Numero sensori</p><h4 class="card-stats-number">'+sensorNumber+'</h4> </div></div></div></div></div>';
+	var content='<div class="row"><div class="col s12 m6 l3"><div class="card"><div class="card-content dark-orange white-text"><p class="card-stats-title"><i class="mdi-action-store"></i> Numero ambienti</p><h4 class="card-stats-number">'+response[0].Ambienti.length+'</h4></div></div></div><div class="col s12 m6 l3"> <div class="card"> <div class="card-content satisfy-orange white-text"> <p class="card-stats-title"><i class="mdi-hardware-memory"></i> Numero sensori</p><h4 class="card-stats-number">'+sensorNumber+'</h4> </div></div></div></div></div>';
 	  
 	  
      for(var i=0; i<response[0].Ambienti.length; i++)
 	 {
 		  
-		 content=content+'<div class="section"><div class="row"><div class="col s6 m3 l3"><h4>'+response[0].Ambienti[i].Nome+'</h4></div><div class="col s6 m3 l3"><a style="margin-top: 20px;" href="environment-details.php?id='+response[0].Ambienti[i].IDAmbiente+'" class="btn waves-effect pink white-text admin-add-number"><i class="mdi-action-list right"></i>Dettagli ambiente</a></div></div><div class="divider"></div></div></div><div class="row"></div><div class="row">';
+		 content=content+'<div class="section"><div class="row"><div class="col s12 m8 l9"><h4>'+response[0].Ambienti[i].Nome+'</h4></div><div class="col s12 m4 l3"><a style="margin-top: 20px; margin-bottom: 20px;" href="environment-details.php?id='+response[0].Ambienti[i].IDAmbiente+'" class="btn waves-effect dingy-dungeon white-text admin-add-number right"><i class="mdi-action-list right"></i>Dettagli ambiente</a></div></div><div class="divider"></div></div></div><div class="row"></div><div class="row">';
 		 
 		 if(!response[0].Ambienti[i].Sensori.length) {
 			content=content+'<div class="col s12 m12 l12"><h5>Nessun sensore presente in questo ambiente.</h5></div>';
@@ -45,20 +45,20 @@ function getDashboard(response){
 
 
 			 if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="°C") {
-				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light red">';
+				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light card1-color">';
 				
 			 }
 
 			 else if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="%") {
-				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light indigo darken-4">';
+				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light card2-color">';
 			 }
 
 			 else if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="mbar") {
-				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light amber">';
+				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light card3-color">';
 			 }
 
 			 else if(response[0].Ambienti[i].Sensori[k].UnitaMisura=="lx") {
-				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light yellow lighten-1">';
+				content=content+'<div class="card"> <div class="card-image waves-effect waves-block waves-light card4-color">';
 			 }
 
 			 else {

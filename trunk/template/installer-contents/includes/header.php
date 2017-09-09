@@ -17,7 +17,7 @@ if (!isset($_SESSION)) {
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="msapplication-tap-highlight" content="no">
 
-  <title>AEONIAN SYSTEM | Installatore</title>
+  <title>Dashboard installatore | AEONIAN SYSTEM</title>
 
   <!-- Favicons-->
   <link rel="icon" href="images/favicon/favicon-32x32.png" sizes="32x32">

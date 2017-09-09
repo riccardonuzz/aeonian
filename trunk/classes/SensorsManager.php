@@ -92,9 +92,8 @@ class SensorsManager implements ISensorsManager{
       }
     }
 
-    /**
-    *
-    */ 
+    
+     
     public function modificaSensore($post, $idsens){
       //Insert into MySql
       if(empty($post['nomesensore']) || empty($post['tipo']) || empty($post['marca']) || $post['minimo'] == null || $post['massimo'] == null) {

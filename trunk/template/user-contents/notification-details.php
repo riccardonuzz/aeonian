@@ -77,7 +77,7 @@ $notifyManager->leggi($_GET['id']);
           <div class="section">
 
 
-                <p class="caption"><?php echo "Notifica #".$notifica['IDNotifica']?></p>            
+                <p class="caption"><?php echo "Notifica #".$_GET['id']?></p>            
 
 
                 <div class="row">
@@ -116,15 +116,7 @@ $notifyManager->leggi($_GET['id']);
             </div>
 
 
-            
-
-            
-
-
           </div>
-
-          
-
 
 
         </div>

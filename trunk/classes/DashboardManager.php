@@ -82,7 +82,7 @@ class DashboardManager implements IDashboardManager{
 
                     
 
-                    $this->database->query("SELECT * FROM Rilevazione WHERE Sensore = :idsensore ORDER BY Data LIMIT 30");
+                    $this->database->query("SELECT * FROM Rilevazione WHERE Sensore = :idsensore ORDER BY Data LIMIT 15");
                     $this->database->bind(":idsensore", $temp_IdSensore);
                     $rilevazioni = $this->database->resultSet();
 

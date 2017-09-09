@@ -73,7 +73,7 @@ if(isset($_POST['action'])) {
           <div class="section">
 
            <!-- <p class="caption">Utenti </p> -->
-           <a href="create-thirdparty.php" class="btn waves-effect pink white-text"><i class="mdi-editor-border-color right"></i>Aggiungi terza parte</a>
+           <a href="create-thirdparty.php" class="btn waves-effect queen-blue white-text"><i class="mdi-content-add right"></i>Aggiungi terza parte</a>
             <br><br>
             
             <div class="divider"></div>

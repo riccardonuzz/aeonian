@@ -63,12 +63,11 @@ $response = $dashboardManager->getDatiDashboard($_GET['id']);
             <!--breadcrumbs end-->
 
             <div class="row">
-                <div class="col s5 m5 l5">
+                <div class="col s12 m8 l9">
                     <h2><?php echo $response[0]['Nome']; ?></h2>
-
                 </div>
-                <div class="col s4 m4 l4">
-                    <a style="margin-top: 40px;" href="system-details.php?id=<?php echo $_GET['id'];?>" class="btn waves-effect pink white-text admin-add-number"><i class="mdi-action-list right"></i>Dettagli impianto</a>
+                <div class="col s12 m4 l3">
+                    <a style="margin-top: 40px;" href="system-details.php?id=<?php echo $_GET['id'];?>" class="btn waves-effect dingy-dungeon white-text admin-add-number right"><i class="mdi-action-list right"></i>Dettagli impianto</a>
                 </div>
             </div>
 
