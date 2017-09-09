@@ -156,8 +156,6 @@
   <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/prism/prism.js"></script>
   <!--scrollbar-->
   <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-  <!-- chartist -->
-  <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins/chartist-js/chartist.min.js"></script>   
 
   <!--plugins.js - Some Specific JS codes for Plugin Settings-->
   <script type="text/javascript" src="<?php echo ROOT_URL.SCRIPT_PATH; ?>plugins.min.js"></script>
