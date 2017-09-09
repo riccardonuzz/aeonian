@@ -10,6 +10,9 @@ if (!isset($_SESSION)) {
   }
 
 ?>
+<!--CUSTOM CSS-->
+<link href="<?php echo ROOT_URL.STYLE_PATH; ?>custom/custom.css" type="text/css" rel="stylesheet" media="screen,projection">
+
 <aside id="left-sidebar-nav">
     <ul id="slide-out" class="side-nav fixed leftside-navigation custom-side-nav">
         <li id="bg-user" class="user-details cyan darken-2">
@@ -31,6 +34,6 @@ if (!isset($_SESSION)) {
         <li class="bold"><a href="<?php echo ROOT_URL.TEMPLATE_PATH."login.php?logout=1"; ?>"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
         </li>
     </ul>
-    <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only darken-2"><i class="mdi-navigation-menu" ></i></a>
+    <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only orange-style"><i class="mdi-navigation-menu" ></i></a>
 </aside>
       

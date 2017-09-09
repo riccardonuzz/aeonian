@@ -16,14 +16,17 @@ $systemsManager = new SystemsManager();
 $impiantiUtente = $systemsManager-> getImpiantiUtente($_SESSION['user_data']['codicefiscale']);
 
 ?>
-<style>
-#ellipsis a {
-  list-style-position:inside;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;    
-}
+<style type="text/css">
+    #ellipsis a {
+      list-style-position:inside;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;    
+    }
 </style>
+
+<!--CUSTOM CSS-->
+<link href="<?php echo ROOT_URL.STYLE_PATH; ?>custom/custom.css" type="text/css" rel="stylesheet" media="screen,projection">
 
 <aside id="left-sidebar-nav">
     <ul id="slide-out" class="side-nav fixed leftside-navigation">
@@ -57,7 +60,7 @@ $impiantiUtente = $systemsManager-> getImpiantiUtente($_SESSION['user_data']['co
         <li class="bold"><a href="<?php echo ROOT_URL.TEMPLATE_PATH."login.php?logout=1"; ?>"><i class="mdi-hardware-keyboard-tab"></i> Logout</a>
         </li>
     </ul>
-    <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only darken-2"><i class="mdi-navigation-menu" ></i></a>
+    <a href="#" data-activates="slide-out" class="sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only orange-style"><i class="mdi-navigation-menu" ></i></a>
 </aside>
 
 
