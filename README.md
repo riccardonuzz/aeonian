@@ -1,4 +1,4 @@
-# aeonian
+# Aeonian
 
 This open source project allows to manage IoT sensors in a modular way and makes easy to control each of them.
 Features:
@@ -17,7 +17,7 @@ Administrator can perform following actions:
 * Delete a user;
 * Edit a user.
 
-![alt text](https://github.com/riccardonuzz/aeonian/screenshots/screenshot1.jpg "Administrator homepage.")
+![alt text](https://github.com/riccardonuzz/aeonian/tree/master/screenshots/screenshot1.jpg "Administrator homepage.")
 
 
 
