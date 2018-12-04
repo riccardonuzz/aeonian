@@ -1,0 +1,11 @@
+<?php
+require_once "config.php";
+require_once "classes/SharesManager.php";
+define("KEY", "API_KEY");
+
+$sharesManager = new SharesManager();
+
+
+if(isset ($_GET['key']) === true && $_GET['key']===KEY) {
+    $sharesManager->inviaDati();
+}

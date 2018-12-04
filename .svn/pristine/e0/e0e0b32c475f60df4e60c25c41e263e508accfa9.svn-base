@@ -1,0 +1,10 @@
+<?php
+require_once '../../config.php'; 
+require '../../classes/OutputsManager.php';
+
+$rilevazione = $_GET['rilevazione'];
+if( $rilevazione !== null ) )
+{
+	$outputs = new OutputsManager();
+	$outputs->elaboraStringa( $_GET['rilevazione'] );
+}
