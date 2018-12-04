@@ -17,7 +17,7 @@ Administrator can perform following actions:
 * Delete a user;
 * Edit a user.
 
-![alt text](https://github.com/riccardonuzz/aeonian/tree/master/screenshots/screenshot1.jpg "Administrator homepage.")
+![Administrator Homepage](https://raw.githubusercontent.com/riccardonuzz/aeonian/master/screenshots/screenshot1.jpg)
 
 
 
