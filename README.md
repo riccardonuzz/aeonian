@@ -63,13 +63,13 @@ AEONIAN allows user to share sensor's datas with an external source (third part)
 # INSTALLATION
 
 This platform requires an Apache server + a MySql database in order to work.
-1. Clone this repo an put it into your server's htdocs folder;
+1. Clone this repo and put it into your server's htdocs folder;
 2. Load ``` iot_database_4.0.sql ``` database;
 3. In the "utente" table create an admin dummy user where Admin role is 1;
 4. In order to create a proper password uncomment lines 28-32 from classes/LoginManager.php file;
 5. Go into your browser and try to login with the desired user and password;
 6. You will get an encoded password, copy and paste it into the database in order to create the user;
 7. Comment again lines 28-32 from classes/LoginManager.php file;
-Your good to go! :-)
+You're good to go! :-)
 
 Now you can user the admin user to create an installer user and a normal user.
